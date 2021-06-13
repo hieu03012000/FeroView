@@ -1,5 +1,7 @@
+import 'package:fero/constants.dart';
 import 'package:fero/models/ModelDetail.dart';
 import 'package:fero/models/ModelList.dart';
+import 'package:fero/screens/ModelListPage.dart';
 import 'package:flutter/material.dart';
 
 class ModelDetailPage extends StatefulWidget {
@@ -18,8 +20,15 @@ class _ModelDetailPageState extends State<ModelDetailPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFFF54E5E),
-          leading: Icon(Icons.menu),
+          backgroundColor: kPrimaryColor,
+          leading: BackButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ModelListPage()),
+              );
+            },
+          ),
           title: Text('Model'),
           actions: [
             Icon(Icons.favorite),
@@ -139,7 +148,7 @@ class DetailModel extends StatelessWidget {
                   // Perform some action
                 },
                 style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFF54E5E),
+                    primary: kPrimaryColor,
                     minimumSize: Size(180, 50)
                 ),
                 icon: Icon(Icons.add, size: 18),

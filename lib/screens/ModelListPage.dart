@@ -1,3 +1,4 @@
+import 'package:fero/constants.dart';
 import 'package:fero/models/ModelList.dart';
 import 'package:fero/screens/ModelDetailPage.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,7 @@ class _ModelListPageState extends State<ModelListPage> {
       home: Scaffold(
         backgroundColor: Color(0xFFF7F7F7),
         appBar: AppBar(
-          backgroundColor: Color(0xFFF54E5E),
+          backgroundColor: kPrimaryColor,
           leading: Icon(Icons.menu),
           title: Text('Model list'),
           actions: [

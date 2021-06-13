@@ -1,3 +1,4 @@
+import 'package:fero/constants.dart';
 import 'package:fero/models/ModelDetail.dart';
 import 'package:fero/models/ModelList.dart';
 import 'package:fero/models/UpdateModelProfile.dart';
@@ -75,9 +76,9 @@ class _ModelUpdateState extends State<ModelUpdate> {
         return Theme(
           data: ThemeData.dark().copyWith(
             colorScheme: ColorScheme.dark(
-              primary: Color(0xFFF54E5E),
+              primary: kPrimaryColor,
               onPrimary: Colors.white,
-              surface: Color(0xFFF54E5E),
+              surface: kPrimaryColor,
               onSurface: Colors.black,
               primaryVariant: Colors.black,
             ),
@@ -103,7 +104,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
       child: ListView(
         children: [
           TextFormField(
-            cursorColor: Color(0xFFF54E5E),
+            cursorColor: kPrimaryColor,
             initialValue: widget.modelDetail.name,
             decoration: InputDecoration(
               icon: Icon(Icons.drive_file_rename_outline),
@@ -117,7 +118,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
             },
           ),
           TextFormField(
-            cursorColor: Color(0xFFF54E5E),
+            cursorColor: kPrimaryColor,
             initialValue: castGender(widget.modelDetail.gender),
             decoration: InputDecoration(
               icon: Icon(Icons.drive_file_rename_outline),
@@ -131,7 +132,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
             },
           ),
             TextFormField(
-              cursorColor: Color(0xFFF54E5E),
+              cursorColor: kPrimaryColor,
               initialValue: widget.modelDetail.dateOfBirth,
               decoration: InputDecoration(
                 icon: Icon(Icons.drive_file_rename_outline),
@@ -151,14 +152,14 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 primary: Colors.transparent,
                 elevation: 0,
                 minimumSize: Size(10, 50),
-                onPrimary: Color(0xFFF54E5E),
+                onPrimary: kPrimaryColor,
               ),
               icon: Icon(Icons.calendar_today,),
               label: Text(''),
             ),
 
           TextFormField(
-            cursorColor: Color(0xFFF54E5E),
+            cursorColor: kPrimaryColor,
             initialValue: widget.modelDetail.phone,
             decoration: InputDecoration(
               icon: Icon(Icons.drive_file_rename_outline),
@@ -172,7 +173,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
             },
           ),
           TextFormField(
-            cursorColor: Color(0xFFF54E5E),
+            cursorColor: kPrimaryColor,
             initialValue: widget.modelDetail.subAddress,
             decoration: InputDecoration(
               icon: Icon(Icons.drive_file_rename_outline),
@@ -186,7 +187,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
             },
           ),
           TextFormField(
-            cursorColor: Color(0xFFF54E5E),
+            cursorColor: kPrimaryColor,
             initialValue: widget.modelDetail.gifted,
             decoration: InputDecoration(
               icon: Icon(Icons.drive_file_rename_outline),
@@ -218,7 +219,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
               );
             },
             style: ElevatedButton.styleFrom(
-              primary: Color(0xFFF54E5E),
+              primary: kPrimaryColor,
               elevation: 0,
               minimumSize: Size(10, 50),
             ),

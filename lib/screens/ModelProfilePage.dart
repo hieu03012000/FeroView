@@ -1,5 +1,6 @@
+import 'package:fero/constants.dart';
 import 'package:fero/models/ModelDetail.dart';
-import 'package:fero/screens/UpdateModelProflePage.dart';
+import 'package:fero/screens/UpdateModelProfilePage.dart';
 import 'package:flutter/material.dart';
 
 class ModelProfilePage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-            color: Color(0xFFF54E5E),
+            color: kPrimaryColor,
           ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -33,7 +34,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
           builder: (context, snapshot) {
             if(snapshot.hasData) {
               // return  ModelButtons(modelDetail: snapshot.data);
-              return  Container();
+              return  ModelButtons(modelDetail: snapshot.data,);
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
@@ -83,7 +84,7 @@ class ModelButtons extends StatelessWidget {
                 child: ClipOval(
                   child: Container (
                   padding: EdgeInsets.all(8),
-                  color: Color(0xFFF54E5E),
+                  color: kPrimaryColor,
                   child: Icon(
                     Icons.edit,
                     color: Colors.white,
