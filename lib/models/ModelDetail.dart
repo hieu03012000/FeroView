@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ModelDetail {
+  String id;
+  String username;
   String name;
   int gender;
   String dateOfBirth;
@@ -11,6 +13,8 @@ class ModelDetail {
   String gifted;
 
   ModelDetail({
+    this.id,
+    this.username,
     this.name,
     this.gender,
     this.dateOfBirth,
@@ -22,6 +26,8 @@ class ModelDetail {
   //static method
   factory ModelDetail.fromJson(Map<String, dynamic> json) {
     return ModelDetail(
+        id: json["id"],
+        username: json["username"],
         name: json["name"],
         gender: json["gender"],
         dateOfBirth: json["dateOfBirth"],

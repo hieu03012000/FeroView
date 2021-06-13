@@ -17,6 +17,19 @@ class _ModelDetailPageState extends State<ModelDetailPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xFFF54E5E),
+          leading: Icon(Icons.menu),
+          title: Text('Model'),
+          actions: [
+            Icon(Icons.favorite),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Icon(Icons.search),
+            ),
+            Icon(Icons.more_vert),
+          ],
+        ),
         body: Center(
           child: FutureBuilder(
             future: getModelDetail(widget.modelId),
@@ -118,37 +131,32 @@ class DetailModel extends StatelessWidget {
             ),
           ),
           SizedBox(height: 30, ),
-          Container(
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: ButtonBar(
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      // Perform some action
-                    },
-                    style: ElevatedButton.styleFrom(
-                        primary: Color(0xFFF54E5E),
-                        minimumSize: Size(180, 50)
-                    ),
-                    icon: Icon(Icons.add, size: 18),
-                    label: Text("ADD TO LIST"),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () {
-                      // Perform some action
-                    },
-                    style: ElevatedButton.styleFrom(
-                        primary: Color(0xFFF54E5E),
-                        minimumSize: Size(180, 50)
-                    ),
-                    icon: Icon(Icons.favorite, size: 18),
-                    label: Text("FAVORITE"),
-                  ),
-                ],
+          Padding(
+            padding: EdgeInsets.all(10),
+            child:
+              ElevatedButton.icon(
+                onPressed: () {
+                  // Perform some action
+                },
+                style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFF54E5E),
+                    minimumSize: Size(180, 50)
+                ),
+                icon: Icon(Icons.add, size: 18),
+                label: Text("ADD TO LIST"),
               ),
-            )
-          ),
+              // ElevatedButton.icon(
+              //   onPressed: () {
+              //     // Perform some action
+              //   },
+              //   style: ElevatedButton.styleFrom(
+              //       primary: Color(0xFFF54E5E),
+              //       minimumSize: Size(180, 50)
+              //   ),
+              //   icon: Icon(Icons.favorite, size: 18),
+              //   label: Text("FAVORITE"),
+              // ),
+          )
         ],
       )
     );

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fero/screens/ModelListPage.dart';
+import 'package:fero/screens/ModelProfilePage.dart';
 import 'package:flutter/material.dart';
 
 class MyHttpOverrides extends HttpOverrides{
@@ -24,9 +25,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
+        primaryColor: Color(0xFFF54E5E),
         primarySwatch: Colors.blue,
       ),
-      home: ModelListPage(),
+      home: ModelProfilePage(modelId: 'MD0021',),
+      // home: ModelListPage(),
     );
   }
 }

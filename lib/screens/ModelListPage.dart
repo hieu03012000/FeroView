@@ -15,6 +15,18 @@ class _ModelListPageState extends State<ModelListPage> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        backgroundColor: Color(0xFFF7F7F7),
+        appBar: AppBar(
+          backgroundColor: Color(0xFFF54E5E),
+          leading: Icon(Icons.menu),
+          title: Text('Model list'),
+          actions: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: Icon(Icons.search),
+            ),
+          ],
+        ),
         body: Center(
           child: FutureBuilder(
             future: getModelList(),
