@@ -32,7 +32,8 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
           future: getModelDetail(widget.modelId),
           builder: (context, snapshot) {
             if(snapshot.hasData) {
-              return  ModelButtons(modelDetail: snapshot.data);
+              // return  ModelButtons(modelDetail: snapshot.data);
+              return  Container();
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
