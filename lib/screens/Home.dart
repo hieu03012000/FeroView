@@ -1,10 +1,12 @@
 import 'package:fero/constants.dart';
+import 'package:fero/screens/ModelProfilePage.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: NavDrawer(),
       appBar: buildAppBar(),
       body: Body(),
     );
@@ -13,11 +15,12 @@ class Home extends StatelessWidget {
   AppBar buildAppBar() {
     return AppBar(
       elevation: 0,
-      leading: IconButton(
-        icon: const Icon(Icons.menu),
-        onPressed: () {},
-        color: Colors.white,
-      ),
+      // leading: IconButton(
+      //   icon: const Icon(Icons.menu),
+      //   onPressed: () {},
+      //
+      //   color: Colors.white,
+      // ),
     );
   }
 }
@@ -29,67 +32,67 @@ class Body extends StatelessWidget {
         MediaQuery.of(context).size; //Total height and width of the screen
     return SingleChildScrollView(
         child: Column(children: <Widget>[
-      HeaderWithSearchBox(size: size),
-      TitleWithButton(text: "Upcoming Casting",),
-      SingleChildScrollView(
+          HeaderWithSearchBox(size: size),
+          TitleWithButton(text: "Upcoming Casting",),
+          SingleChildScrollView(
 
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: [
-            RecommendCasting(
-              imageUri: "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg",
-              castingName: 'CASTING NAME',
-              cusName: 'Customer Name',
-              date: '22/6/2021 14:00',
-            ),
-            RecommendCasting(
-              imageUri: "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg",
-              castingName: 'CASTING NAME',
-              cusName: 'Customer Name',
-              date: '22/6/2021 14:00',
-            ),
-            RecommendCasting(
-              imageUri: "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg",
-              castingName: 'CASTING NAME',
-              cusName: 'Customer Name',
-              date: '22/6/2021 14:00',
-            ),
-            RecommendCasting(
-              imageUri: "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg",
-              castingName: 'CASTING NAME',
-              cusName: 'Customer Name',
-              date: '22/6/2021 14:00',
-            ),
-          ],
-        ),
-      ),
-      TitleWithButton(text: "Notification",),
-        Center(
-          child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
               children: [
-                RecommendNotification(
-                  title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                  date: 'Today, 12:00',
+                RecommendCasting(
+                  imageUri: "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg",
+                  castingName: 'CASTING NAME',
+                  cusName: 'Customer Name',
+                  date: '22/6/2021 14:00',
                 ),
-                RecommendNotification(
-                  title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                  date: 'Today, 12:00',
+                RecommendCasting(
+                  imageUri: "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg",
+                  castingName: 'CASTING NAME',
+                  cusName: 'Customer Name',
+                  date: '22/6/2021 14:00',
                 ),
-                RecommendNotification(
-                  title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                  date: 'Today, 12:00',
+                RecommendCasting(
+                  imageUri: "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg",
+                  castingName: 'CASTING NAME',
+                  cusName: 'Customer Name',
+                  date: '22/6/2021 14:00',
                 ),
-                RecommendNotification(
-                  title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                  date: 'Today, 12:00',
+                RecommendCasting(
+                  imageUri: "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg",
+                  castingName: 'CASTING NAME',
+                  cusName: 'Customer Name',
+                  date: '22/6/2021 14:00',
                 ),
               ],
             ),
           ),
-        ),
-    ]));
+          TitleWithButton(text: "Notification",),
+          Center(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  RecommendNotification(
+                    title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                    date: 'Today, 12:00',
+                  ),
+                  RecommendNotification(
+                    title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                    date: 'Today, 12:00',
+                  ),
+                  RecommendNotification(
+                    title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                    date: 'Today, 12:00',
+                  ),
+                  RecommendNotification(
+                    title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                    date: 'Today, 12:00',
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ]));
   }
 }
 
@@ -103,7 +106,7 @@ class RecommendNotification extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: kPrimaryColor)
+          border: Border.all(color: kPrimaryColor)
       ),
       padding: EdgeInsets.all(kDefaultPadding / 4),
       margin: EdgeInsets.only(
@@ -332,6 +335,62 @@ class HeaderWithSearchBox extends StatelessWidget {
                       suffixIcon: const Icon(Icons.search)),
                 ),
               )),
+        ],
+      ),
+    );
+  }
+}
+
+
+class NavDrawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            child: Text(
+              'Side menu',
+              style: TextStyle(color: Colors.white, fontSize: 25),
+            ),
+            decoration: BoxDecoration(
+              color: kPrimaryColor,
+              // image: DecorationImage(
+              //     fit: BoxFit.fill,
+              //     image: AssetImage('assets/images/cover.jpg'))
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.input),
+            title: Text('Welcome'),
+            onTap: () => {},
+          ),
+          ListTile(
+            leading: Icon(Icons.verified_user),
+            title: Text('Profile'),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ModelProfilePage(modelId: 'MD0021',)),
+              )
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('Settings'),
+            onTap: () => {Navigator.of(context).pop()},
+          ),
+          ListTile(
+            leading: Icon(Icons.border_color),
+            title: Text('Feedback'),
+            onTap: () => {Navigator.of(context).pop()},
+          ),
+          ListTile(
+            leading: Icon(Icons.exit_to_app),
+            title: Text('Logout'),
+            onTap: () => {Navigator.of(context).pop()},
+          ),
         ],
       ),
     );

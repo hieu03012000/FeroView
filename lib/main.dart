@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fero/constants.dart';
+import 'package:fero/screens/Home.dart';
 import 'package:fero/screens/ModelListPage.dart';
 import 'package:fero/screens/ModelProfilePage.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +32,8 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         primarySwatch: Colors.blue,
       ),
-      home: ModelProfilePage(modelId: 'MD0021',),
-      // home: Home(),
+      // home: ModelProfilePage(modelId: 'MD0021',),
+      home: Home(),
       // home: ModelListPage(),
     );
   }
