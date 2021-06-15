@@ -1,15 +1,27 @@
 import 'package:fero/constants.dart';
+import 'package:fero/models/CastingList.dart';
 import 'package:fero/screens/ModelProfilePage.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavDrawer(),
-      appBar: buildAppBar(),
-      body: Body(),
-    );
+        drawer: NavDrawer(),
+        appBar: buildAppBar(),
+        body: FutureBuilder(
+          future: getCastingList(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Body(castingList: snapshot.data);
+            } else if (snapshot.hasError) {
+              return Text("${snapshot.error}");
+            }
+            return CircularProgressIndicator();
+          },
+        ));
   }
 
   AppBar buildAppBar() {
@@ -26,78 +38,184 @@ class Home extends StatelessWidget {
 }
 
 class Body extends StatelessWidget {
+  const Body({Key key, this.castingList}) : super(key: key);
+  final List<CastingList> castingList;
   @override
   Widget build(BuildContext context) {
     Size size =
         MediaQuery.of(context).size; //Total height and width of the screen
     return SingleChildScrollView(
         child: Column(children: <Widget>[
-          HeaderWithSearchBox(size: size),
-          TitleWithButton(text: "Upcoming Casting",),
-          SingleChildScrollView(
-
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                RecommendCasting(
-                  imageUri: "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg",
-                  castingName: 'CASTING NAME',
-                  cusName: 'Customer Name',
-                  date: '22/6/2021 14:00',
-                ),
-                RecommendCasting(
-                  imageUri: "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg",
-                  castingName: 'CASTING NAME',
-                  cusName: 'Customer Name',
-                  date: '22/6/2021 14:00',
-                ),
-                RecommendCasting(
-                  imageUri: "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg",
-                  castingName: 'CASTING NAME',
-                  cusName: 'Customer Name',
-                  date: '22/6/2021 14:00',
-                ),
-                RecommendCasting(
-                  imageUri: "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg",
-                  castingName: 'CASTING NAME',
-                  cusName: 'Customer Name',
-                  date: '22/6/2021 14:00',
-                ),
-              ],
-            ),
-          ),
-          TitleWithButton(text: "Notification",),
-          Center(
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  RecommendNotification(
-                    title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    date: 'Today, 12:00',
-                  ),
-                  RecommendNotification(
-                    title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    date: 'Today, 12:00',
-                  ),
-                  RecommendNotification(
-                    title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    date: 'Today, 12:00',
-                  ),
-                  RecommendNotification(
-                    title: 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                    date: 'Today, 12:00',
-                  ),
-                ],
+      HeaderWithSearchBox(size: size),
+      TitleWithButton(
+        text: "Upcoming Casting",
+      ),
+      ListCasting(list: castingList),
+      TitleWithButton(
+        text: "Notification",
+      ),
+      Center(
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              RecommendNotification(
+                title:
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                date: 'Today, 12:00',
               ),
+              RecommendNotification(
+                title:
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                date: 'Today, 12:00',
+              ),
+              RecommendNotification(
+                title:
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                date: 'Today, 12:00',
+              ),
+              RecommendNotification(
+                title:
+                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                date: 'Today, 12:00',
+              ),
+            ],
+          ),
+        ),
+      ),
+    ]));
+  }
+}
+
+class ListCasting extends StatelessWidget {
+  const ListCasting({Key key, this.list}) : super(key: key);
+
+  final List<CastingList> list;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 280, // constrain height
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              shrinkWrap: true,
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                return _buildCarousel(context, list[index]);
+              },
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCarousel(BuildContext context, CastingList list) {
+    Size size = MediaQuery.of(context).size;
+    String imageUri =
+        "https://cocainemodels.de/wp-content/uploads/2020/08/berlin-casting-models-rolltreppe-einladung-neue-gesichter-15-jahre-16-jahre-teenager-agentur.jpg";
+    return Container(
+      width: 220,
+      margin: EdgeInsets.only(
+          left: kDefaultPadding / 2,
+          right: kDefaultPadding / 2,
+          bottom: kDefaultPadding),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(kDefaultPadding / 2),
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(-2, 5),
+              blurRadius: 10,
+              color: kPrimaryColor.withOpacity(0.3),
+            )
+          ]),
+      child: Stack(
+        // mainAxisAlignment: MainAxisAlignment.start,
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(kDefaultPadding / 2),
+            child: Image.network(
+              imageUri,
+              height: 220.0,
+              // width: 100.0,
             ),
           ),
-        ]));
+          Positioned(
+              top: 180,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(kDefaultPadding * 2),
+                      bottom: Radius.circular(kDefaultPadding / 2),
+                    )),
+                width: 220,
+                height: 80,
+                child: Column(
+                  children: [
+                    SizedBox(height: 10),
+                    Text(
+                      list.name,
+                      style: TextStyle(
+                          color: kTextColor,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Open time: ",
+                          style: TextStyle(
+                              color: kTextColor.withOpacity(0.8), fontSize: 12),
+                        ),
+                        Text(
+                          list.openTime != null
+                              ? formatDate(list.openTime)
+                              : "",
+                          style: TextStyle(
+                              color: kPrimaryColor.withOpacity(0.8),
+                              fontSize: 12),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Close time: ",
+                          style: TextStyle(
+                              color: kTextColor.withOpacity(0.8), fontSize: 12),
+                        ),
+                        Text(
+                          list.openTime != null
+                              ? formatDate(list.closeTime)
+                              : "",
+                          style: TextStyle(
+                              color: kPrimaryColor.withOpacity(0.8),
+                              fontSize: 12),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ))
+        ],
+      ),
+    );
   }
 }
 
 class RecommendNotification extends StatelessWidget {
-  const RecommendNotification({Key key, this.title, this.date}) : super(key: key);
+  const RecommendNotification({Key key, this.title, this.date})
+      : super(key: key);
 
   final String title, date;
 
@@ -105,12 +223,11 @@ class RecommendNotification extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      decoration: BoxDecoration(
-          border: Border.all(color: kPrimaryColor)
-      ),
+      decoration: BoxDecoration(border: Border.all(color: kPrimaryColor)),
       padding: EdgeInsets.all(kDefaultPadding / 4),
       margin: EdgeInsets.only(
-          left: kDefaultPadding,
+          left: kDefaultPadding * 1.5,
+          right: kDefaultPadding * 1.5,
           top: kDefaultPadding / 2,
           bottom: kDefaultPadding * 2.5),
       width: size.width * 0.7,
@@ -120,91 +237,16 @@ class RecommendNotification extends StatelessWidget {
           text: TextSpan(
             children: [
               TextSpan(
-                  text: "$title\n",
-                  style: Theme.of(context).textTheme.button),
+                  text: "$title\n", style: Theme.of(context).textTheme.button),
               TextSpan(
                 text: date,
-                style: TextStyle(
-                    color: kPrimaryColor.withOpacity(0.5)),
+                style: TextStyle(color: kPrimaryColor.withOpacity(0.5)),
               ),
             ],
           ),
         ),
       ),
     );
-  }
-}
-
-
-class RecommendCasting extends StatelessWidget {
-  const RecommendCasting({Key key, this.imageUri, this.castingName, this.cusName, this.date}) : super(key: key);
-
-  final String imageUri, castingName, cusName, date;
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-
-        margin: EdgeInsets.only(
-            left: kDefaultPadding,
-            top: kDefaultPadding / 2,
-            bottom: kDefaultPadding * 2.5),
-        width: size.width * 0.4,
-        child: Column(
-          children: <Widget>[
-            Container(
-              child: Image(
-                image: NetworkImage(
-                    imageUri),
-
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(kDefaultPadding / 2),
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10)
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(0, 10),
-                      blurRadius: 50,
-                      color: kPrimaryColor.withOpacity(0.23),
-                    )
-                  ]
-              ),
-              child: Row(
-                children: [
-                  RichText(
-                    text: TextSpan(
-                      children: [
-                        TextSpan(
-                            text: "$castingName\n".toUpperCase(),
-                            style: Theme.of(context).textTheme.button),
-                        TextSpan(
-                          text: "By ".toUpperCase() + "$cusName\n",
-                          style: TextStyle(
-                              color: kPrimaryColor.withOpacity(0.5)),
-                        ),
-                        TextSpan(
-                          text: date,
-                          style: TextStyle(
-                            color: kTextColor.withOpacity(0.5),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Spacer(),
-                  Text(''),
-                ],
-              ),
-            ),
-          ],
-        ));
   }
 }
 
@@ -217,11 +259,13 @@ class TitleWithButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
       child: Row(children: <Widget>[
-        TitleWithCustomUnderline(text: text,),
+        TitleWithCustomUnderline(
+          text: text,
+        ),
         Spacer(),
         FlatButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             color: kPrimaryColor,
             onPressed: () {},
             child: Text(
@@ -341,7 +385,6 @@ class HeaderWithSearchBox extends StatelessWidget {
   }
 }
 
-
 class NavDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -372,7 +415,10 @@ class NavDrawer extends StatelessWidget {
             onTap: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ModelProfilePage(modelId: 'MD0021',)),
+                MaterialPageRoute(
+                    builder: (context) => ModelProfilePage(
+                          modelId: 'MD0021',
+                        )),
               )
             },
           ),
