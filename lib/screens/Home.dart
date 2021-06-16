@@ -9,9 +9,10 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: NavDrawer(),
-        appBar: buildAppBar(),
-        body: FutureBuilder(
+      drawer: NavDrawer(),
+      appBar: buildAppBar(),
+      body: Center(
+        child: FutureBuilder(
           future: getCastingList(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
@@ -21,7 +22,9 @@ class Home extends StatelessWidget {
             }
             return CircularProgressIndicator();
           },
-        ));
+        ),
+      )
+    );
   }
 
   AppBar buildAppBar() {
