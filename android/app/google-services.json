@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "494254314322",
+    "project_id": "fero-images-store",
+    "storage_bucket": "fero-images-store.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:494254314322:android:c9782f2e594673c8fca08b",
+        "android_client_info": {
+          "package_name": "com.fero"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "494254314322-pltv8ns903a2bja8d1n8mk83827k8cvv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAnTsIRuxafUvJAU7AqnmcWNH_vTWFaXFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "494254314322-pltv8ns903a2bja8d1n8mk83827k8cvv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
