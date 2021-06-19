@@ -1,6 +1,7 @@
 import 'package:fero/constants.dart';
 import 'package:fero/models/ModelDetail.dart';
 import 'package:fero/screens/UpdateModelProfilePage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ModelProfilePage extends StatefulWidget {
@@ -16,17 +17,24 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Center (
+          child: Text(
+            'Profile',
+            style: TextStyle(
+              color: kPrimaryColor,
+            ),
+          ),
+        ),
         leading: BackButton(
             color: kPrimaryColor,
           ),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        // actions: [
-        //   IconButton(
-        //     icon: Icon(CupertinoIcons.moon_stars, color: Color(0xFFF54E5E),),
-        //     onPressed: () => {}
-        //   )
-        // ],
+        actions: [
+          IconButton(
+            icon: Icon(Icons.ac_unit, color: Colors.white,),
+          )
+        ],
       ),
       body: Center(
         child: FutureBuilder(
@@ -58,40 +66,40 @@ class ModelButtons extends StatelessWidget {
         SizedBox(height: 20,),
         Stack(
           children: [
-            GestureDetector(
-              onTap: () => {},
-              child: Container(
-              height: 180,
+            Container(
+              height: 160,
               margin: EdgeInsets.only(left: 120, right: 120),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
-                  image:  DecorationImage(
-                      image: NetworkImage (
-                          modelDetail.avatar
-                      ),
-                      fit: BoxFit.cover
-                  )
+                borderRadius: BorderRadius.circular(100),
+                image:  DecorationImage(
+                  image: NetworkImage (
+                      modelDetail.avatar
+                  ),
+                  fit: BoxFit.cover
+                )
               ),
-              )
             ),
             Positioned(
               bottom: 5,
               right: 125,
-              child: ClipOval (
-                child: Container(
-                padding: EdgeInsets.all(5),
-                color: Colors.white,
-                child: ClipOval(
-                  child: Container (
-                  padding: EdgeInsets.all(8),
-                  color: kPrimaryColor,
-                  child: Icon(
-                    Icons.edit,
-                    color: Colors.white,
-                    size: 25,
-                  ),
-                  ))
-                )
+              child: GestureDetector(
+                onTap: () {},
+                child: ClipOval (
+                    child: Container(
+                        padding: EdgeInsets.all(5),
+                        color: Colors.white,
+                        child: ClipOval(
+                            child: Container (
+                              padding: EdgeInsets.all(8),
+                              color: kPrimaryColor,
+                              child: Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                                size: 25,
+                              ),
+                            ))
+                    )
+                ),
               )
             ),
           ],
@@ -101,6 +109,7 @@ class ModelButtons extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(height: 50,),
+
               Center(
                 child: Text(
                   modelDetail.name,
@@ -120,34 +129,37 @@ class ModelButtons extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 50,),
-              Container(
-                width: 320,
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                    border: Border(
-                        top: BorderSide(
-                            color: Color(0XFFC4C4C4)
-                        )
-                    ),
-
-                ),
-                child: GestureDetector(
-                  onTap: ()  {
+              SizedBox(height: 30,),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: FlatButton(
+                  padding: EdgeInsets.only(left: 30, top: 20, bottom: 20),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+                  color: Color(0xFFF0F0F0),
+                  onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => UpdateModelProfilePage(modelId: modelDetail.id)),
                     );
                   },
-                  child: Text(
-                    'Update profile',
-                    style: TextStyle(
-                      color: Color(0XFF7C7C7C),
-                      fontSize: 18,
-                    ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.supervised_user_circle_sharp,
+                      ),
+                      SizedBox(width: 30,),
+                      Expanded(
+                        child: Text(
+                          'My account',
+                          style: TextStyle(
+                            fontSize: 20
+                          ),
+                        ),
+                      )
+                    ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         )
