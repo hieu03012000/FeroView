@@ -67,7 +67,7 @@ class ModelButtons extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                   image:  DecorationImage(
                       image: NetworkImage (
-                          "https://znews-photo.zadn.vn/w1920/Uploaded/ihvjohb/2019_12_08/52684425_762234710836343_8290759092989853696_o.jpg"
+                          modelDetail.avatar
                       ),
                       fit: BoxFit.cover
                   )

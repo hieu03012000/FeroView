@@ -11,6 +11,7 @@ class ModelDetail {
   String subAddress;
   String phone;
   String gifted;
+  String avatar;
 
   ModelDetail({
     this.id,
@@ -20,7 +21,8 @@ class ModelDetail {
     this.dateOfBirth,
     this.subAddress,
     this.phone,
-    this.gifted
+    this.avatar,
+    this.gifted,
   });
 
   //static method
@@ -33,7 +35,8 @@ class ModelDetail {
         dateOfBirth: json["dateOfBirth"],
         subAddress: json["subAddress"],
         phone: json["phone"],
-        gifted: json["gifted"]
+        gifted: json["gifted"],
+        avatar: json["avatar"],
     );
   }
 }

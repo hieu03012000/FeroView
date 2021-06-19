@@ -7,12 +7,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:494254314322:android:c9782f2e594673c8fca08b",
+        "mobilesdk_app_id": "1:494254314322:android:61cd7a418ebe6ff3fca08b",
         "android_client_info": {
-          "package_name": "com.fero"
+          "package_name": "com.fero.fero"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "494254314322-iit8nhp78giem8jgv40dkuu2lko8n715.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fero.fero",
+            "certificate_hash": "8fe92f177ef79166841c9321be59bc5a2ece1a9b"
+          }
+        },
         {
           "client_id": "494254314322-pltv8ns903a2bja8d1n8mk83827k8cvv.apps.googleusercontent.com",
           "client_type": 3

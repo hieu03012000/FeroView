@@ -3,7 +3,6 @@ import 'package:fero/models/ModelDetail.dart';
 import 'package:fero/models/ModelList.dart';
 import 'package:fero/models/UpdateModelProfile.dart';
 import 'package:fero/screens/ModelProfilePage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UpdateModelProfilePage extends StatefulWidget {
