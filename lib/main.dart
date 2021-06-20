@@ -1,17 +1,22 @@
 import 'dart:io';
 
-import 'package:fero/constants.dart';
+import 'package:fero/utils/constants.dart';
 import 'package:fero/screens/Home.dart';
 import 'package:fero/screens/LoadImage.dart';
 import 'package:fero/screens/ModelListPage.dart';
 import 'package:fero/screens/ModelProfilePage.dart';
+import 'package:fero/viewmodels/casting_list_view_model.dart';
+import 'package:fero/viewmodels/model_list_view_model.dart';
+import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class MyHttpOverrides extends HttpOverrides{
+class MyHttpOverrides extends HttpOverrides {
   @override
-  HttpClient createHttpClient(SecurityContext context){
+  HttpClient createHttpClient(SecurityContext context) {
     return super.createHttpClient(context)
-      ..badCertificateCallback = (X509Certificate cert, String host, int port)=> true;
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }
 
@@ -34,10 +39,21 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: ModelProfilePage(modelId: 'MD0021',),
-      home: Home(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (_) => CastingListViewModel(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => ModelViewModel(),
+          ),
+        ],
+        child: ModelProfilePage(
+          modelId: 'MD0021',
+        ),
+      ),
       // home: ImageUpload(),
       // home: ModelListPage(),
     );
   }
 }
-

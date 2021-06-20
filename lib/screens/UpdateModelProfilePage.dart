@@ -1,4 +1,4 @@
-import 'package:fero/constants.dart';
+import 'package:fero/utils/constants.dart';
 import 'package:fero/models/ModelDetail.dart';
 import 'package:fero/models/ModelList.dart';
 import 'package:fero/models/UpdateModelProfile.dart';
@@ -12,6 +12,7 @@ class UpdateModelProfilePage extends StatefulWidget {
   @override
   _UpdateModelProfilePageState createState() => _UpdateModelProfilePageState();
 }
+
 class _UpdateModelProfilePageState extends State<UpdateModelProfilePage> {
   @override
   Widget build(BuildContext context) {
@@ -39,16 +40,17 @@ class _UpdateModelProfilePageState extends State<UpdateModelProfilePage> {
         child: FutureBuilder(
           future: getModelDetail(widget.modelId),
           builder: (context, snapshot) {
-            if(snapshot.hasData) {
+            if (snapshot.hasData) {
               UpdateModel.fromUpdateModel(snapshot.data);
-              return  ModelUpdate(modelDetail: UpdateModel.fromUpdateModel(snapshot.data));
+              return ModelUpdate(
+                  modelDetail: UpdateModel.fromUpdateModel(snapshot.data));
             } else if (snapshot.hasError) {
               return Text("${snapshot.error}");
             }
             return CircularProgressIndicator();
-            },
-          ),
+          },
         ),
+      ),
     );
   }
 }
@@ -62,7 +64,6 @@ class ModelUpdate extends StatefulWidget {
 }
 
 class _ModelUpdateState extends State<ModelUpdate> {
-
   DateTime _date;
 
   void _selectDate() async {
@@ -99,37 +100,37 @@ class _ModelUpdateState extends State<ModelUpdate> {
   Widget build(BuildContext context) {
     _date = DateTime.parse(widget.modelDetail.dateOfBirth);
     return Container(
-      width: 300,
-      child: ListView(
-        children: [
-          TextFormField(
-            cursorColor: kPrimaryColor,
-            initialValue: widget.modelDetail.name,
-            decoration: InputDecoration(
-              icon: Icon(Icons.drive_file_rename_outline),
-              labelText: 'Name',
-              // suffixIcon: Icon(
-              //   Icons.check_circle,
-              // ),
+        width: 300,
+        child: ListView(
+          children: [
+            TextFormField(
+              cursorColor: kPrimaryColor,
+              initialValue: widget.modelDetail.name,
+              decoration: InputDecoration(
+                icon: Icon(Icons.drive_file_rename_outline),
+                labelText: 'Name',
+                // suffixIcon: Icon(
+                //   Icons.check_circle,
+                // ),
+              ),
+              onChanged: (text) {
+                widget.modelDetail.name = text;
+              },
             ),
-            onChanged: (text) {
-              widget.modelDetail.name = text;
-            },
-          ),
-          TextFormField(
-            cursorColor: kPrimaryColor,
-            initialValue: castGender(widget.modelDetail.gender),
-            decoration: InputDecoration(
-              icon: Icon(Icons.drive_file_rename_outline),
-              labelText: 'Gender',
-              // suffixIcon: Icon(
-              //   Icons.check_circle,
-              // ),
+            TextFormField(
+              cursorColor: kPrimaryColor,
+              initialValue: castGender(widget.modelDetail.gender),
+              decoration: InputDecoration(
+                icon: Icon(Icons.drive_file_rename_outline),
+                labelText: 'Gender',
+                // suffixIcon: Icon(
+                //   Icons.check_circle,
+                // ),
+              ),
+              onChanged: (text) {
+                widget.modelDetail.gender = 1;
+              },
             ),
-            onChanged: (text) {
-              widget.modelDetail.gender = 1;
-            },
-          ),
             TextFormField(
               cursorColor: kPrimaryColor,
               initialValue: widget.modelDetail.dateOfBirth,
@@ -153,79 +154,82 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 minimumSize: Size(10, 50),
                 onPrimary: kPrimaryColor,
               ),
-              icon: Icon(Icons.calendar_today,),
+              icon: Icon(
+                Icons.calendar_today,
+              ),
               label: Text(''),
             ),
-
-          TextFormField(
-            cursorColor: kPrimaryColor,
-            initialValue: widget.modelDetail.phone,
-            decoration: InputDecoration(
-              icon: Icon(Icons.drive_file_rename_outline),
-              labelText: 'Phone number',
-              // suffixIcon: Icon(
-              //   Icons.check_circle,
-              // ),
+            TextFormField(
+              cursorColor: kPrimaryColor,
+              initialValue: widget.modelDetail.phone,
+              decoration: InputDecoration(
+                icon: Icon(Icons.drive_file_rename_outline),
+                labelText: 'Phone number',
+                // suffixIcon: Icon(
+                //   Icons.check_circle,
+                // ),
+              ),
+              onChanged: (text) {
+                widget.modelDetail.phone = text;
+              },
             ),
-            onChanged: (text) {
-              widget.modelDetail.phone = text;
-            },
-          ),
-          TextFormField(
-            cursorColor: kPrimaryColor,
-            initialValue: widget.modelDetail.subAddress,
-            decoration: InputDecoration(
-              icon: Icon(Icons.drive_file_rename_outline),
-              labelText: 'Address',
-              // suffixIcon: Icon(
-              //   Icons.check_circle,
-              // ),
+            TextFormField(
+              cursorColor: kPrimaryColor,
+              initialValue: widget.modelDetail.subAddress,
+              decoration: InputDecoration(
+                icon: Icon(Icons.drive_file_rename_outline),
+                labelText: 'Address',
+                // suffixIcon: Icon(
+                //   Icons.check_circle,
+                // ),
+              ),
+              onChanged: (text) {
+                widget.modelDetail.subAddress = text;
+              },
             ),
-            onChanged: (text) {
-              widget.modelDetail.subAddress = text;
-            },
-          ),
-          TextFormField(
-            cursorColor: kPrimaryColor,
-            initialValue: widget.modelDetail.gifted,
-            decoration: InputDecoration(
-              icon: Icon(Icons.drive_file_rename_outline),
-              labelText: 'Gifted',
-              // suffixIcon: Icon(
-              //   Icons.check_circle,
-              // ),
+            TextFormField(
+              cursorColor: kPrimaryColor,
+              initialValue: widget.modelDetail.gifted,
+              decoration: InputDecoration(
+                icon: Icon(Icons.drive_file_rename_outline),
+                labelText: 'Gifted',
+                // suffixIcon: Icon(
+                //   Icons.check_circle,
+                // ),
+              ),
+              onChanged: (text) {
+                widget.modelDetail.gifted = text;
+              },
             ),
-            onChanged: (text) {
-              widget.modelDetail.gifted = text;
-            },
-          ),
-          SizedBox(height: 30,),
-          ElevatedButton(
-            child: Text('UPDATE'),
-            onPressed: () async {
-              Map<String, dynamic> params = Map<String, dynamic>();
-              params['id'] = widget.modelDetail.id;
-              params['name'] = widget.modelDetail.name;
-              params['gender'] = 1.toString();
-              params['dateOfBirth'] = widget.modelDetail.dateOfBirth;
-              params['subAddress'] = widget.modelDetail.subAddress;
-              params['phone'] = widget.modelDetail.phone;
-              params['gifted'] = widget.modelDetail.gifted;
-              await updateModelDetail(params);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ModelProfilePage(modelId: widget.modelDetail.id)),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              primary: kPrimaryColor,
-              elevation: 0,
-              minimumSize: Size(10, 50),
+            SizedBox(
+              height: 30,
             ),
-          ),
-        ],
-      )
-    );
+            ElevatedButton(
+              child: Text('UPDATE'),
+              onPressed: () async {
+                Map<String, dynamic> params = Map<String, dynamic>();
+                params['id'] = widget.modelDetail.id;
+                params['name'] = widget.modelDetail.name;
+                params['gender'] = 1.toString();
+                params['dateOfBirth'] = widget.modelDetail.dateOfBirth;
+                params['subAddress'] = widget.modelDetail.subAddress;
+                params['phone'] = widget.modelDetail.phone;
+                params['gifted'] = widget.modelDetail.gifted;
+                await updateModelDetail(params);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ModelProfilePage(modelId: widget.modelDetail.id)),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                primary: kPrimaryColor,
+                elevation: 0,
+                minimumSize: Size(10, 50),
+              ),
+            ),
+          ],
+        ));
   }
 }
-
