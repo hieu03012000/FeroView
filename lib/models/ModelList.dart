@@ -23,7 +23,7 @@ class ModelStyle {
 
 class ModelList {
   final String id;
-  final String avatar;
+  // final String avatar;
   final String name;
   final int gender;
   final String dateOfBirth;
@@ -35,7 +35,7 @@ class ModelList {
 
   ModelList({
     this.id,
-    this.avatar,
+    // this.avatar,
     this.name,
     this.gender,
     this.dateOfBirth,
@@ -53,7 +53,7 @@ class ModelList {
     List<ModelStyle> styleList = list.map((i) => ModelStyle.fromJson(i)).toList();
     return ModelList(
       id: json['id'],
-      avatar: json['avatar'],
+      // avatar: json['avatar'],
       name: json['name'],
       gender: json['gender'],
       dateOfBirth: json['dateOfBirth'],
