@@ -25,36 +25,28 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
   @override
   Widget build(BuildContext context) {
     var model = Provider.of<ModelViewModel>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Profile',
-            style: TextStyle(
-              color: kPrimaryColor,
-            ),
-          ),
-        ),
-        leading: BackButton(
-          color: kPrimaryColor,
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(
-              Icons.ac_unit,
-              color: Colors.white,
-            ),
-          )
-        ],
-      ),
+    return WillPopScope(
+        onWillPop: () async => false,
+      child: Scaffold(
+      // appBar: AppBar(
+      //   title: Center(
+      //     child: Text(
+      //       'Profile',
+      //       style: TextStyle(
+      //         color: kPrimaryColor,
+      //       ),
+      //     ),
+      //   ),
+      //   backgroundColor: Colors.transparent,
+      //   elevation: 0,
+      // ),
       body: Center(
         child: ModelButtons(
           modelDetail: model,
         ),
       ),
       bottomNavigationBar: buildNavigationBar(context, 4),
+    )
     );
   }
 }
@@ -68,6 +60,19 @@ class ModelButtons extends StatelessWidget {
     return ListView(
       physics: BouncingScrollPhysics(),
       children: [
+        Center(
+          child: Padding(
+            padding: EdgeInsets.all(30),
+            child: Text(
+              'Manage account',
+              style: TextStyle(
+                color: kPrimaryColor,
+                fontSize: 25,
+                fontWeight: FontWeight.bold
+              ),
+            ),
+          ),
+        ),
         SizedBox(
           height: 20,
         ),
@@ -121,15 +126,15 @@ class ModelButtons extends StatelessWidget {
               SizedBox(
                 height: 5,
               ),
-              // Center(
-              //   child: Text(
-              //     modelDetail.username,
-              //     style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 30,
-              // ),
+              Center(
+                child: Text(
+                  modelDetail.username,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: FlatButton(

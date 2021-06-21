@@ -15,6 +15,10 @@ class ModelViewModel with ChangeNotifier {
     return _model.name;
   }
 
+  String get username {
+    return _model.username;
+  }
+
   String get gender {
     return castGender(_model.gender);
   }

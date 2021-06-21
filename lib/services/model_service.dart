@@ -8,7 +8,7 @@ class ModelService {
     final response = await http
         .get(Uri.parse("https://10.0.2.2:5001/api/v1/models/" + modelId));
     if (response.statusCode == 200) {
-      var model = Model.fromJson(jsonDecode(response.body));
+      var model = Model.fromJsonDetail(jsonDecode(response.body));
       return model;
     } else {
       throw Exception('Failed to load');

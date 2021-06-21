@@ -11,7 +11,6 @@ class Home extends StatelessWidget  {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: buildAppBar(),
         body: Center(child: Body()),
         bottomNavigationBar: buildNavigationBar(context, 2),
     );
@@ -204,12 +203,16 @@ class HeaderWithSearchBox extends StatelessWidget {
                     bottomRight: Radius.circular(36))),
             child: Row(
               children: <Widget>[
-                Text(
-                  'Hi ' + modelName + '!',
-                  style: Theme.of(context).textTheme.headline5.copyWith(
+                Padding(
+                    padding: EdgeInsets.only(top: 30),
+                  child: Text(
+                    'Hi ' + modelName + '!',
+                    style: Theme.of(context).textTheme.headline5.copyWith(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 1.0),
+                      letterSpacing: 1.0,
+                    ),
+                  ),
                 ),
                 Spacer(),
                 // Image.asset(name)
