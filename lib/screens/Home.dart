@@ -1,3 +1,5 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:fero/components/bottom_navigator.dart';
 import 'package:fero/components/casting_list_view.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/screens/ModelProfilePage.dart';
@@ -9,9 +11,10 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: NavDrawer(),
         appBar: buildAppBar(),
-        body: Center(child: Body()));
+        body: Center(child: Body()),
+        bottomNavigationBar: buildNavigationBar(context),
+    );
   }
 
   AppBar buildAppBar() {
@@ -243,64 +246,6 @@ class HeaderWithSearchBox extends StatelessWidget {
                       suffixIcon: const Icon(Icons.search)),
                 ),
               )),
-        ],
-      ),
-    );
-  }
-}
-
-class NavDrawer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            child: Text(
-              'Side menu',
-              style: TextStyle(color: Colors.white, fontSize: 25),
-            ),
-            decoration: BoxDecoration(
-              color: kPrimaryColor,
-              // image: DecorationImage(
-              //     fit: BoxFit.fill,
-              //     image: AssetImage('assets/images/cover.jpg'))
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.input),
-            title: Text('Welcome'),
-            onTap: () => {},
-          ),
-          ListTile(
-            leading: Icon(Icons.verified_user),
-            title: Text('Profile'),
-            onTap: () => {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ModelProfilePage(
-                          modelId: 'MD0021',
-                        )),
-              )
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: Icon(Icons.border_color),
-            title: Text('Feedback'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: Icon(Icons.exit_to_app),
-            title: Text('Logout'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
         ],
       ),
     );

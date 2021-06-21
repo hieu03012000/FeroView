@@ -48,9 +48,10 @@ class MyApp extends StatelessWidget {
             create: (_) => ModelViewModel(),
           ),
         ],
-        child: ModelProfilePage(
-          modelId: 'MD0021',
-        ),
+        child: Home(),
+        // child: ModelProfilePage(
+        //   modelId: 'MD0021',
+        // ),
       ),
       // home: ImageUpload(),
       // home: ModelListPage(),
