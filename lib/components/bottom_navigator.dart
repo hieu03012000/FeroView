@@ -1,13 +1,18 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:fero/screens/Home.dart';
 import 'package:fero/screens/ModelProfilePage.dart';
 import 'package:fero/utils/constants.dart';
+import 'package:fero/viewmodels/casting_list_view_model.dart';
+import 'package:fero/viewmodels/model_list_view_model.dart';
+import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-CurvedNavigationBar buildNavigationBar(BuildContext context) {
+CurvedNavigationBar buildNavigationBar(BuildContext context, int pageIndex) {
   return CurvedNavigationBar(
     backgroundColor: kBackgroundColor,
     color: kTextColor,
-    index: 2,
+    index: pageIndex,
     items: <Widget>[
       Icon(
         Icons.schedule,
@@ -31,15 +36,41 @@ CurvedNavigationBar buildNavigationBar(BuildContext context) {
       ),
     ],
     onTap: (index) => {
+      if(index == 2) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) {
+            return MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(
+                      create: (_) => CastingListViewModel()
+                  ), // add your providers like this.
+                ],
+                child:Home()
+            );
+            }
+          )
+        )
+      },
       if(index == 4) {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ModelProfilePage(
-                modelId: 'MD0021',
-              )),
+              builder: (BuildContext context) {
+                return MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider(
+                          create: (_) => ModelViewModel()
+                      ),
+                    ],
+                    child:ModelProfilePage(modelId: 'MD0021',)
+                );
+              }
+          )
         )
       }
+
     },
   );
 }

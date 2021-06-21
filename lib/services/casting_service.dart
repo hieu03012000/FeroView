@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fero/models/casting.dart';
+import 'package:fero/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 class CastingService {
@@ -11,7 +12,7 @@ class CastingService {
 
   Future<List<Casting>> getCastingList() async {
     final response =
-        await http.get(Uri.parse("https://10.0.2.2:5001/api/v1/castings"));
+        await http.get(Uri.parse(baseUrl + "api/v1/castings"));
     if (response.statusCode == 200) {
       var list = parseCastingList(response.body);
       return list;

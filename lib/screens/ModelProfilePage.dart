@@ -1,3 +1,4 @@
+import 'package:fero/components/bottom_navigator.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/screens/UpdateModelProfilePage.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
@@ -53,6 +54,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
           modelDetail: model,
         ),
       ),
+      bottomNavigationBar: buildNavigationBar(context, 4),
     );
   }
 }
@@ -78,7 +80,8 @@ class ModelButtons extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                   image: DecorationImage(
                       image: NetworkImage(modelDetail.avatar),
-                      fit: BoxFit.cover)),
+                      fit: BoxFit.cover)
+              ),
             ),
             Positioned(
                 bottom: 5,

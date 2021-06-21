@@ -7,13 +7,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatelessWidget  {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: buildAppBar(),
         body: Center(child: Body()),
-        bottomNavigationBar: buildNavigationBar(context),
+        bottomNavigationBar: buildNavigationBar(context, 2),
     );
   }
 
