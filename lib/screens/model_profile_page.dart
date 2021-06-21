@@ -15,39 +15,64 @@ class ModelProfilePage extends StatefulWidget {
 }
 
 class _ModelProfilePageState extends State<ModelProfilePage> {
-  @override
-  void initState() {
-    super.initState();
-    Provider.of<ModelViewModel>(context, listen: false)
-        .topHeadlines(widget.modelId);
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Provider.of<ModelViewModel>(context, listen: false)
+  //       .topHeadlines(widget.modelId);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    var model = Provider.of<ModelViewModel>(context);
+    // var model = Provider.of<ModelViewModel>(context);
     return WillPopScope(
         onWillPop: () async => false,
-      child: Scaffold(
-      // appBar: AppBar(
-      //   title: Center(
-      //     child: Text(
-      //       'Profile',
-      //       style: TextStyle(
-      //         color: kPrimaryColor,
-      //       ),
-      //     ),
-      //   ),
-      //   backgroundColor: Colors.transparent,
-      //   elevation: 0,
-      // ),
-      body: Center(
-        child: ModelButtons(
-          modelDetail: model,
-        ),
-      ),
-      bottomNavigationBar: buildNavigationBar(context, 4),
-    )
-    );
+        child: Scaffold(
+          // appBar: AppBar(
+          //   title: Center(
+          //     child: Text(
+          //       'Profile',
+          //       style: TextStyle(
+          //         color: kPrimaryColor,
+          //       ),
+          //     ),
+          //   ),
+          //   backgroundColor: Colors.transparent,
+          //   elevation: 0,
+          // ),
+          // body: Center(
+          //   child: ModelButtons(
+          //     modelDetail: model,
+          //   ),
+          body: FutureBuilder<ModelViewModel>(
+            future: Provider.of<ModelViewModel>(context, listen: false)
+                .getModel(widget.modelId),
+            builder: (ctx, prevData) {
+              if (prevData.connectionState == ConnectionState.waiting) {
+                return Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 150,
+                    ),
+                    Center(child: CircularProgressIndicator()),
+                  ],
+                );
+              } else {
+                if (prevData.error == null) {
+                  return Consumer<ModelViewModel>(
+                      builder: (ctx, data, child) => Center(
+                            child: ModelButtons(
+                              modelDetail: data,
+                            ),
+                          ));
+                } else {
+                  return Text('Error');
+                }
+              }
+            },
+          ),
+          bottomNavigationBar: buildNavigationBar(context, 4),
+        ));
   }
 }
 
@@ -66,10 +91,9 @@ class ModelButtons extends StatelessWidget {
             child: Text(
               'Manage account',
               style: TextStyle(
-                color: kPrimaryColor,
-                fontSize: 25,
-                fontWeight: FontWeight.bold
-              ),
+                  color: kPrimaryColor,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -85,8 +109,7 @@ class ModelButtons extends StatelessWidget {
                   borderRadius: BorderRadius.circular(100),
                   image: DecorationImage(
                       image: NetworkImage(modelDetail.avatar),
-                      fit: BoxFit.cover)
-              ),
+                      fit: BoxFit.cover)),
             ),
             Positioned(
                 bottom: 5,

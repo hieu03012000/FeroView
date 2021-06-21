@@ -72,10 +72,11 @@ class ModelViewModel with ChangeNotifier {
     return age.toString() + ' years old';
   }
 
-  void topHeadlines(String modelId) async {
-    Model model = await ModelService().getModelDetail(modelId);
-    // This call tells the widgets that are listening to this model to rebuild.
-    notifyListeners();
-    this._model = model;
+  Future<ModelViewModel> getModel(String modelId) async {
+    return Future.delayed(const Duration(seconds: 1), () async {
+      Model model = await ModelService().getModelDetail(modelId);
+      notifyListeners();
+      this._model = model;
+    });
   }
 }

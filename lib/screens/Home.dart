@@ -7,12 +7,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
-class Home extends StatelessWidget  {
+class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Center(child: Body()),
-        bottomNavigationBar: buildNavigationBar(context, 2),
+      body: Center(child: Body()),
+      bottomNavigationBar: buildNavigationBar(context, 2),
     );
   }
 
@@ -204,14 +204,14 @@ class HeaderWithSearchBox extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Padding(
-                    padding: EdgeInsets.only(top: 30),
+                  padding: EdgeInsets.only(top: 30),
                   child: Text(
                     'Hi ' + modelName + '!',
                     style: Theme.of(context).textTheme.headline5.copyWith(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 1.0,
-                    ),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.0,
+                        ),
                   ),
                 ),
                 Spacer(),
