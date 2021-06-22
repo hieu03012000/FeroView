@@ -1,5 +1,6 @@
 import 'package:fero/models/model.dart';
 import 'package:fero/services/model_service.dart';
+import 'package:fero/utils/common.dart';
 import 'package:flutter/cupertino.dart';
 
 class ModelViewModel with ChangeNotifier {
@@ -93,23 +94,6 @@ class ModelViewModel with ChangeNotifier {
   // List<ModelStyle> get modelStyle {
   //   return _model.modelStyle;
   // }
-
-  String castGender(int gender) {
-    String g;
-    if (gender == 0)
-      g = "Male";
-    else if (gender == 1)
-      g = "Female";
-    else
-      g = "Another";
-    return g;
-  }
-
-  String castAge(String date) {
-    DateTime dateTime = DateTime.parse(date);
-    int age = DateTime.now().year - dateTime.year;
-    return age.toString() + ' years old';
-  }
 
   Future<ModelViewModel> getModel(String modelId) async {
     return Future.delayed(const Duration(seconds: 1), () async {

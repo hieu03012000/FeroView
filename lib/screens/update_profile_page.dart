@@ -1,3 +1,4 @@
+import 'package:fero/utils/common.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/screens/model_profile_page.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
@@ -144,7 +145,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
             ),
             TextFormField(
               cursorColor: kPrimaryColor,
-              initialValue: widget.modelDetail.dateOfBirth,
+              initialValue: formatDate(widget.modelDetail.dateOfBirth),
               decoration: InputDecoration(
                 icon: Icon(Icons.drive_file_rename_outline),
                 labelText: 'Date of birth',
