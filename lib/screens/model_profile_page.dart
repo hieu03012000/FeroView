@@ -54,7 +54,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                 if (prevData.error == null) {
                   return Consumer<ModelViewModel>(
                       builder: (ctx, data, child) => Center(
-                            child: ModelBtn(
+                            child: modelBtn(
                               context: ctx,
                               modelDetail: data,
                             ),
@@ -69,7 +69,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
         ));
   }
 
-  Widget ModelBtn({BuildContext context, ModelViewModel modelDetail}) {
+  Widget modelBtn({BuildContext context, ModelViewModel modelDetail}) {
     return ListView(
       physics: BouncingScrollPhysics(),
       children: [
