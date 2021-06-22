@@ -1,4 +1,5 @@
 import 'package:fero/components/bottom_navigator.dart';
+import 'package:fero/screens/ChangeAvatarPage.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/screens/update_profile_page.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
@@ -93,7 +94,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
               height: 160,
               margin: EdgeInsets.only(left: 120, right: 120),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(100),
+                  borderRadius: BorderRadius.circular(80),
                   image: DecorationImage(
                       image: NetworkImage(modelDetail.avatar),
                       fit: BoxFit.cover)),
@@ -102,7 +103,14 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                 bottom: 5,
                 right: 125,
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              CameraWidget(modelId: modelDetail.id),
+                        ));
+                  },
                   child: ClipOval(
                       child: Container(
                           padding: EdgeInsets.all(5),
