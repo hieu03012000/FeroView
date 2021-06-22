@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:fero/models/images.dart';
+import 'package:fero/utils/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -24,5 +26,24 @@ void uploadFireBase(String path, String modelId) async{
   if(response.statusCode == 200) {
   } else {
     throw Exception('Failed to load');
+  }
+}
+
+
+class ImageService {
+  List<ModelImage> parseImageList(String responseBody) {
+    final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
+    return parsed.map<ModelImage>((json) => ModelImage.fromJson(json)).toList();
+  }
+
+  Future<List<ModelImage>> getImageList(String modelId) async {
+    final response =
+    await http.get(Uri.parse(baseUrl + "api/v1/models/" + modelId + "/images"));
+    if (response.statusCode == 200) {
+      var list = parseImageList(response.body);
+      return list;
+    } else {
+      throw Exception('Failed to load');
+    }
   }
 }

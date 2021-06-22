@@ -1,8 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fero/screens/Home.dart';
+import 'package:fero/screens/ModelImagePage.dart';
 import 'package:fero/screens/model_profile_page.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
+import 'package:fero/viewmodels/image_list_view_model.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +46,19 @@ CurvedNavigationBar buildNavigationBar(BuildContext context, int pageIndex) {
                   create: (_) =>
                       CastingListViewModel()), // add your providers like this.
             ], child: Home());
+          }))
+        },
+      if (index == 3)
+        {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(create: (_) => ImageListViewModel()),
+                ],
+                child: ModelImagePage(
+                  modelId: 'MD0021',
+                ));
           }))
         },
       if (index == 4)
