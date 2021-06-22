@@ -28,7 +28,7 @@ class _CastingState extends State<Casting> {
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
-              itemCount: 10,
+              itemCount: listCasting.castings.length,
               itemBuilder: (context, index) {
                 return _buildCarousel(context, listCasting.castings[index]);
               },
