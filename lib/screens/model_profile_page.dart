@@ -77,7 +77,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
           child: Padding(
             padding: EdgeInsets.all(30),
             child: Text(
-              'Manage account',
+              'Account',
               style: TextStyle(
                   color: kPrimaryColor,
                   fontSize: 25,
@@ -94,6 +94,13 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
               height: 160,
               margin: EdgeInsets.only(left: 120, right: 120),
               decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                      offset: Offset(-2, 5),
+                      blurRadius: 10,
+                      color: kPrimaryColor.withOpacity(0.3),
+                    )
+                  ],
                   borderRadius: BorderRadius.circular(80),
                   image: DecorationImage(
                       image: NetworkImage(modelDetail.avatar),
@@ -155,37 +162,49 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                child: FlatButton(
-                  padding: EdgeInsets.only(left: 30, top: 20, bottom: 20),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  color: Color(0xFFF0F0F0),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            ChangeNotifierProvider<ModelViewModel>.value(
-                                value: modelDetail,
-                                child: UpdateModelProfilePage(
-                                    modelId: modelDetail.id))));
-                  },
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.supervised_user_circle_sharp,
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Expanded(
-                        child: Text(
-                          'My account',
-                          style: TextStyle(fontSize: 20),
-                        ),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(-2, 5),
+                        blurRadius: 10,
+                        color: kPrimaryColor.withOpacity(0.3),
                       )
                     ],
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: FlatButton(
+                    padding: EdgeInsets.only(left: 30, top: 20, bottom: 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    color: Color(0xFFF0F0F0),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => UpdateModelProfilePage(
+                                modelId: modelDetail.id)),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.supervised_user_circle_sharp,
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Expanded(
+                          child: Text(
+                            'My account',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              )
             ],
           ),
         )

@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 CurvedNavigationBar buildNavigationBar(BuildContext context, int pageIndex) {
   return CurvedNavigationBar(
-    backgroundColor: kBackgroundColor,
+    backgroundColor: Colors.transparent,
     color: kPrimaryColor,
     index: pageIndex,
     items: <Widget>[
