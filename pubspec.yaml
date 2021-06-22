@@ -34,7 +34,6 @@ dependencies:
   curved_navigation_bar: ^1.0.1
   transparent_image: ^0.1.0
   flutter_staggered_grid_view:
-  multi_image_picker:
 
 
   # The following adds the Cupertino Icons font to your application.
