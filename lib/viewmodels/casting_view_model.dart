@@ -1,5 +1,5 @@
 import 'package:fero/models/casting.dart';
-import 'package:intl/intl.dart';
+import 'package:fero/utils/common.dart';
 
 class CastingViewModel {
   Casting _casting;
@@ -28,11 +28,5 @@ class CastingViewModel {
 
   int get gifted {
     return _casting.status;
-  }
-
-  String formatDate(String date) {
-    DateTime dt = DateTime.parse(date);
-    var formatter = new DateFormat('dd-MM-yyyy');
-    return formatter.format(dt);
   }
 }
