@@ -1,9 +1,8 @@
 import 'package:fero/utils/constants.dart';
-import 'package:fero/models/ModelDetail.dart';
-import 'package:fero/models/ModelList.dart';
-import 'package:fero/models/UpdateModelProfile.dart';
 import 'package:fero/screens/model_profile_page.dart';
+import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class UpdateModelProfilePage extends StatefulWidget {
   final String modelId;
@@ -19,14 +18,14 @@ class _UpdateModelProfilePageState extends State<UpdateModelProfilePage> {
     return Scaffold(
       appBar: AppBar(
         leading: BackButton(
-          color: Color(0xFFF54E5E),
+          color: kPrimaryColor,
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: Text(
           'Update profile',
           style: TextStyle(
-            color: Color(0xFFF54E5E),
+            color: kPrimaryColor,
           ),
         ),
         // actions: [
@@ -37,17 +36,29 @@ class _UpdateModelProfilePageState extends State<UpdateModelProfilePage> {
         // ],
       ),
       body: Center(
-        child: FutureBuilder(
-          future: getModelDetail(widget.modelId),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              UpdateModel.fromUpdateModel(snapshot.data);
-              return ModelUpdate(
-                  modelDetail: UpdateModel.fromUpdateModel(snapshot.data));
-            } else if (snapshot.hasError) {
-              return Text("${snapshot.error}");
+        child: FutureBuilder<ModelViewModel>(
+          future: Provider.of<ModelViewModel>(context, listen: false)
+              .getModel(widget.modelId),
+          builder: (ctx, prevData) {
+            if (prevData.connectionState == ConnectionState.waiting) {
+              return Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 150,
+                  ),
+                  Center(child: CircularProgressIndicator()),
+                ],
+              );
+            } else {
+              if (prevData.error == null) {
+                return Consumer<ModelViewModel>(
+                    builder: (ctx, data, child) => ModelUpdate(
+                          modelDetail: data,
+                        ));
+              } else {
+                return Text('Error');
+              }
             }
-            return CircularProgressIndicator();
           },
         ),
       ),
@@ -56,7 +67,7 @@ class _UpdateModelProfilePageState extends State<UpdateModelProfilePage> {
 }
 
 class ModelUpdate extends StatefulWidget {
-  final UpdateModel modelDetail;
+  final ModelViewModel modelDetail;
   const ModelUpdate({Key key, this.modelDetail}) : super(key: key);
 
   @override
@@ -119,7 +130,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
             ),
             TextFormField(
               cursorColor: kPrimaryColor,
-              initialValue: castGender(widget.modelDetail.gender),
+              initialValue: widget.modelDetail.genderStr,
               decoration: InputDecoration(
                 icon: Icon(Icons.drive_file_rename_outline),
                 labelText: 'Gender',
@@ -215,13 +226,15 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 params['subAddress'] = widget.modelDetail.subAddress;
                 params['phone'] = widget.modelDetail.phone;
                 params['gifted'] = widget.modelDetail.gifted;
-                await updateModelDetail(params);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ModelProfilePage(modelId: widget.modelDetail.id)),
-                );
+                await Provider.of<ModelViewModel>(context, listen: false)
+                    .updateProfileModel(params);
+
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) =>
+                        ChangeNotifierProvider<ModelViewModel>.value(
+                            value: widget.modelDetail,
+                            child: ModelProfilePage(
+                                modelId: widget.modelDetail.id))));
               },
               style: ElevatedButton.styleFrom(
                 primary: kPrimaryColor,

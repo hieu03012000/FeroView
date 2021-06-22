@@ -15,6 +15,21 @@ class ModelService {
     }
   }
 
+  Future<Model> updateModelDetail(Map<String, dynamic> params) async {
+    final message = jsonEncode(params);
+    final response = await http.put(
+        Uri.parse(
+            'https://10.0.2.2:5001/api/v1/models/${params["id"]}/profile'),
+        body: message,
+        headers: {"content-type": "application/json"});
+    if (response.statusCode == 200) {
+      var responseBody = Model.fromJsonDetail(jsonDecode(response.body));
+      return responseBody;
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
   List<Model> parseModelList(String responseBody) {
     final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
     final list = parsed.map<Model>((json) => Model.fromJson(json)).toList();

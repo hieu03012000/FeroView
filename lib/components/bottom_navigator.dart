@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fero/screens/Home.dart';
-import 'package:fero/screens/ModelProfilePage.dart';
+import 'package:fero/screens/model_profile_page.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:fero/viewmodels/model_list_view_model.dart';
@@ -36,41 +36,30 @@ CurvedNavigationBar buildNavigationBar(BuildContext context, int pageIndex) {
       ),
     ],
     onTap: (index) => {
-      if(index == 2) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (BuildContext context) {
+      if (index == 2)
+        {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) {
+            return MultiProvider(providers: [
+              ChangeNotifierProvider(
+                  create: (_) =>
+                      CastingListViewModel()), // add your providers like this.
+            ], child: Home());
+          }))
+        },
+      if (index == 4)
+        {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (BuildContext context) {
             return MultiProvider(
                 providers: [
-                  ChangeNotifierProvider(
-                      create: (_) => CastingListViewModel()
-                  ), // add your providers like this.
+                  ChangeNotifierProvider(create: (_) => ModelViewModel()),
                 ],
-                child:Home()
-            );
-            }
-          )
-        )
-      },
-      if(index == 4) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) {
-                return MultiProvider(
-                    providers: [
-                      ChangeNotifierProvider(
-                          create: (_) => ModelViewModel()
-                      ),
-                    ],
-                    child:ModelProfilePage(modelId: 'MD0021',)
-                );
-              }
-          )
-        )
-      }
-
+                child: ModelProfilePage(
+                  modelId: 'MD0021',
+                ));
+          }))
+        }
     },
   );
 }

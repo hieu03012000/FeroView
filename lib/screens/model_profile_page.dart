@@ -1,6 +1,6 @@
 import 'package:fero/components/bottom_navigator.dart';
 import 'package:fero/utils/constants.dart';
-import 'package:fero/screens/UpdateModelProfilePage.dart';
+import 'package:fero/screens/update_profile_page.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,16 +15,8 @@ class ModelProfilePage extends StatefulWidget {
 }
 
 class _ModelProfilePageState extends State<ModelProfilePage> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Provider.of<ModelViewModel>(context, listen: false)
-  //       .topHeadlines(widget.modelId);
-  // }
-
   @override
   Widget build(BuildContext context) {
-    // var model = Provider.of<ModelViewModel>(context);
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
@@ -61,7 +53,8 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                 if (prevData.error == null) {
                   return Consumer<ModelViewModel>(
                       builder: (ctx, data, child) => Center(
-                            child: ModelButtons(
+                            child: ModelBtn(
+                              context: ctx,
                               modelDetail: data,
                             ),
                           ));
@@ -74,14 +67,8 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
           bottomNavigationBar: buildNavigationBar(context, 4),
         ));
   }
-}
 
-class ModelButtons extends StatelessWidget {
-  final ModelViewModel modelDetail;
-  const ModelButtons({Key key, this.modelDetail}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Widget ModelBtn({BuildContext context, ModelViewModel modelDetail}) {
     return ListView(
       physics: BouncingScrollPhysics(),
       children: [
@@ -166,12 +153,12 @@ class ModelButtons extends StatelessWidget {
                       borderRadius: BorderRadius.circular(30)),
                   color: Color(0xFFF0F0F0),
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              UpdateModelProfilePage(modelId: modelDetail.id)),
-                    );
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            ChangeNotifierProvider<ModelViewModel>.value(
+                                value: modelDetail,
+                                child: UpdateModelProfilePage(
+                                    modelId: modelDetail.id))));
                   },
                   child: Row(
                     children: [
