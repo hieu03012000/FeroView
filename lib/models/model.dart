@@ -1,4 +1,4 @@
-import 'package:fero/models/ModelList.dart';
+import 'package:fero/models/model_style.dart';
 
 class Model {
   final String id;
