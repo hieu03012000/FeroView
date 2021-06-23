@@ -1,10 +1,12 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:fero/screens/Home.dart';
-import 'package:fero/screens/ModelImagePage.dart';
+import 'package:fero/screens/home_page.dart';
+import 'package:fero/screens/model_image_page.dart';
 import 'package:fero/screens/model_profile_page.dart';
+import 'package:fero/screens/model_schedule_page.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
+import 'package:fero/viewmodels/task_list_view_model.dart';
 import 'package:fero/viewmodels/image_list_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,13 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int pageIndex = 2;
   List<Widget> pageList = <Widget>[
-    Scaffold(),
+    MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => TaskListViewModel()),
+        ],
+        child: ModelSchedulePage(
+          modelId: 'MD0021',
+        )),
     Scaffold(),
     MultiProvider(providers: [
       ChangeNotifierProvider(

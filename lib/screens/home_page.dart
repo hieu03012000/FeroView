@@ -1,21 +1,8 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:fero/components/bottom_navigator.dart';
 import 'package:fero/components/casting_list_view.dart';
 import 'package:fero/utils/constants.dart';
-import 'package:fero/screens/model_profile_page.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
-
-// class Home extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(child: Body()),
-//       // bottomNavigationBar: buildNavigationBar(context, 2),
-//     );
-//   }
-// }
 
 class Home extends StatelessWidget {
   @override

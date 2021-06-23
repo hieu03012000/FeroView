@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:fero/screens/model_profile_page.dart';
 import 'package:fero/services/image_service.dart';
 import 'package:fero/utils/constants.dart';
+import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class CameraWidget extends StatefulWidget{
   final String modelId;
@@ -102,7 +105,17 @@ class CameraWidgetState extends State<CameraWidget>{
               RaisedButton(
                 onPressed: (){
                   uploadFireBase(imageFile.path, widget.modelId);
-                },
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                      return MultiProvider(
+                        providers: [
+                          ChangeNotifierProvider(create: (_) => ModelViewModel()),
+                        ],
+                        child: ModelProfilePage(
+                        modelId: widget.modelId,
+                        ));
+                    }));
+                  },
                 color: kPrimaryColor,
                 child: Text(
                   "Select Image",

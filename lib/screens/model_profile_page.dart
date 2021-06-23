@@ -1,5 +1,4 @@
-import 'package:fero/components/bottom_navigator.dart';
-import 'package:fero/screens/ChangeAvatarPage.dart';
+import 'package:fero/screens/change_avatar_page.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/screens/update_profile_page.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
@@ -21,22 +20,6 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
-          // appBar: AppBar(
-          //   title: Center(
-          //     child: Text(
-          //       'Profile',
-          //       style: TextStyle(
-          //         color: kPrimaryColor,
-          //       ),
-          //     ),
-          //   ),
-          //   backgroundColor: Colors.transparent,
-          //   elevation: 0,
-          // ),
-          // body: Center(
-          //   child: ModelButtons(
-          //     modelDetail: model,
-          //   ),
           body: FutureBuilder<ModelViewModel>(
             future: Provider.of<ModelViewModel>(context, listen: false)
                 .getModel(widget.modelId),
