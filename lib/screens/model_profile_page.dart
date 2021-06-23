@@ -179,12 +179,12 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                         borderRadius: BorderRadius.circular(30)),
                     color: Color(0xFFF0F0F0),
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UpdateModelProfilePage(
-                                modelId: modelDetail.id)),
-                      );
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) =>
+                              ChangeNotifierProvider<ModelViewModel>.value(
+                                  value: modelDetail,
+                                  child: UpdateModelProfilePage(
+                                      modelId: modelDetail.id))));
                     },
                     child: Row(
                       children: [
