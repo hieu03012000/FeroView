@@ -21,22 +21,6 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
     return WillPopScope(
         onWillPop: () async => false,
         child: Scaffold(
-          // appBar: AppBar(
-          //   title: Center(
-          //     child: Text(
-          //       'Profile',
-          //       style: TextStyle(
-          //         color: kPrimaryColor,
-          //       ),
-          //     ),
-          //   ),
-          //   backgroundColor: Colors.transparent,
-          //   elevation: 0,
-          // ),
-          // body: Center(
-          //   child: ModelButtons(
-          //     modelDetail: model,
-          //   ),
           body: FutureBuilder<ModelViewModel>(
             future: Provider.of<ModelViewModel>(context, listen: false)
                 .getModel(widget.modelId),
