@@ -52,10 +52,13 @@ class _UpdateModelProfilePageState extends State<UpdateModelProfilePage> {
               );
             } else {
               if (prevData.error == null) {
-                return Consumer<ModelViewModel>(
-                    builder: (ctx, data, child) => ModelUpdate(
-                          modelDetail: data,
-                        ));
+                // return Consumer<ModelViewModel>(
+                //     builder: (ctx, data, child) => ModelUpdate(
+                //           modelDetail: data,
+                //         ));
+                return ModelUpdate(
+                    modelDetail:
+                        Provider.of<ModelViewModel>(context, listen: false));
               } else {
                 return Text('Error');
               }
@@ -77,6 +80,22 @@ class ModelUpdate extends StatefulWidget {
 
 class _ModelUpdateState extends State<ModelUpdate> {
   DateTime _date;
+  int genderController;
+  TextEditingController nameController,
+      dobController,
+      phoneController,
+      addressController,
+      giftedController;
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    dobController.dispose();
+    phoneController.dispose();
+    addressController.dispose();
+    giftedController.dispose();
+    super.dispose();
+  }
 
   void _selectDate() async {
     final DateTime newDate = await showDatePicker(
@@ -103,21 +122,40 @@ class _ModelUpdateState extends State<ModelUpdate> {
     if (newDate != null) {
       setState(() {
         _date = newDate;
-        widget.modelDetail.dateOfBirth = newDate.toString();
+        dobController = TextEditingController()
+          ..text = formatDate(newDate.toString());
       });
     }
   }
 
+  void _loadData() {
+    nameController = TextEditingController()..text = widget.modelDetail.name;
+    genderController = widget.modelDetail.gender;
+    dobController = TextEditingController()
+      ..text = formatDate(widget.modelDetail.dateOfBirth);
+    phoneController = TextEditingController()..text = widget.modelDetail.phone;
+    addressController = TextEditingController()
+      ..text = widget.modelDetail.subAddress;
+    giftedController = TextEditingController()
+      ..text = widget.modelDetail.gifted;
+    _date = DateTime.parse(widget.modelDetail.dateOfBirth);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    _date = DateTime.parse(widget.modelDetail.dateOfBirth);
     return Container(
         width: 300,
         child: ListView(
           children: [
             TextFormField(
+              controller: nameController,
               cursorColor: kPrimaryColor,
-              initialValue: widget.modelDetail.name,
               decoration: InputDecoration(
                 icon: Icon(Icons.drive_file_rename_outline),
                 labelText: 'Name',
@@ -125,13 +163,9 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 //   Icons.check_circle,
                 // ),
               ),
-              onChanged: (text) {
-                widget.modelDetail.name = text;
-              },
             ),
-            TextFormField(
-              cursorColor: kPrimaryColor,
-              initialValue: widget.modelDetail.genderStr,
+            DropdownButtonFormField(
+              value: genderController,
               decoration: InputDecoration(
                 icon: Icon(Icons.drive_file_rename_outline),
                 labelText: 'Gender',
@@ -139,13 +173,25 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 //   Icons.check_circle,
                 // ),
               ),
-              onChanged: (text) {
-                widget.modelDetail.gender = 1;
+              items: [
+                DropdownMenuItem(
+                  child: Text("Male"),
+                  value: 0,
+                ),
+                DropdownMenuItem(
+                  child: Text("Female"),
+                  value: 1,
+                )
+              ],
+              onChanged: (int value) {
+                setState(() {
+                  genderController = value;
+                });
               },
             ),
             TextFormField(
+              controller: dobController,
               cursorColor: kPrimaryColor,
-              initialValue: formatDate(widget.modelDetail.dateOfBirth),
               decoration: InputDecoration(
                 icon: Icon(Icons.drive_file_rename_outline),
                 labelText: 'Date of birth',
@@ -153,10 +199,6 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 //   Icons.check_circle,
                 // ),
               ),
-              // onChanged: (text) {
-              //
-              //   widget.modelDetail.dateOfBirth = text;
-              // },
             ),
             ElevatedButton.icon(
               onPressed: _selectDate,
@@ -173,7 +215,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
             ),
             TextFormField(
               cursorColor: kPrimaryColor,
-              initialValue: widget.modelDetail.phone,
+              controller: phoneController,
               decoration: InputDecoration(
                 icon: Icon(Icons.drive_file_rename_outline),
                 labelText: 'Phone number',
@@ -181,38 +223,27 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 //   Icons.check_circle,
                 // ),
               ),
-              onChanged: (text) {
-                widget.modelDetail.phone = text;
-              },
             ),
             TextFormField(
-              cursorColor: kPrimaryColor,
-              initialValue: widget.modelDetail.subAddress,
-              decoration: InputDecoration(
-                icon: Icon(Icons.drive_file_rename_outline),
-                labelText: 'Address',
-                // suffixIcon: Icon(
-                //   Icons.check_circle,
-                // ),
-              ),
-              onChanged: (text) {
-                widget.modelDetail.subAddress = text;
-              },
-            ),
+                cursorColor: kPrimaryColor,
+                controller: addressController,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.drive_file_rename_outline),
+                  labelText: 'Address',
+                  // suffixIcon: Icon(
+                  //   Icons.check_circle,
+                  // ),
+                )),
             TextFormField(
-              cursorColor: kPrimaryColor,
-              initialValue: widget.modelDetail.gifted,
-              decoration: InputDecoration(
-                icon: Icon(Icons.drive_file_rename_outline),
-                labelText: 'Gifted',
-                // suffixIcon: Icon(
-                //   Icons.check_circle,
-                // ),
-              ),
-              onChanged: (text) {
-                widget.modelDetail.gifted = text;
-              },
-            ),
+                cursorColor: kPrimaryColor,
+                controller: giftedController,
+                decoration: InputDecoration(
+                  icon: Icon(Icons.drive_file_rename_outline),
+                  labelText: 'Gifted',
+                  // suffixIcon: Icon(
+                  //   Icons.check_circle,
+                  // ),
+                )),
             SizedBox(
               height: 30,
             ),
@@ -221,15 +252,14 @@ class _ModelUpdateState extends State<ModelUpdate> {
               onPressed: () async {
                 Map<String, dynamic> params = Map<String, dynamic>();
                 params['id'] = widget.modelDetail.id;
-                params['name'] = widget.modelDetail.name;
-                params['gender'] = 1.toString();
-                params['dateOfBirth'] = widget.modelDetail.dateOfBirth;
-                params['subAddress'] = widget.modelDetail.subAddress;
-                params['phone'] = widget.modelDetail.phone;
-                params['gifted'] = widget.modelDetail.gifted;
+                params['name'] = nameController.text;
+                params['gender'] = genderController;
+                params['dateOfBirth'] = _date.toString();
+                params['subAddress'] = addressController.text;
+                params['phone'] = phoneController.text;
+                params['gifted'] = giftedController.text;
                 await Provider.of<ModelViewModel>(context, listen: false)
                     .updateProfileModel(params);
-
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (_) =>
                         ChangeNotifierProvider<ModelViewModel>.value(

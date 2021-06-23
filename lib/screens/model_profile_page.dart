@@ -103,7 +103,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                   ],
                   borderRadius: BorderRadius.circular(80),
                   image: DecorationImage(
-                      image: NetworkImage(modelDetail.avatar),
+                      image: NetworkImage(modelDetail.avatar ?? ''),
                       fit: BoxFit.cover)),
             ),
             Positioned(
@@ -144,7 +144,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
               ),
               Center(
                 child: Text(
-                  modelDetail.name,
+                  modelDetail.name ?? '',
                   style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                 ),
               ),
@@ -153,7 +153,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
               ),
               Center(
                 child: Text(
-                  modelDetail.username,
+                  modelDetail.username ?? '',
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
                 ),
               ),

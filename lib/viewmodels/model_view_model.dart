@@ -32,8 +32,8 @@ class ModelViewModel with ChangeNotifier {
     this.username = username;
   }
 
-  String get genderStr {
-    return castGender(_model.gender);
+  int get gender {
+    return _model.gender;
   }
 
   set gender(int gender) {
@@ -103,7 +103,7 @@ class ModelViewModel with ChangeNotifier {
     });
   }
 
-  void updateProfileModel(Map<String, dynamic> params) async {
+  Future<ModelViewModel> updateProfileModel(Map<String, dynamic> params) async {
     return Future.delayed(const Duration(seconds: 1), () async {
       Model model = await ModelService().updateModelDetail(params);
       notifyListeners();
