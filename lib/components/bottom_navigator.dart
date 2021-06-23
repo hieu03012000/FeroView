@@ -7,6 +7,7 @@ import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:fero/viewmodels/image_list_view_model.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
+import 'package:fero/viewmodels/task_list_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -45,8 +46,8 @@ CurvedNavigationBar buildNavigationBar(BuildContext context, int pageIndex) {
             return MultiProvider(providers: [
               ChangeNotifierProvider(
                   create: (_) =>
-                      CastingListViewModel()), // add your providers like this.
-            ], child: ModelSchedulePage());
+                      TaskListViewModel()), 
+            ], child: ModelSchedulePage(modelId: 'MD0021',));
           }))
         },
       if (index == 2)
@@ -56,7 +57,7 @@ CurvedNavigationBar buildNavigationBar(BuildContext context, int pageIndex) {
             return MultiProvider(providers: [
               ChangeNotifierProvider(
                   create: (_) =>
-                      CastingListViewModel()), // add your providers like this.
+                      CastingListViewModel()), 
             ], child: Home());
           }))
         },

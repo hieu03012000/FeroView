@@ -1,11 +1,15 @@
 import 'package:fero/components/bottom_navigator.dart';
+import 'package:fero/services/task_service.dart';
 import 'package:fero/utils/constants.dart';
+import 'package:fero/viewmodels/task_list_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ModelSchedulePage extends StatefulWidget {
-  ModelSchedulePage({Key key}) : super(key: key);
+  final String modelId;
+  ModelSchedulePage({Key key, this.modelId}) : super(key: key);
 
   @override
   _ModelSchedulePageState createState() => _ModelSchedulePageState();
@@ -15,10 +19,43 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [
-          Center(
-            child: Padding(
+      body: FutureBuilder<TaskListViewModel>(
+        future: Provider.of<TaskListViewModel>(context, listen: false)
+            .getTaskList(widget.modelId),
+        builder: (ctx, prevData) {
+          if (prevData.connectionState == ConnectionState.waiting) {
+            return Column(
+              children: <Widget>[
+                SizedBox(
+                  height: 150,
+                ),
+                Center(child: CircularProgressIndicator()),
+              ],
+            );
+          } else {
+            if (prevData.error == null) {
+              return Consumer<TaskListViewModel>(
+                  builder: (ctx, data, child) => Center(
+                        child: scheduleView(
+                          context: ctx,
+                          tasks: data
+                        ),
+                      ));
+            } else {
+              return Text('Error');
+            }
+          }
+        },
+      ),
+      bottomNavigationBar: buildNavigationBar(context, 0),
+    );
+  }
+
+  ListView scheduleView({BuildContext context, TaskListViewModel tasks}) {
+    return ListView(
+      children: [
+        Center(
+          child: Padding(
             padding: EdgeInsets.all(30),
             child: Text(
               'Account',
@@ -33,20 +70,13 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
           height: 625,
           child: SfCalendar(
             view: CalendarView.workWeek,
-            
+            dataSource: TaskDataSource(getAppointment(tasks)),
             backgroundColor: kBackgroundColor,
             timeSlotViewSettings: TimeSlotViewSettings(
-              startHour: 0,
-              endHour: 24,
-              nonWorkingDays: <int>[]
-            ),
+                startHour: 0, endHour: 24, nonWorkingDays: <int>[]),
           ),
         ),
-        
-        ],
-         ),
-       bottomNavigationBar: buildNavigationBar(context, 0),
+      ],
     );
   }
-
 }

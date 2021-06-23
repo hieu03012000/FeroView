@@ -1,4 +1,5 @@
 import 'package:fero/models/task.dart';
+import 'package:fero/utils/common.dart';
 
 class ModelTaskViewModel {
   Task _task;
@@ -10,11 +11,11 @@ class ModelTaskViewModel {
   }
 
   DateTime get startAt {
-    return _task.startAt;
+    return parseDatetime(_task.startAt);
   }
 
   DateTime get endAt {
-    return _task.endAt;
+    return parseDatetime(_task.endAt);
   }
 
   int get castingId {

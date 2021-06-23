@@ -22,3 +22,8 @@ String formatDate(String date) {
   var formatter = new DateFormat('dd-MM-yyyy');
   return formatter.format(dt);
 }
+
+DateTime parseDatetime(String date) {
+  DateTime dt = DateTime.parse(date);
+  return dt;
+}

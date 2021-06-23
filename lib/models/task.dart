@@ -1,7 +1,7 @@
 class Task {
   final int id;
-  final DateTime startAt;
-  final DateTime endAt;
+  final String startAt;
+  final String endAt;
   final int castingId;
   final String castingName;
   final String modelId;
