@@ -126,7 +126,11 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 // ),
               ),
               onChanged: (text) {
-                widget.modelDetail.name = text;
+                setState(() {
+                  print(widget.modelDetail.name);
+
+                  widget.modelDetail.name = text;
+                });
               },
             ),
             TextFormField(
@@ -139,8 +143,10 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 //   Icons.check_circle,
                 // ),
               ),
-              onChanged: (text) {
-                widget.modelDetail.gender = 1;
+              onFieldSubmitted: (text) {
+                setState(() {
+                  widget.modelDetail.gender = 1;
+                });
               },
             ),
             TextFormField(
@@ -153,10 +159,9 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 //   Icons.check_circle,
                 // ),
               ),
-              // onChanged: (text) {
-              //
-              //   widget.modelDetail.dateOfBirth = text;
-              // },
+              onChanged: (text) {
+                widget.modelDetail.dateOfBirth = text;
+              },
             ),
             ElevatedButton.icon(
               onPressed: _selectDate,
@@ -209,7 +214,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 //   Icons.check_circle,
                 // ),
               ),
-              onChanged: (text) {
+              onSaved: (text) {
                 widget.modelDetail.gifted = text;
               },
             ),
@@ -222,14 +227,16 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 Map<String, dynamic> params = Map<String, dynamic>();
                 params['id'] = widget.modelDetail.id;
                 params['name'] = widget.modelDetail.name;
+                params['username'] = widget.modelDetail.username;
                 params['gender'] = 1.toString();
                 params['dateOfBirth'] = widget.modelDetail.dateOfBirth;
+                params['avatar'] = widget.modelDetail.avatar;
                 params['subAddress'] = widget.modelDetail.subAddress;
                 params['phone'] = widget.modelDetail.phone;
                 params['gifted'] = widget.modelDetail.gifted;
+                params['status'] = widget.modelDetail.status;
                 await Provider.of<ModelViewModel>(context, listen: false)
                     .updateProfileModel(params);
-
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (_) =>
                         ChangeNotifierProvider<ModelViewModel>.value(
