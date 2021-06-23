@@ -32,8 +32,8 @@ class ModelViewModel with ChangeNotifier {
     this.username = username;
   }
 
-  String get genderStr {
-    return castGender(_model.gender);
+  int get gender {
+    return _model.gender;
   }
 
   set gender(int gender) {
