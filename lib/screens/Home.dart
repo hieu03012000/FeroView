@@ -7,31 +7,17 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 
+// class Home extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(child: Body()),
+//       // bottomNavigationBar: buildNavigationBar(context, 2),
+//     );
+//   }
+// }
+
 class Home extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(child: Body()),
-      bottomNavigationBar: buildNavigationBar(context, 2),
-    );
-  }
-
-  AppBar buildAppBar() {
-    return AppBar(
-      elevation: 0,
-      // leading: IconButton(
-      //   icon: const Icon(Icons.menu),
-      //   onPressed: () {},
-      //
-      //   color: Colors.white,
-      // ),
-    );
-  }
-}
-
-class Body extends StatelessWidget {
-  const Body({Key key}) : super(key: key);
-  // final List<CastingList> castingList;
   @override
   Widget build(BuildContext context) {
     Size size =

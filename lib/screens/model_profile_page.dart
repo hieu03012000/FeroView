@@ -65,7 +65,6 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
               }
             },
           ),
-          bottomNavigationBar: buildNavigationBar(context, 4),
         ));
   }
 

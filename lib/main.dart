@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fero/screens/main_screen.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/screens/Home.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
             create: (_) => CastingListViewModel(),
           ),
         ],
-        child: Home(),
+        child: MainScreen(),
         // child: ModelProfilePage(
         //   modelId: 'MD0021',
         // ),

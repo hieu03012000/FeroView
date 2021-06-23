@@ -44,8 +44,7 @@ class _ModelImagePageState extends State<ModelImagePage> {
                   style: TextStyle(
                       color: kPrimaryColor,
                       fontSize: 25,
-                      fontWeight: FontWeight.bold
-                  ),
+                      fontWeight: FontWeight.bold),
                 ),
               ),
             ),
@@ -56,46 +55,40 @@ class _ModelImagePageState extends State<ModelImagePage> {
                     crossAxisCount: 2,
                     itemCount: listImage.images.length,
                     itemBuilder: (context, index) {
-                      return _buildImageList((context), listImage.images[index]);
+                      return _buildImageList(
+                          (context), listImage.images[index]);
                     },
                     staggeredTileBuilder: (index) {
-                      return new StaggeredTile.count(1, index.isEven? 1.2 : 2);
-                    }
-                ),
+                      return new StaggeredTile.count(1, index.isEven ? 1.2 : 2);
+                    }),
               ),
             )
           ],
         ),
       ),
-      bottomNavigationBar: buildNavigationBar(context, 3),
     );
   }
 
   Widget _buildImageList(BuildContext context, ModelImageViewModel image) {
     return GestureDetector(
-      onLongPress: () => {
-        
-      },
-      child: Container(
-        margin: EdgeInsets.only(top: 30, left: 15, right: 15),
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              offset: Offset(-2, 5),
-              blurRadius: 10,
-              color: kPrimaryColor.withOpacity(0.3),
-            )
-          ],
-          color: kPrimaryColor,
-          borderRadius: BorderRadius.circular(10),
-          image: DecorationImage(
-            image: NetworkImage(image.fileName,),
-                fit: BoxFit.cover
-          )
-        ),
-      )
-    );
+        onLongPress: () => {},
+        child: Container(
+          margin: EdgeInsets.only(top: 30, left: 15, right: 15),
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  offset: Offset(-2, 5),
+                  blurRadius: 10,
+                  color: kPrimaryColor.withOpacity(0.3),
+                )
+              ],
+              color: kPrimaryColor,
+              borderRadius: BorderRadius.circular(10),
+              image: DecorationImage(
+                  image: NetworkImage(
+                    image.fileName,
+                  ),
+                  fit: BoxFit.cover)),
+        ));
   }
 }
-
-
