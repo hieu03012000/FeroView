@@ -18,6 +18,11 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        backgroundColor: kPrimaryColor,
+        onPressed: () => {},
+      ),
       body: FutureBuilder<TaskListViewModel>(
         future: Provider.of<TaskListViewModel>(context, listen: false)
             .getTaskList(widget.modelId),
@@ -51,9 +56,9 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
       children: [
         Center(
           child: Padding(
-            padding: EdgeInsets.all(30),
+            padding: EdgeInsets.all(15),
             child: Text(
-              'Account',
+              'Schedule',
               style: TextStyle(
                   color: kPrimaryColor,
                   fontSize: 25,
@@ -62,7 +67,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
           ),
         ),
         Container(
-          height: 625,
+          height: 650,
           child: SfCalendar(
             view: CalendarView.workWeek,
             dataSource: TaskDataSource(getAppointment(tasks)),

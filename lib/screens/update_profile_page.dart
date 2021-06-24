@@ -1,3 +1,4 @@
+import 'package:fero/screens/main_screen.dart';
 import 'package:fero/utils/common.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/screens/model_profile_page.dart';
@@ -260,12 +261,19 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 params['gifted'] = giftedController.text;
                 await Provider.of<ModelViewModel>(context, listen: false)
                     .updateProfileModel(params);
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) =>
-                        ChangeNotifierProvider<ModelViewModel>.value(
-                            value: widget.modelDetail,
-                            child: ModelProfilePage(
-                                modelId: widget.modelDetail.id))));
+                // Navigator.of(context).push(MaterialPageRoute(
+                //     builder: (_) =>
+                //         ChangeNotifierProvider<ModelViewModel>.value(
+                //             value: widget.modelDetail,
+                //             child: ModelProfilePage(
+                //                 modelId: widget.modelDetail.id))));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                        MainScreen(page: 4),
+                  )
+                );
               },
               style: ElevatedButton.styleFrom(
                 primary: kPrimaryColor,

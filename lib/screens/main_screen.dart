@@ -13,12 +13,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
+  final int page;
+  const MainScreen({Key key, this.page}) : super(key: key);
+  
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _MainScreenState createState() => _MainScreenState(this.page);
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int pageIndex = 2;
+  int pageIndex;
+
+  _MainScreenState(int page){
+  this.pageIndex = page;
+  }
+
   List<Widget> pageList = <Widget>[
     MultiProvider(
         providers: [

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fero/screens/main_screen.dart';
 import 'package:fero/screens/model_profile_page.dart';
 import 'package:fero/services/image_service.dart';
 import 'package:fero/utils/constants.dart';
@@ -105,16 +106,13 @@ class CameraWidgetState extends State<CameraWidget>{
               RaisedButton(
                 onPressed: (){
                   uploadFireBase(imageFile.path, widget.modelId);
-                  Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                      return MultiProvider(
-                        providers: [
-                          ChangeNotifierProvider(create: (_) => ModelViewModel()),
-                        ],
-                        child: ModelProfilePage(
-                        modelId: widget.modelId,
-                        ));
-                    }));
+                  Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                        MainScreen(page: 4),
+                  )
+                );
                   },
                 color: kPrimaryColor,
                 child: Text(

@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
             create: (_) => CastingListViewModel(),
           ),
         ],
-        child: MainScreen(),
+        child: MainScreen(page: 2,),
         // child: ModelProfilePage(
         //   modelId: 'MD0021',
         // ),
