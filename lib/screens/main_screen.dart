@@ -3,6 +3,7 @@ import 'package:fero/screens/home_page.dart';
 import 'package:fero/screens/model_image_page.dart';
 import 'package:fero/screens/model_profile_page.dart';
 import 'package:fero/screens/model_schedule_page.dart';
+import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
@@ -51,6 +52,7 @@ class _MainScreenState extends State<MainScreen> {
     MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => ModelViewModel()),
+          ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
         ],
         child: ModelProfilePage(
           modelId: 'MD0021',

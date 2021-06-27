@@ -1,4 +1,12 @@
+import 'package:fero/animations/fade_animation.dart';
+import 'package:fero/screens/main_screen.dart';
+import 'package:fero/services/auth.dart';
+import 'package:fero/services/google_sign_in.dart';
+import 'package:fero/utils/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage({Key key, this.title}) : super(key: key);
@@ -9,39 +17,159 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  int _counter = 0;
+  TextEditingController emailController, passwordController;
+  bool _passwordVisible = false;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+  void _loadData() {
+    emailController = TextEditingController()..text = "";
+    passwordController = TextEditingController()..text = "";
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
   }
 
   @override
   Widget build(BuildContext context) {
+    var authHandler = new AuthService();
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
+      resizeToAvoidBottomInset: false,
+      body: SafeArea(
+          child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                colors: [kPrimaryColor, kSecondaryColor])),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            SizedBox(
+              height: 60,
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
+            Padding(
+              padding: EdgeInsets.all(40),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  FadeAnimation(
+                    1,
+                    Text(
+                      'Login',
+                      style: TextStyle(
+                        color: kBackgroundColor,
+                        fontSize: 40,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  FadeAnimation(
+                      1,
+                      Text(
+                        'Wellcome back',
+                        style: TextStyle(
+                          color: kBackgroundColor,
+                          fontSize: 18,
+                        ),
+                      ))
+                ],
+              ),
             ),
+            SizedBox(
+              height: 20,
+            ),
+            Expanded(
+              child: Container(
+                margin: EdgeInsets.only(left: 20),
+                decoration: BoxDecoration(
+                  color: kBackgroundColor,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(60)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      offset: Offset(-20, -10),
+                      blurRadius: 20,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 60,
+                        ),
+                        FadeAnimation(
+                            1,
+                            Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(10),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: kPrimaryColor,
+                                          blurRadius: 20,
+                                          offset: Offset(0, 10))
+                                    ]),
+                              )),
+                        SizedBox(
+                          height: 350,
+                        ),
+                        FadeAnimation(
+                            1,
+                            ElevatedButton.icon(
+                                icon: FaIcon(FontAwesomeIcons.google),
+                                onPressed: () {
+                                  final provider =
+                                      Provider.of<GoogleSignInProvider>(context,
+                                          listen: false);
+                                  provider.googleLogin().then((value) => {
+                                    Navigator.of(context)
+                                      .pushReplacement(MaterialPageRoute(
+                                    builder: (context) => MainScreen(page: 2),
+                                  ))} ).catchError((e) => print(e));
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.symmetric(horizontal: 30),
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(30))),
+                                  primary: kPrimaryColor,
+                                  elevation: 0,
+                                  minimumSize: Size(10, 50),
+                                ),
+                                label: Text(
+                                  'Login with Google',
+                                  style: TextStyle(
+                                      color: kBackgroundColor, fontSize: 20),
+                                ))),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        FadeAnimation(
+                            1,
+                            GestureDetector(
+                              onTap: () {
+                                auth.createUserWithEmailAndPassword(
+                                    email: 'abc@gmail.com', password: '123456');
+                              },
+                              child: Text(
+                                'Create new account',
+                                style: TextStyle(
+                                    color: kPrimaryColor, fontSize: 16),
+                              ),
+                            )),
+                      ],
+                    )),
+              ),
+            )
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      )),
     );
   }
 }
