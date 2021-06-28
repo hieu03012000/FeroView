@@ -1,7 +1,11 @@
 import 'package:fero/screens/change_avatar_page.dart';
+import 'package:fero/screens/login_page.dart';
+import 'package:fero/screens/measure-template-page.dart';
+import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/screens/update_profile_page.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +19,7 @@ class ModelProfilePage extends StatefulWidget {
 }
 
 class _ModelProfilePageState extends State<ModelProfilePage> {
+  final _user = FirebaseAuth.instance.currentUser();
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -179,6 +184,100 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                         Expanded(
                           child: Text(
                             'My account',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(-2, 5),
+                        blurRadius: 10,
+                        color: kPrimaryColor.withOpacity(0.3),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: FlatButton(
+                    padding: EdgeInsets.only(left: 30, top: 20, bottom: 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    color: Color(0xFFF0F0F0),
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => MeasureTemplatePage(
+                              modelId: widget.modelId,
+                            ),
+                          ));
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.straighten,
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Measure',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: Container(
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(-2, 5),
+                        blurRadius: 10,
+                        color: kPrimaryColor.withOpacity(0.3),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: FlatButton(
+                    padding: EdgeInsets.only(left: 30, top: 20, bottom: 20),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    color: Color(0xFFF0F0F0),
+                    onPressed: () {
+                      final provider = Provider.of<GoogleSignInProvider>(
+                          context,
+                          listen: false);
+                      provider.logout();
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => MultiProvider(providers: [
+                                ChangeNotifierProvider(
+                                    create: (_) => GoogleSignInProvider()),
+                              ], child: LoginPage())));
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.logout,
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Logout',
                             style: TextStyle(fontSize: 20),
                           ),
                         )

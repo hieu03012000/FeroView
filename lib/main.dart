@@ -1,9 +1,10 @@
 import 'dart:io';
 
+import 'package:fero/screens/login_page.dart';
 import 'package:fero/screens/main_screen.dart';
+import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/utils/constants.dart';
-import 'package:fero/screens/home_page.dart';
-import 'package:fero/viewmodels/casting_list_view_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,13 +17,15 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-void main() {
+void main() async {
   HttpOverrides.global = new MyHttpOverrides();
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  final _user = FirebaseAuth.instance.currentUser();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -34,20 +37,16 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         primarySwatch: Colors.blue,
       ),
-      // home: ModelProfilePage(modelId: 'MD0021',),
-      home: MultiProvider(
+      home: _user == null?
+      MultiProvider(
         providers: [
           ChangeNotifierProvider(
-            create: (_) => CastingListViewModel(),
+            create: (_) => GoogleSignInProvider(),
           ),
         ],
-        child: MainScreen(page: 2,),
-        // child: ModelProfilePage(
-        //   modelId: 'MD0021',
-        // ),
-      ),
-      // home: ImageUpload(),
-      // home: ModelListPage(),
+        child: LoginPage(),
+      ):
+      MainScreen(page: 2,)
     );
   }
 }

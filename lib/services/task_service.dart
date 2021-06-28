@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:fero/models/task.dart';
 import 'package:fero/utils/constants.dart';
-import 'package:fero/viewmodels/model_task_view_model.dart';
 import 'package:fero/viewmodels/task_list_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 

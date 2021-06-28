@@ -1,7 +1,6 @@
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/utils/common.dart';
 import 'package:fero/utils/constants.dart';
-import 'package:fero/screens/model_profile_page.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

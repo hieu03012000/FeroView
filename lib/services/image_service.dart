@@ -25,7 +25,7 @@ void uploadFireBase(String path, String modelId) async {
 
   final message = jsonEncode(params);
   final response = await http.put(
-      Uri.parse('https://10.0.2.2:5001/api/v1/models/${params["id"]}/avatar'),
+      Uri.parse(baseUrl + 'api/v1/models/${params["id"]}/avatar'),
       body: message,
       headers: {"content-type": "application/json"});
   if (response.statusCode == 200) {
@@ -77,7 +77,7 @@ class ImageService {
 
       final message = jsonEncode(params);
       final response = await http.post(
-          Uri.parse('https://10.0.2.2:5001/api/v1/models/${modelId}/image'),
+          Uri.parse(baseUrl + 'api/v1/models/${modelId}/image'),
           body: message,
           headers: {"content-type": "application/json"});
       if (response.statusCode == 200) {
@@ -102,7 +102,7 @@ class ImageService {
     await firebaseStorageRef.delete();
 
     final response = await http.put(
-        Uri.parse('https://10.0.2.2:5001/api/v1/models/${modelId}/image'),
+        Uri.parse(baseUrl + 'api/v1/models/${modelId}/image'),
         body: message,
         headers: {"content-type": "application/json"});
     if (response.statusCode == 200) {

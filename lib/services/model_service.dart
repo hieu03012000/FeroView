@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:fero/models/model.dart';
+import 'package:fero/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
 class ModelService {
   Future<Model> getModelDetail(String modelId) async {
     final response = await http
-        .get(Uri.parse("https://10.0.2.2:5001/api/v1/models/" + modelId));
+        .get(Uri.parse(baseUrl + "api/v1/models/" + modelId));
     if (response.statusCode == 200) {
       var model = Model.fromJsonDetail(jsonDecode(response.body));
       return model;
@@ -19,7 +20,7 @@ class ModelService {
     final message = jsonEncode(params);
     final response = await http.put(
         Uri.parse(
-            'https://10.0.2.2:5001/api/v1/models/${params["id"]}/profile'),
+            baseUrl + 'api/v1/models/${params["id"]}/profile'),
         body: message,
         headers: {"content-type": "application/json"});
     if (response.statusCode == 200) {
@@ -38,7 +39,7 @@ class ModelService {
 
   Future<List<Model>> getModelList() async {
     final response =
-        await http.get(Uri.parse("https://10.0.2.2:5001/api/v1/models"));
+        await http.get(Uri.parse(baseUrl + "api/v1/models"));
     if (response.statusCode == 200) {
       final list = parseModelList(response.body);
       return list;
