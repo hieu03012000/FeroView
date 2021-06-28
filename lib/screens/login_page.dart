@@ -18,7 +18,6 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailController, passwordController;
-  bool _passwordVisible = false;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   void _loadData() {
@@ -117,7 +116,7 @@ class _LoginPageState extends State<LoginPage> {
                                     ]),
                               )),
                         SizedBox(
-                          height: 350,
+                          height: 200,
                         ),
                         FadeAnimation(
                             1,

@@ -7,4 +7,4 @@ const kTextColor = Colors.black;
 
 const double kDefaultPadding = 20.0;
 
-const baseUrl = "https://10.0.2.2:5001/";
+const baseUrl = "http://192.168.1.3:18920/";
