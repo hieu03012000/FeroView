@@ -5,7 +5,6 @@ import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/screens/update_profile_page.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,41 +18,42 @@ class ModelProfilePage extends StatefulWidget {
 }
 
 class _ModelProfilePageState extends State<ModelProfilePage> {
-  final _user = FirebaseAuth.instance.currentUser();
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-        onWillPop: () async => false,
-        child: Scaffold(
-          body: FutureBuilder<ModelViewModel>(
-            future: Provider.of<ModelViewModel>(context, listen: false)
-                .getModel(widget.modelId),
-            builder: (ctx, prevData) {
-              if (prevData.connectionState == ConnectionState.waiting) {
-                return Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 150,
-                    ),
-                    Center(child: CircularProgressIndicator()),
-                  ],
-                );
-              } else {
-                if (prevData.error == null) {
-                  return Consumer<ModelViewModel>(
-                      builder: (ctx, data, child) => Center(
-                            child: modelBtn(
-                              context: ctx,
-                              modelDetail: data,
-                            ),
-                          ));
+    return SafeArea(
+      child: WillPopScope(
+          onWillPop: () async => false,
+          child: Scaffold(
+            body: FutureBuilder<ModelViewModel>(
+              future: Provider.of<ModelViewModel>(context, listen: false)
+                  .getModel(widget.modelId),
+              builder: (ctx, prevData) {
+                if (prevData.connectionState == ConnectionState.waiting) {
+                  return Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 150,
+                      ),
+                      Center(child: CircularProgressIndicator()),
+                    ],
+                  );
                 } else {
-                  return Text('Error');
+                  if (prevData.error == null) {
+                    return Consumer<ModelViewModel>(
+                        builder: (ctx, data, child) => Center(
+                              child: modelBtn(
+                                context: ctx,
+                                modelDetail: data,
+                              ),
+                            ));
+                  } else {
+                    return Text('Error');
+                  }
                 }
-              }
-            },
-          ),
-        ));
+              },
+            ),
+          )),
+    );
   }
 
   Widget modelBtn({BuildContext context, ModelViewModel modelDetail}) {
@@ -62,7 +62,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
       children: [
         Center(
           child: Padding(
-            padding: EdgeInsets.all(30),
+            padding: EdgeInsets.all(5),
             child: Text(
               'Account',
               style: TextStyle(
@@ -77,9 +77,10 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
         ),
         Stack(
           children: [
-            Container(
-              height: 160,
-              margin: EdgeInsets.only(left: 120, right: 120),
+            Center(
+              child: Container(
+              height: 100,
+              width: 100,
               decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -92,7 +93,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                   image: DecorationImage(
                       image: NetworkImage(modelDetail.avatar ?? ''),
                       fit: BoxFit.cover)),
-            ),
+            )),
             Positioned(
                 bottom: 5,
                 right: 125,
@@ -107,16 +108,16 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                   },
                   child: ClipOval(
                       child: Container(
-                          padding: EdgeInsets.all(5),
-                          color: Colors.white,
+                          padding: EdgeInsets.all(3),
+                          color: kBackgroundColor,
                           child: ClipOval(
                               child: Container(
-                            padding: EdgeInsets.all(8),
+                            padding: EdgeInsets.all(5),
                             color: kPrimaryColor,
                             child: Icon(
                               Icons.edit,
                               color: Colors.white,
-                              size: 25,
+                              size: 15,
                             ),
                           )))),
                 )),
@@ -132,7 +133,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
               Center(
                 child: Text(
                   modelDetail.name ?? '',
-                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
               SizedBox(
@@ -141,14 +142,14 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
               Center(
                 child: Text(
                   modelDetail.username ?? '',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
                 ),
               ),
               SizedBox(
                 height: 30,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 5),
                 child: Container(
                   decoration: BoxDecoration(
                     boxShadow: [
@@ -158,12 +159,12 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                         color: kPrimaryColor.withOpacity(0.3),
                       )
                     ],
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: FlatButton(
-                    padding: EdgeInsets.only(left: 30, top: 20, bottom: 20),
+                    padding: EdgeInsets.only(left: 20, top: 15, bottom: 15),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
+                        borderRadius: BorderRadius.circular(10)),
                     color: Color(0xFFF0F0F0),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
@@ -179,12 +180,12 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                           Icons.supervised_user_circle_sharp,
                         ),
                         SizedBox(
-                          width: 30,
+                          width: 20,
                         ),
                         Expanded(
                           child: Text(
                             'My account',
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 16),
                           ),
                         )
                       ],
@@ -193,7 +194,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 5),
                 child: Container(
                   decoration: BoxDecoration(
                     boxShadow: [
@@ -203,19 +204,19 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                         color: kPrimaryColor.withOpacity(0.3),
                       )
                     ],
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: FlatButton(
-                    padding: EdgeInsets.only(left: 30, top: 20, bottom: 20),
+                    padding: EdgeInsets.only(left: 20, top: 15, bottom: 15),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
+                        borderRadius: BorderRadius.circular(10)),
                     color: Color(0xFFF0F0F0),
                     onPressed: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => MeasureTemplatePage(
-                              modelId: widget.modelId,
+                              modelId: widget.modelId, template: '1',
                             ),
                           ));
                     },
@@ -225,12 +226,12 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                           Icons.straighten,
                         ),
                         SizedBox(
-                          width: 30,
+                          width: 20,
                         ),
                         Expanded(
                           child: Text(
                             'Measure',
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 16),
                           ),
                         )
                       ],
@@ -239,7 +240,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 5),
                 child: Container(
                   decoration: BoxDecoration(
                     boxShadow: [
@@ -249,12 +250,12 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                         color: kPrimaryColor.withOpacity(0.3),
                       )
                     ],
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: FlatButton(
-                    padding: EdgeInsets.only(left: 30, top: 20, bottom: 20),
+                    padding: EdgeInsets.only(left: 20, top: 15, bottom: 15),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30)),
+                        borderRadius: BorderRadius.circular(10)),
                     color: Color(0xFFF0F0F0),
                     onPressed: () {
                       final provider = Provider.of<GoogleSignInProvider>(
@@ -273,12 +274,12 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                           Icons.logout,
                         ),
                         SizedBox(
-                          width: 30,
+                          width: 20,
                         ),
                         Expanded(
                           child: Text(
                             'Logout',
-                            style: TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 16),
                           ),
                         )
                       ],

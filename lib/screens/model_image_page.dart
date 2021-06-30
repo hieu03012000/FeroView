@@ -41,7 +41,7 @@ class _ModelImagePageState extends State<ModelImagePage> {
           children: <Widget>[
             Center(
               child: Padding(
-                padding: EdgeInsets.only(top: 30),
+                padding: EdgeInsets.only(top: 20, bottom: 20),
                 child: Text(
                   'Gallery',
                   style: TextStyle(
@@ -53,7 +53,7 @@ class _ModelImagePageState extends State<ModelImagePage> {
             ),
             Expanded(
               child: Padding(
-                padding: EdgeInsets.only(left: 15, right: 15),
+                padding: EdgeInsets.only(left: 5, right: 5),
                 child: StaggeredGridView.countBuilder(
                     crossAxisCount: 2,
                     itemCount: listImage.images.length,
@@ -87,7 +87,7 @@ class _ModelImagePageState extends State<ModelImagePage> {
                   child: ButtonBar(
                 children: [
                   FlatButton(
-                    onPressed: () {},
+                    onPressed: () { return null; },
                     child: const Text('Cancel'),
                   ),
                   FlatButton(
@@ -113,7 +113,7 @@ class _ModelImagePageState extends State<ModelImagePage> {
             },
         child: (!isSelect)
             ? Container(
-                margin: EdgeInsets.only(top: 30, left: 15, right: 15),
+                margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     boxShadow: [
                       BoxShadow(
@@ -131,7 +131,7 @@ class _ModelImagePageState extends State<ModelImagePage> {
                         fit: BoxFit.cover)),
               )
             : Container(
-                margin: EdgeInsets.only(top: 30, left: 15, right: 15),
+                margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -151,6 +151,9 @@ class _ModelImagePageState extends State<ModelImagePage> {
   }
 
   void _reloadPage() {
+    setState(() {
+      
+    });
     Navigator.push(
       context,
       MaterialPageRoute(
