@@ -16,6 +16,18 @@ class ModelService {
     }
   }
 
+  Future<Model> getModelByMail(String mail) async {
+    final response = await http
+        .get(Uri.parse(baseUrl + "api/v1/models/" + mail + "/model"));
+    if (response.statusCode == 200) {
+      var model = Model.fromJsonDetail(jsonDecode(response.body));
+      return model;
+    } else {
+      return null;
+    }
+  }
+
+
   Future<Model> updateModelDetail(Map<String, dynamic> params) async {
     final message = jsonEncode(params);
     final response = await http.put(

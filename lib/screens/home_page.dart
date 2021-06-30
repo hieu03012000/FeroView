@@ -9,46 +9,48 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size =
         MediaQuery.of(context).size; //Total height and width of the screen
-    return SingleChildScrollView(
-        child: Column(children: <Widget>[
-      HeaderWithSearchBox(size: size),
-      TitleWithButton(
-        text: "Upcoming Casting",
-      ),
-      Casting(),
-      TitleWithButton(
-        text: "Notification",
-      ),
-      Center(
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: [
-              RecommendNotification(
-                title:
-                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                date: 'Today, 12:00',
-              ),
-              RecommendNotification(
-                title:
-                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                date: 'Today, 12:00',
-              ),
-              RecommendNotification(
-                title:
-                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                date: 'Today, 12:00',
-              ),
-              RecommendNotification(
-                title:
-                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                date: 'Today, 12:00',
-              ),
-            ],
+    return SafeArea(
+      child: SingleChildScrollView(
+          child: Column(children: <Widget>[
+        HeaderWithSearchBox(size: size),
+        TitleWithButton(
+          text: "Upcoming Casting",
+        ),
+        Casting(),
+        TitleWithButton(
+          text: "Notification",
+        ),
+        Center(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                RecommendNotification(
+                  title:
+                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                  date: 'Today, 12:00',
+                ),
+                RecommendNotification(
+                  title:
+                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                  date: 'Today, 12:00',
+                ),
+                RecommendNotification(
+                  title:
+                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                  date: 'Today, 12:00',
+                ),
+                RecommendNotification(
+                  title:
+                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
+                  date: 'Today, 12:00',
+                ),
+              ],
+            ),
           ),
         ),
-      ),
-    ]));
+      ])),
+    );
   }
 }
 

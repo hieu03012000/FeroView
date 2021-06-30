@@ -40,7 +40,7 @@ class _MainScreenState extends State<MainScreen> {
     MultiProvider(providers: [
       ChangeNotifierProvider(
           create: (_) =>
-              CastingListViewModel()), // add your providers like this.
+              CastingListViewModel()),
     ], child: Home()),
     MultiProvider(
         providers: [
