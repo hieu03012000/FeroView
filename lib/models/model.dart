@@ -10,7 +10,7 @@ class Model {
   final String phone;
   final String gifted;
   final String avatar;
-  final bool status;
+  final int status;
   final List<ModelStyle> modelStyle;
 
   Model(

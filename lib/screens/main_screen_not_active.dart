@@ -14,48 +14,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreenNotActive extends StatefulWidget {
   final int page;
-  const MainScreen({Key key, this.page}) : super(key: key);
+  const MainScreenNotActive({Key key, this.page}) : super(key: key);
 
   @override
-  _MainScreenState createState() => _MainScreenState(this.page);
+  _MainScreenNotActiveState createState() => _MainScreenNotActiveState(this.page);
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenNotActiveState extends State<MainScreenNotActive> {
   int pageIndex;
 
-  _MainScreenState(int page) {
+  _MainScreenNotActiveState(int page) {
     this.pageIndex = page;
   }
 
   List<Widget> pageList = <Widget>[
-    MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => TaskListViewModel()),
-        ],
-        child: FutureBuilder(
-          future: FlutterSession().get('modelId'),
-          builder: (context, snapshot) {
-            return ModelSchedulePage(
-              modelId: snapshot.data.toString(),
-            );
-          },
-        )),
-    MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => TaskListViewModel()),
-        ],
-        child: FutureBuilder(
-          builder: (context, snapshot) {
-            return ModelSchedulePage(
-              modelId: snapshot.data.toString(),
-            );
-          },
-        )),
-    MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_) => CastingListViewModel()),
-    ], child: Home()),
     MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => ImageListViewModel()),
@@ -92,18 +66,6 @@ class _MainScreenState extends State<MainScreen> {
           color: kPrimaryColor,
           index: pageIndex,
           items: <Widget>[
-            Icon(
-              Icons.schedule,
-              color: kBackgroundColor,
-            ),
-            Icon(
-              Icons.list_alt,
-              color: kBackgroundColor,
-            ),
-            Icon(
-              Icons.home,
-              color: kBackgroundColor,
-            ),
             Icon(
               Icons.image,
               color: kBackgroundColor,

@@ -3,6 +3,7 @@ import 'package:fero/utils/constants.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
+import 'package:flutter_session/flutter_session.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -155,7 +156,6 @@ class HeaderWithSearchBox extends StatelessWidget {
   const HeaderWithSearchBox({Key key, @required this.size}) : super(key: key);
 
   final Size size;
-  final String modelName = 'Model Name';
 
   @override
   Widget build(BuildContext context) {
@@ -179,16 +179,24 @@ class HeaderWithSearchBox extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Padding(
-                  padding: EdgeInsets.only(top: 30),
-                  child: Text(
-                    'Hi ' + modelName + '!',
-                    style: Theme.of(context).textTheme.headline5.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 1.0,
-                        ),
-                  ),
-                ),
+                    padding: EdgeInsets.only(top: 30),
+                    child: SizedBox(
+                      width: 300,
+                      child: FutureBuilder(
+                        future: FlutterSession().get('modelName'),
+                        builder: (context, snapshot) {
+                          return Text(
+                            'Hi ' + snapshot.data.toString() + '!',
+                            style:
+                                Theme.of(context).textTheme.headline5.copyWith(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      letterSpacing: 1.0,
+                                    ),
+                          );
+                        },
+                      ),
+                    )),
                 Spacer(),
                 // Image.asset(name)
               ],
