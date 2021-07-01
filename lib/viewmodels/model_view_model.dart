@@ -84,11 +84,11 @@ class ModelViewModel with ChangeNotifier {
     this.avatar = avatar;
   }
 
-  bool get status {
+  int get status {
     return _model.status;
   }
 
-  set status(bool status) {
+  set status(int status) {
     this.status = status;
   }
   // List<ModelStyle> get modelStyle {

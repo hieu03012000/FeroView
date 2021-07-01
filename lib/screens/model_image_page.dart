@@ -1,9 +1,11 @@
 import 'package:fero/screens/main_screen.dart';
+import 'package:fero/screens/main_screen_not_active.dart';
 import 'package:fero/services/image_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/image_list_view_model.dart';
 import 'package:fero/viewmodels/model_image_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
@@ -87,14 +89,16 @@ class _ModelImagePageState extends State<ModelImagePage> {
                   child: ButtonBar(
                 children: [
                   FlatButton(
-                    onPressed: () { return null; },
+                    onPressed: () {
+                      return null;
+                    },
                     child: const Text('Cancel'),
                   ),
                   FlatButton(
-                    onPressed: () {
+                    onPressed: () async {
                       ImageService().deleteImage(
                           image.fileName, image.id, widget.modelId);
-                      _reloadPage();
+                      await _reloadPage();
                     },
                     child: const Text('Delete'),
                   ),
@@ -150,16 +154,22 @@ class _ModelImagePageState extends State<ModelImagePage> {
               ));
   }
 
-  void _reloadPage() {
-    setState(() {
-      
-    });
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) =>
-            MainScreen(page: 3),
-      )
-    );
+  Future _reloadPage() async {
+    setState(() {});
+    dynamic status = (await FlutterSession().get('modelStatus')).toString();
+    if (status == '1') {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MainScreen(page: 4),
+          ));
+    }
+    if (status == '0') {
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MainScreenNotActive(page: 1),
+          ));
+    }
   }
 }

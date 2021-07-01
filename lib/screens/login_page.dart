@@ -1,10 +1,15 @@
 import 'package:fero/animations/fade_animation.dart';
+import 'package:fero/screens/create-account-page.dart';
+import 'package:fero/screens/main_screen_not_active.dart';
 import 'package:fero/screens/main_screen.dart';
+import 'package:fero/screens/model_profile_page.dart';
 import 'package:fero/services/auth.dart';
 import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/utils/constants.dart';
+import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -33,8 +38,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    var authHandler = new AuthService();
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: SafeArea(
@@ -105,16 +108,16 @@ class _LoginPageState extends State<LoginPage> {
                         FadeAnimation(
                             1,
                             Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: kPrimaryColor,
-                                          blurRadius: 20,
-                                          offset: Offset(0, 10))
-                                    ]),
-                              )),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                        color: kPrimaryColor,
+                                        blurRadius: 20,
+                                        offset: Offset(0, 10))
+                                  ]),
+                            )),
                         SizedBox(
                           height: 200,
                         ),
@@ -126,11 +129,29 @@ class _LoginPageState extends State<LoginPage> {
                                   final provider =
                                       Provider.of<GoogleSignInProvider>(context,
                                           listen: false);
-                                  provider.googleLogin().then((value) => {
-                                    Navigator.of(context)
-                                      .pushReplacement(MaterialPageRoute(
-                                    builder: (context) => MainScreen(page: 2),
-                                  ))} ).catchError((e) => print(e));
+                                  provider
+                                      .googleLogin()
+                                      .then((value) => {
+                                            if (value == 1)
+                                              {
+                                                Navigator.of(context)
+                                                    .pushReplacement(
+                                                        MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MainScreen(page: 2),
+                                                ))
+                                              },
+                                            if (value == 0)
+                                              {
+                                               Navigator.of(context)
+                                                    .pushReplacement(
+                                                        MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MainScreenNotActive(page: 1),
+                                                ))
+                                              }
+                                          })
+                                      .catchError((e) => print(e));
                                 },
                                 style: ElevatedButton.styleFrom(
                                   padding: EdgeInsets.symmetric(horizontal: 30),
@@ -153,8 +174,27 @@ class _LoginPageState extends State<LoginPage> {
                             1,
                             GestureDetector(
                               onTap: () {
-                                auth.createUserWithEmailAndPassword(
-                                    email: 'abc@gmail.com', password: '123456');
+                                final provider =
+                                    Provider.of<GoogleSignInProvider>(context,
+                                        listen: false);
+                                provider
+                                    .googleSignUp()
+                                    .then((value) => {
+                                          Navigator.of(context).push(
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MultiProvider(
+                                                          providers: [
+                                                            ChangeNotifierProvider(
+                                                                create: (_) =>
+                                                                    GoogleSignInProvider()),
+                                                          ],
+                                                          child:
+                                                              CreateAccountPage(
+                                                            account: value,
+                                                          )))),
+                                        })
+                                    .catchError((e) => print(e));
                               },
                               child: Text(
                                 'Create new account',

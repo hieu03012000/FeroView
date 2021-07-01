@@ -1,8 +1,10 @@
 import 'package:fero/screens/main_screen.dart';
+import 'package:fero/screens/main_screen_not_active.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/body-attribut-list-view-model.dart';
 import 'package:fero/viewmodels/body-attribute-view-model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';
 
 class UpdateMeasurePage extends StatefulWidget {
@@ -127,22 +129,34 @@ class _AttViewState extends State<AttView> {
             child: Text('UPDATE'),
             onPressed: () async {
               List<Map<String, dynamic>> params = [];
-              for(int i = 0; i < widget.list.length; i++)  {
+              for (int i = 0; i < widget.list.length; i++) {
                 Map<String, dynamic> param = Map<String, dynamic>();
                 param['id'] = widget.atts.atts.elementAt(i).id;
                 param['value'] = double.parse(widget.list.elementAt(i).text);
-                param['bodyAttTypeId'] = widget.atts.atts.elementAt(i).bodyAttTypeId;
+                param['bodyAttTypeId'] =
+                    widget.atts.atts.elementAt(i).bodyAttTypeId;
                 param['bodyPartId'] = widget.atts.atts.elementAt(i).bodyPartId;
                 params.add(param);
               }
               var provider = Provider.of<BodyAttributeListViewModel>(context,
                   listen: false);
               provider.updateAtt(params);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MainScreen(page: 4),
-                  ));
+              dynamic status =
+                  (await FlutterSession().get('modelStatus')).toString();
+              if (status == '1') {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainScreen(page: 4),
+                    ));
+              }
+              if (status == '0') {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainScreenNotActive(page: 1),
+                    ));
+              }
             },
             style: ElevatedButton.styleFrom(
               primary: kPrimaryColor,
@@ -159,7 +173,8 @@ class _AttViewState extends State<AttView> {
 class MeasureComponent extends StatelessWidget {
   final ModelAttributeViewModel model;
   final TextEditingController controller;
-  const MeasureComponent({Key key, this.model, this.controller}) : super(key: key);
+  const MeasureComponent({Key key, this.model, this.controller})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

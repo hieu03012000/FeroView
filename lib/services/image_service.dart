@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:fero/models/images.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
@@ -41,6 +42,7 @@ class ImageService {
   }
 
   Future<List<ModelImage>> getImageList(String modelId) async {
+    modelId = (await FlutterSession().get('modelId')).toString();
     final response = await http
         .get(Uri.parse(baseUrl + "api/v1/models/" + modelId + "/images"));
     if (response.statusCode == 200) {

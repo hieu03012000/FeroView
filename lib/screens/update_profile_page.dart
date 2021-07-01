@@ -1,8 +1,10 @@
 import 'package:fero/screens/main_screen.dart';
+import 'package:fero/screens/main_screen_not_active.dart';
 import 'package:fero/utils/common.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';
 
 class UpdateModelProfilePage extends StatefulWidget {
@@ -16,54 +18,56 @@ class UpdateModelProfilePage extends StatefulWidget {
 class _UpdateModelProfilePageState extends State<UpdateModelProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: BackButton(
-          color: kPrimaryColor,
-        ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          'Update profile',
-          style: TextStyle(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+          leading: BackButton(
             color: kPrimaryColor,
           ),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: Text(
+            'Update profile',
+            style: TextStyle(
+              color: kPrimaryColor,
+            ),
+          ),
+          // actions: [
+          //   IconButton(
+          //       icon: Icon(CupertinoIcons.moon_stars, color: Color(0xFFF54E5E),),
+          //       onPressed: () => {}
+          //   )
+          // ],
         ),
-        // actions: [
-        //   IconButton(
-        //       icon: Icon(CupertinoIcons.moon_stars, color: Color(0xFFF54E5E),),
-        //       onPressed: () => {}
-        //   )
-        // ],
-      ),
-      body: Center(
-        child: FutureBuilder<ModelViewModel>(
-          future: Provider.of<ModelViewModel>(context, listen: false)
-              .getModel(widget.modelId),
-          builder: (ctx, prevData) {
-            if (prevData.connectionState == ConnectionState.waiting) {
-              return Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 150,
-                  ),
-                  Center(child: CircularProgressIndicator()),
-                ],
-              );
-            } else {
-              if (prevData.error == null) {
-                // return Consumer<ModelViewModel>(
-                //     builder: (ctx, data, child) => ModelUpdate(
-                //           modelDetail: data,
-                //         ));
-                return ModelUpdate(
-                    modelDetail:
-                        Provider.of<ModelViewModel>(context, listen: false));
+        body: Center(
+          child: FutureBuilder<ModelViewModel>(
+            future: Provider.of<ModelViewModel>(context, listen: false)
+                .getModel(widget.modelId),
+            builder: (ctx, prevData) {
+              if (prevData.connectionState == ConnectionState.waiting) {
+                return Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 150,
+                    ),
+                    Center(child: CircularProgressIndicator()),
+                  ],
+                );
               } else {
-                return Text('Error');
+                if (prevData.error == null) {
+                  // return Consumer<ModelViewModel>(
+                  //     builder: (ctx, data, child) => ModelUpdate(
+                  //           modelDetail: data,
+                  //         ));
+                  return ModelUpdate(
+                      modelDetail:
+                          Provider.of<ModelViewModel>(context, listen: false));
+                } else {
+                  return Text('Error');
+                }
               }
-            }
-          },
+            },
+          ),
         ),
       ),
     );
@@ -266,13 +270,22 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 //             value: widget.modelDetail,
                 //             child: ModelProfilePage(
                 //                 modelId: widget.modelDetail.id))));
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                        MainScreen(page: 4),
-                  )
-                );
+                dynamic status = (await FlutterSession().get('modelStatus')).toString();
+                if(status == '1') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainScreen(page: 4),
+                    ));
+                }
+                if(status == '0') {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainScreenNotActive(page: 1),
+                    ));
+                }
+                
               },
               style: ElevatedButton.styleFrom(
                 primary: kPrimaryColor,
