@@ -28,47 +28,49 @@ class _ModelImagePageState extends State<ModelImagePage> {
   @override
   Widget build(BuildContext context) {
     var listImage = Provider.of<ImageListViewModel>(context);
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        backgroundColor: kPrimaryColor,
-        onPressed: () =>
-            {ImageService().uploadImage(widget.modelId), _reloadPage()},
-      ),
-      appBar: null,
-      backgroundColor: kBackgroundColor,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Center(
-              child: Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 20),
-                child: Text(
-                  'Gallery',
-                  style: TextStyle(
-                      color: kPrimaryColor,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold),
+    return SafeArea(
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          backgroundColor: kPrimaryColor,
+          onPressed: () =>
+              {ImageService().uploadImage(widget.modelId), _reloadPage()},
+        ),
+        backgroundColor: kBackgroundColor,
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Center(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 20, bottom: 20),
+                  child: Text(
+                    'Gallery',
+                    style: TextStyle(
+                        color: kPrimaryColor,
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(left: 5, right: 5),
-                child: StaggeredGridView.countBuilder(
-                    crossAxisCount: 2,
-                    itemCount: listImage.images.length,
-                    itemBuilder: (context, index) {
-                      return _buildImageList(
-                          (context), listImage.images[index]);
-                    },
-                    staggeredTileBuilder: (index) {
-                      return new StaggeredTile.count(1, index.isEven ? 1.2 : 2);
-                    }),
-              ),
-            )
-          ],
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(left: 5, right: 5),
+                  child: StaggeredGridView.countBuilder(
+                      crossAxisCount: 2,
+                      itemCount: listImage.images.length,
+                      itemBuilder: (context, index) {
+                        return _buildImageList(
+                            (context), listImage.images[index]);
+                      },
+                      staggeredTileBuilder: (index) {
+                        return new StaggeredTile.count(
+                            1, index.isEven ? 1.2 : 2);
+                      }),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -85,25 +87,36 @@ class _ModelImagePageState extends State<ModelImagePage> {
                 "Do you want to delete",
                 style: TextStyle(color: kPrimaryColor),
               ),
-              content: SingleChildScrollView(
-                  child: ButtonBar(
-                children: [
-                  FlatButton(
-                    onPressed: () {
-                      return null;
-                    },
-                    child: const Text('Cancel'),
+              actions: <Widget>[
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.grey),
                   ),
-                  FlatButton(
-                    onPressed: () async {
-                      ImageService().deleteImage(
-                          image.fileName, image.id, widget.modelId);
-                      await _reloadPage();
-                    },
-                    child: const Text('Delete'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    elevation: 0,
                   ),
-                ],
-              )),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    ImageService()
+                        .deleteImage(image.fileName, image.id, widget.modelId);
+                    await _reloadPage();
+                  },
+                  child: const Text(
+                    'Delete',
+                    style: TextStyle(color: kPrimaryColor),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                    elevation: 0,
+                  ),
+                ),
+              ],
             );
           });
     }

@@ -18,15 +18,43 @@ class CastingViewModel {
     return _casting.description;
   }
 
+  int get monopolyTime {
+    return _casting.monopolyTime;
+  }
+
   String get openTime {
     return _casting.openTime != null ? formatDate(_casting.openTime) : 'null';
+  }
+
+  DateTime get openTimeDateTime {
+    return parseDatetime(_casting.openTime);
   }
 
   String get closeTime {
     return _casting.closeTime != null ? formatDate(_casting.closeTime) : 'null';
   }
 
-  int get gifted {
+  DateTime get closeTimeDateTime {
+    return parseDatetime(_casting.closeTime);
+  }
+
+  int get status {
     return _casting.status;
+  }
+
+  String get customerId {
+    return _casting.customerId;
+  }
+
+  double get salary {
+    return _casting.salary;
+  }
+
+  String get customerName {
+    return _casting.customerName;
+  }
+
+  int get brandId {
+    return _casting.brandId;
   }
 }

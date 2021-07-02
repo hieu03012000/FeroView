@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:fero/screens/login_page.dart';
+import 'package:fero/screens/main_screen.dart';
 import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -23,7 +24,6 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final _user = FirebaseAuth.instance.currentUser();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,7 +35,8 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
           primarySwatch: Colors.blue,
         ),
-        home: MultiProvider(
+        home: 
+        MultiProvider(
           providers: [
             ChangeNotifierProvider(
               create: (_) => GoogleSignInProvider(),

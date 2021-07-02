@@ -20,4 +20,16 @@ class CastingService {
       throw Exception('Failed to load');
     }
   }
+
+  Future<List<Casting>> searchCastingList(String name, String min, String max) async {
+    final response =
+        await http.get(Uri.parse(baseUrl + 
+        "api/v1/castings/search?name=$name&min=$min&max=$max"));
+    if (response.statusCode == 200) {
+      var list = parseCastingList(response.body);
+      return list;
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
 }
