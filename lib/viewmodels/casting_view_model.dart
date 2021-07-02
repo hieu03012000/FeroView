@@ -22,8 +22,12 @@ class CastingViewModel {
     return _casting.monopolyTime;
   }
 
-  String get openTime {
+  String get openDate {
     return _casting.openTime != null ? formatDate(_casting.openTime) : 'null';
+  }
+
+  String get openTime {
+    return _casting.openTime != null ? formatTime(_casting.openTime) : 'null';
   }
 
   DateTime get openTimeDateTime {
@@ -31,6 +35,10 @@ class CastingViewModel {
   }
 
   String get closeTime {
+    return _casting.closeTime != null ? formatTime(_casting.closeTime) : 'null';
+  }
+
+  String get closeDate {
     return _casting.closeTime != null ? formatDate(_casting.closeTime) : 'null';
   }
 
@@ -46,8 +54,8 @@ class CastingViewModel {
     return _casting.customerId;
   }
 
-  double get salary {
-    return _casting.salary;
+  String get salary {
+    return formatCurrency(_casting.salary);
   }
 
   String get customerName {
@@ -56,5 +64,9 @@ class CastingViewModel {
 
   int get brandId {
     return _casting.brandId;
+  }
+
+  String get getStatus {
+    return getCastingStatus(_casting.openTime, _casting.closeTime);
   }
 }
