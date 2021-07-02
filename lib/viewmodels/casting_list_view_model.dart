@@ -14,4 +14,12 @@ class CastingListViewModel with ChangeNotifier {
     this.castings =
         list.map((casting) => CastingViewModel(casting: casting)).toList();
   }
+
+  Future<CastingListViewModel> searchCastingList(String name, String min, String max) async {
+    return Future.delayed(const Duration(seconds: 1), () async {
+      List<Casting> list = await CastingService().searchCastingList(name, min, max);
+      notifyListeners();
+      this.castings = list.map((casting) => CastingViewModel(casting: casting)).toList();
+    });
+  }
 }

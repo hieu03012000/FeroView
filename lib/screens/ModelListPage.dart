@@ -1,5 +1,4 @@
 // import 'package:fero/utils/constants.dart';
-// import 'package:fero/models/ModelList.dart';
 // import 'package:fero/screens/ModelDetailPage.dart';
 // import 'package:flutter/material.dart';
 
