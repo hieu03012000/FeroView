@@ -127,12 +127,67 @@ class CastingCard extends StatelessWidget {
             ]),
         child: Column(
           children: <Widget>[
-            Text(casting.name),
-            Text(casting.openTime),
-            Text(casting.closeTime),
-            Text(casting.customerName),
-            Text(casting.description),
-            Text(casting.salary.toString()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: Text(
+                    casting.name,
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: kPrimaryColor),
+                  ),
+                  padding: EdgeInsets.symmetric(vertical: 5),
+                ),
+                Container(
+                    child: Text(
+                      casting.getStatus,
+                      style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: kBackgroundColor),
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: casting.getStatus == 'Opening'
+                            ? Colors.green
+                            : casting.getStatus == 'Closed'
+                                ? kNumberColor
+                                : Colors.grey[800])),
+              ],
+            ),
+            Row(
+              children: [
+                Text(
+                  casting.salary,
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: kNumberColor),
+                ),
+              ],
+            ),
+            Container(
+              child: Text(
+                casting.description,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                softWrap: false,
+              ),
+              padding: EdgeInsets.symmetric(vertical: 10),
+            ),
+            Row(
+              children: [
+                Text('Open at: '),
+                Text(
+                  casting.openDate,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ],
         ),
       ),

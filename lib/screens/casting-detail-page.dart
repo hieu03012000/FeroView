@@ -60,7 +60,8 @@ class _CastingDetailPageState extends State<CastingDetailPage> {
 class ActionButton extends StatelessWidget {
   final DateTime open, close;
   final int castingId;
-  const ActionButton({Key key, this.open, this.close, this.castingId}) : super(key: key);
+  const ActionButton({Key key, this.open, this.close, this.castingId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +71,7 @@ class ActionButton extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () async {
-              await ApplyCastingSrevice().createApplyCasting(castingId);
+              await ApplyCastingSrevice().createApplyCasting(this.castingId);
             },
             child: Text('Apply'),
           )
