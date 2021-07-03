@@ -64,7 +64,8 @@ class ActionButton extends StatelessWidget {
   final DateTime open, close;
   final int castingId;
   final CastingViewModel casting;
-  const ActionButton({Key key, this.open, this.close, this.castingId, this.casting})
+  const ActionButton(
+      {Key key, this.open, this.close, this.castingId, this.casting})
       : super(key: key);
 
   @override
@@ -72,17 +73,16 @@ class ActionButton extends StatelessWidget {
     final DateTime currentDateTime = DateTime.now();
     if (open.isBefore(currentDateTime) && close.isAfter(currentDateTime)) {
       return FutureBuilder(
-        future: ApplyCastingSrevice().isApply(castingId),
+        future: ApplyCastingService().isApply(castingId),
         builder: (context, snapshot) {
           if (snapshot.data.toString() == 'true') {
             return Row(
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    await ApplyCastingSrevice()
+                    await ApplyCastingService()
                         .deleteApplyCasting(this.castingId);
-                  _reloadPage(context, this.casting);
-
+                    _reloadPage(context, this.casting);
                   },
                   child: Text('Cancel'),
                 )
@@ -93,10 +93,9 @@ class ActionButton extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    await ApplyCastingSrevice()
+                    await ApplyCastingService()
                         .createApplyCasting(this.castingId);
-                  _reloadPage(context, this.casting);
-
+                    _reloadPage(context, this.casting);
                   },
                   child: Text('Apply'),
                 )
@@ -114,19 +113,18 @@ class ActionButton extends StatelessWidget {
 
 void _reloadPage(BuildContext context, CastingViewModel casting) {
   Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MultiProvider(
-                      providers: [
-                        ChangeNotifierProvider(
-                            create: (_) => CastingListViewModel()),
-                      ],
-                      child: FutureBuilder(
-                        builder: (context, snapshot) {
-                          return CastingDetailPage(
-                            casting: casting,
-                          );
-                        },
-                      ))),
-        );
+    context,
+    MaterialPageRoute(
+        builder: (context) => MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(create: (_) => CastingListViewModel()),
+                ],
+                child: FutureBuilder(
+                  builder: (context, snapshot) {
+                    return CastingDetailPage(
+                      casting: casting,
+                    );
+                  },
+                ))),
+  );
 }

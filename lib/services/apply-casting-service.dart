@@ -5,7 +5,7 @@ import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
-class ApplyCastingSrevice {
+class ApplyCastingService {
   Future createApplyCasting(int castingId) async {
     var modelId = (await FlutterSession().get("modelId")).toString();
 
@@ -15,9 +15,9 @@ class ApplyCastingSrevice {
 
     final message = jsonEncode(params);
     final response = await http.post(
-      Uri.parse(baseUrl + 'api/v1/apply-castings'),
-      body: message,
-      headers: {"content-type": "application/json"});
+        Uri.parse(baseUrl + 'api/v1/apply-castings'),
+        body: message,
+        headers: {"content-type": "application/json"});
     if (response.statusCode == 200) {
       Fluttertoast.showToast(msg: 'Apply success');
     } else {
@@ -28,8 +28,8 @@ class ApplyCastingSrevice {
   Future deleteApplyCasting(int castingId) async {
     var modelId = (await FlutterSession().get("modelId")).toString();
 
-    final response = await http.delete(
-      Uri.parse(baseUrl + 'api/v1/apply-castings/cancel?modelId=$modelId&castingId=$castingId'));
+    final response = await http.delete(Uri.parse(baseUrl +
+        'api/v1/apply-castings/cancel?modelId=$modelId&castingId=$castingId'));
     if (response.statusCode == 200) {
       Fluttertoast.showToast(msg: 'Apply success');
     } else {
@@ -40,15 +40,14 @@ class ApplyCastingSrevice {
   Future<bool> isApply(int castingId) async {
     var modelId = (await FlutterSession().get("modelId")).toString();
 
-    final response = await http.get(
-      Uri.parse(baseUrl + 
-      'api/v1/apply-castings/check?modelId=$modelId&castingId=$castingId'));
+    final response = await http.get(Uri.parse(baseUrl +
+        'api/v1/apply-castings/check?modelId=$modelId&castingId=$castingId'));
     if (response.statusCode == 200) {
       final res = response.body;
-      if(res == 'true') {
+      if (res == 'true') {
         return true;
       }
-      return false;      
+      return false;
     } else {
       throw Exception('Failed to load');
     }

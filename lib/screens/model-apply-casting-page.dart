@@ -1,7 +1,5 @@
-import 'package:fero/screens/casting-detail-page.dart';
-import 'package:fero/utils/constants.dart';
+import 'package:fero/components/casting_card.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
-import 'package:fero/viewmodels/casting_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +8,7 @@ class ModelApplyCastingPage extends StatelessWidget {
   const ModelApplyCastingPage({Key key}) : super(key: key);
 
   @override
-Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
@@ -53,7 +51,12 @@ Widget build(BuildContext context) {
                                     list: data,
                                   ));
                         } else {
-                          return Center(child: SizedBox(child: Text('You haven\'t applied to any casting'),),);
+                          return Center(
+                            child: SizedBox(
+                              child:
+                                  Text('You haven\'t applied to any casting'),
+                            ),
+                          );
                         }
                       }
                     }),
@@ -66,73 +69,6 @@ Widget build(BuildContext context) {
   }
 }
 
-class CastingListComponent extends StatelessWidget {
-  final CastingListViewModel list;
-  const CastingListComponent({Key key, this.list}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: list.castings.length,
-      itemBuilder: (context, index) {
-        return CastingCard(casting: list.castings[index]);
-      },
-    );
-  }
-}
-
-class CastingCard extends StatelessWidget {
-  final CastingViewModel casting;
-  const CastingCard({Key key, this.casting}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => MultiProvider(
-                      providers: [
-                        ChangeNotifierProvider(
-                            create: (_) => CastingListViewModel()),
-                      ],
-                      child: FutureBuilder(
-                        builder: (context, snapshot) {
-                          return CastingDetailPage(
-                            casting: casting,
-                          );
-                        },
-                      ))),
-        );
-      },
-      child: Container(
-        padding: EdgeInsets.all(10),
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: kPrimaryColor,
-                offset: Offset(0, 5),
-                blurRadius: 10,
-              )
-            ]),
-        child: Column(
-          children: <Widget>[
-            Text(casting.name),
-            Text(casting.openTime),
-            Text(casting.closeTime),
-            Text(casting.customerName),
-            Text(casting.description),
-            Text(casting.salary.toString()),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 // void _showDialog(BuildContext context) {
 //   TextEditingController nameController, minController, maxController;
