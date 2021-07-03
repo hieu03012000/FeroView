@@ -70,7 +70,7 @@ class ActionButton extends StatelessWidget {
         children: [
           ElevatedButton(
             onPressed: () async {
-              await ApplyCastingSrevice().createApplyCasting()
+              await ApplyCastingSrevice().createApplyCasting(castingId);
             },
             child: Text('Apply'),
           )
