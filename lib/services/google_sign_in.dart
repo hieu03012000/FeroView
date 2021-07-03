@@ -54,6 +54,17 @@ class GoogleSignInProvider extends ChangeNotifier {
     }
   }
 
+  Future<int> checkLogin() async {
+    int result = 0;
+    if (await googleSignIn.isSignedIn()) {
+      dynamic status = (await FlutterSession().get("modelStatus")).toString();
+      if (status == '0') result = 1;
+      if (status == '1') result = 2;
+    }
+    notifyListeners();
+    return result;
+  }
+
   Future<GoogleSignInAccount> googleSignUp() async {
     try {
       final googleUser = await googleSignIn.signIn();
@@ -77,7 +88,8 @@ class GoogleSignInProvider extends ChangeNotifier {
     }
   }
 
-  Future createAccountDB(Map<String, dynamic> params, GoogleSignInAccount user) async {
+  Future createAccountDB(
+      Map<String, dynamic> params, GoogleSignInAccount user) async {
     final message = jsonEncode(params);
     final response = await http.post(Uri.parse(baseUrl + 'api/v1/models'),
         body: message, headers: {"content-type": "application/json"});

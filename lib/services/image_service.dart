@@ -53,7 +53,7 @@ class ImageService {
     }
   }
 
-  void uploadImage(String modelId) async {
+  Future uploadImage(String modelId) async {
     final _firebaseStorage = FirebaseStorage.instance;
     final _imagePicker = ImagePicker();
     PickedFile image;
@@ -79,7 +79,7 @@ class ImageService {
 
       final message = jsonEncode(params);
       final response = await http.post(
-          Uri.parse(baseUrl + 'api/v1/models/${modelId}/image'),
+          Uri.parse(baseUrl + 'api/v1/models/$modelId/image'),
           body: message,
           headers: {"content-type": "application/json"});
       if (response.statusCode == 200) {
@@ -89,7 +89,7 @@ class ImageService {
     }
   }
 
-  Future<void> deleteImage(
+  Future deleteImage(
       String imageFileUrl, int imageId, String modelId) async {
     var ids = [imageId];
 

@@ -6,11 +6,9 @@ import 'package:flutter/material.dart';
 class ImageListViewModel with ChangeNotifier {
   List<ModelImageViewModel> images = List<ModelImageViewModel>();
 
-  void topHeadlines(String modelId) async {
+  Future<ImageListViewModel> getImageList(String modelId) async {
     List<ModelImage> list = await ImageService().getImageList(modelId);
-    // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
-
     this.images =
         list.map((images) => ModelImageViewModel(image: images)).toList();
   }

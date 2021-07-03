@@ -2,14 +2,10 @@ import 'package:fero/animations/fade_animation.dart';
 import 'package:fero/screens/create-account-page.dart';
 import 'package:fero/screens/main_screen_not_active.dart';
 import 'package:fero/screens/main_screen.dart';
-import 'package:fero/screens/model_profile_page.dart';
-import 'package:fero/services/auth.dart';
 import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/utils/constants.dart';
-import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_session/flutter_session.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 

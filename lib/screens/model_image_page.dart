@@ -21,20 +21,19 @@ class _ModelImagePageState extends State<ModelImagePage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<ImageListViewModel>(context, listen: false)
-        .topHeadlines(widget.modelId);
   }
 
   @override
   Widget build(BuildContext context) {
-    var listImage = Provider.of<ImageListViewModel>(context);
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           backgroundColor: kPrimaryColor,
-          onPressed: () =>
-              {ImageService().uploadImage(widget.modelId), _reloadPage()},
+          onPressed: () async =>
+              {
+                await ImageService().uploadImage(widget.modelId),
+                _reloadPage()},
         ),
         backgroundColor: kBackgroundColor,
         body: SafeArea(
@@ -55,19 +54,43 @@ class _ModelImagePageState extends State<ModelImagePage> {
               ),
               Expanded(
                 child: Padding(
-                  padding: EdgeInsets.only(left: 5, right: 5),
-                  child: StaggeredGridView.countBuilder(
-                      crossAxisCount: 2,
-                      itemCount: listImage.images.length,
-                      itemBuilder: (context, index) {
-                        return _buildImageList(
-                            (context), listImage.images[index]);
+                    padding: EdgeInsets.only(left: 5, right: 5),
+                    child: FutureBuilder<ImageListViewModel>(
+                      future: Provider.of<ImageListViewModel>(context,
+                              listen: false)
+                          .getImageList(widget.modelId),
+                      builder: (context, data) {
+                        if (data.connectionState == ConnectionState.waiting) {
+                          return Column(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 150,
+                              ),
+                              Center(child: CircularProgressIndicator()),
+                            ],
+                          );
+                        } else {
+                          if (data.error == null) {
+                            return Consumer<ImageListViewModel>(
+                              builder: (ctx, data, child) =>
+                                  StaggeredGridView.countBuilder(
+                                      crossAxisCount: 2,
+                                      itemCount: data.images.length,
+                                      itemBuilder: (context, index) {
+                                        return _buildImageList(
+                                            (context), data.images[index]);
+                                      },
+                                      staggeredTileBuilder: (index) {
+                                        return new StaggeredTile.count(
+                                            1, index.isEven ? 1.2 : 2);
+                                      }),
+                            );
+                          } else {
+                            return Text('Error');
+                          }
+                        }
                       },
-                      staggeredTileBuilder: (index) {
-                        return new StaggeredTile.count(
-                            1, index.isEven ? 1.2 : 2);
-                      }),
-                ),
+                    )),
               )
             ],
           ),
@@ -103,9 +126,9 @@ class _ModelImagePageState extends State<ModelImagePage> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    ImageService()
+                    await ImageService()
                         .deleteImage(image.fileName, image.id, widget.modelId);
-                    await _reloadPage();
+                    _reloadPage();
                   },
                   child: const Text(
                     'Delete',
@@ -124,9 +147,6 @@ class _ModelImagePageState extends State<ModelImagePage> {
     return GestureDetector(
         onLongPress: () => {
               _showDialog(context),
-              setState(() {
-                isSelect = !isSelect;
-              })
             },
         child: (!isSelect)
             ? Container(
@@ -168,20 +188,19 @@ class _ModelImagePageState extends State<ModelImagePage> {
   }
 
   Future _reloadPage() async {
-    setState(() {});
     dynamic status = (await FlutterSession().get('modelStatus')).toString();
     if (status == '1') {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MainScreen(page: 4),
+            builder: (context) => MainScreen(page: 3),
           ));
     }
     if (status == '0') {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MainScreenNotActive(page: 1),
+            builder: (context) => MainScreenNotActive(page: 0),
           ));
     }
   }
