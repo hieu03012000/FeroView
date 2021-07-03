@@ -102,7 +102,7 @@ class _CastingState extends State<Casting> {
                               color: kTextColor.withOpacity(0.8), fontSize: 12),
                         ),
                         Text(
-                          list.openTime != null ? list.openTime : "",
+                          list.openDate,
                           style: TextStyle(
                               color: kPrimaryColor.withOpacity(0.8),
                               fontSize: 12),
@@ -119,7 +119,7 @@ class _CastingState extends State<Casting> {
                               color: kTextColor.withOpacity(0.8), fontSize: 12),
                         ),
                         Text(
-                          list.openTime != null ? list.closeTime : "",
+                          list.closeDate,
                           style: TextStyle(
                               color: kPrimaryColor.withOpacity(0.8),
                               fontSize: 12),
