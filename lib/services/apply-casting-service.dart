@@ -14,8 +14,8 @@ class ApplyCastingSrevice {
     params['castingId'] = castingId;
 
     final message = jsonEncode(params);
-    final response = await http.put(
-      Uri.parse(baseUrl + '/api/v1/apply-castings'),
+    final response = await http.post(
+      Uri.parse(baseUrl + 'api/v1/apply-castings'),
       body: message,
       headers: {"content-type": "application/json"});
     if (response.statusCode == 200) {
@@ -25,22 +25,24 @@ class ApplyCastingSrevice {
     }
   }
 
-  // Future<bool> isApply(int castingId) async {
-  //   var modelId = (await FlutterSession().get("modelId")).toString();
+  Future<bool> isApply(int castingId) async {
+    var modelId = (await FlutterSession().get("modelId")).toString();
 
-  //   Map<String, dynamic> params = Map<String, dynamic>();
-  //   params['modelId'] = modelId;
-  //   params['castingId'] = castingId;
+    Map<String, dynamic> params = Map<String, dynamic>();
+    params['modelId'] = modelId;
+    params['castingId'] = castingId;
 
-  //   final message = jsonEncode(params);
-  //   final response = await http.put(
-  //     Uri.parse(baseUrl + '/api/v1/apply-castings'),
-  //     body: message,
-  //     headers: {"content-type": "application/json"});
-  //   if (response.statusCode == 200) {
-  //     Fluttertoast.showToast(msg: 'Apply success');
-  //   } else {
-  //     throw Exception('Failed to load');
-  //   }
-  // }
+    final response = await http.get(
+      Uri.parse(baseUrl + 
+      'api/v1/apply-castings/check?modelId=$modelId&castingId=$castingId'));
+    if (response.statusCode == 200) {
+      final res = response.body;
+      if(res == 'true') {
+        return true;
+      }
+      return false;      
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
 }

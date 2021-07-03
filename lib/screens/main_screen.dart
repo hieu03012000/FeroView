@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fero/screens/home_page.dart';
+import 'package:fero/screens/model-apply-casting-page.dart';
 import 'package:fero/screens/model_image_page.dart';
 import 'package:fero/screens/model_profile_page.dart';
 import 'package:fero/screens/model_schedule_page.dart';
@@ -44,13 +45,11 @@ class _MainScreenState extends State<MainScreen> {
         )),
     MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => TaskListViewModel()),
+          ChangeNotifierProvider(create: (_) => CastingListViewModel()),
         ],
         child: FutureBuilder(
           builder: (context, snapshot) {
-            return ModelSchedulePage(
-              modelId: snapshot.data.toString(),
-            );
+            return ModelApplyCastingPage();
           },
         )),
     MultiProvider(providers: [
