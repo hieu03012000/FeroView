@@ -67,15 +67,35 @@ class ActionButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final DateTime currentDateTime = DateTime.now();
     if (open.isBefore(currentDateTime) && close.isAfter(currentDateTime)) {
-      return Row(
-        children: [
-          ElevatedButton(
-            onPressed: () async {
-              await ApplyCastingSrevice().createApplyCasting(this.castingId);
-            },
-            child: Text('Apply'),
-          )
-        ],
+      return FutureBuilder(
+        future: ApplyCastingSrevice().isApply(castingId),
+        builder: (context, snapshot) {
+          if (snapshot.data.toString() == 'true') {
+            return Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    await ApplyCastingSrevice()
+                        .deleteApplyCasting(this.castingId);
+                  },
+                  child: Text('Cancel'),
+                )
+              ],
+            );
+          } else {
+            return Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () async {
+                    await ApplyCastingSrevice()
+                        .createApplyCasting(this.castingId);
+                  },
+                  child: Text('Apply'),
+                )
+              ],
+            );
+          }
+        },
       );
     }
     return Container(

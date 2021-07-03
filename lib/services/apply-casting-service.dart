@@ -25,12 +25,20 @@ class ApplyCastingSrevice {
     }
   }
 
-  Future<bool> isApply(int castingId) async {
+  Future deleteApplyCasting(int castingId) async {
     var modelId = (await FlutterSession().get("modelId")).toString();
 
-    Map<String, dynamic> params = Map<String, dynamic>();
-    params['modelId'] = modelId;
-    params['castingId'] = castingId;
+    final response = await http.delete(
+      Uri.parse(baseUrl + 'api/v1/apply-castings/cancel?modelId=$modelId&castingId=$castingId'));
+    if (response.statusCode == 200) {
+      Fluttertoast.showToast(msg: 'Apply success');
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<bool> isApply(int castingId) async {
+    var modelId = (await FlutterSession().get("modelId")).toString();
 
     final response = await http.get(
       Uri.parse(baseUrl + 
