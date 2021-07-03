@@ -1,4 +1,5 @@
 import 'package:fero/services/apply-casting-service.dart';
+import 'package:fero/utils/common.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:fero/viewmodels/casting_view_model.dart';
@@ -23,6 +24,7 @@ class _CastingDetailPageState extends State<CastingDetailPage> {
           title: Text(widget.casting.name + ' Casting'),
         ),
         body: Container(
+          height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.all(10),
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           decoration: BoxDecoration(
@@ -35,24 +37,221 @@ class _CastingDetailPageState extends State<CastingDetailPage> {
                   blurRadius: 10,
                 )
               ]),
-          child: Column(
-            children: <Widget>[
-              Text(widget.casting.name),
-              Text(widget.casting.openTime),
-              Text(widget.casting.closeTime),
-              Text(widget.casting.customerName),
-              Text(widget.casting.description),
-              Text(widget.casting.salary.toString()),
-              SizedBox(
-                height: 20,
-              ),
-              ActionButton(
-                open: widget.casting.openTimeDateTime,
-                close: widget.casting.closeTimeDateTime,
-                castingId: widget.casting.id,
-                casting: widget.casting,
-              )
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Text(
+                        widget.casting.name,
+                        style: TextStyle(
+                            color: kPrimaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24),
+                        textAlign: TextAlign.center,
+                      ),
+                      Container(
+                          margin: EdgeInsets.symmetric(vertical: 15),
+                          child: Text(
+                            widget.casting.getStatus,
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: kBackgroundColor),
+                          ),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: widget.casting.getStatus == 'Opening'
+                                  ? Colors.green
+                                  : widget.casting.getStatus == 'Closed'
+                                      ? kNumberColor
+                                      : Colors.grey[800])),
+                      Row(
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 80,
+                            child: Text(
+                              'Open at:',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Container(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(right: 5),
+                                      child: Icon(
+                                        Icons.event_available,
+                                      )),
+                                  Text(
+                                    widget.casting.openDate,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(right: 5),
+                                      child: Icon(
+                                        Icons.schedule,
+                                      )),
+                                  Text(
+                                    widget.casting.openTime,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              )
+                            ],
+                          )),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            height: 50,
+                            width: 80,
+                            child: Text(
+                              'Close at:',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Container(
+                              child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(right: 5),
+                                      child: Icon(
+                                        Icons.event_available,
+                                      )),
+                                  Text(
+                                    widget.casting.closeDate,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Padding(
+                                      padding: EdgeInsets.only(right: 5),
+                                      child: Icon(
+                                        Icons.schedule,
+                                      )),
+                                  Text(
+                                    widget.casting.closeTime,
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              )
+                            ],
+                          )),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 120,
+                            child: Text(
+                              'Salary:',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Container(
+                              child: Text(
+                            widget.casting.salary,
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: kNumberColor),
+                          )),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: 120,
+                            child: Text(
+                              'Organised by:',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          Container(
+                              width: 160,
+                              child: Text(
+                                widget.casting.customerName,
+                                style: TextStyle(fontSize: 16),
+                              )),
+                        ],
+                      ),
+                      const Divider(height: 40, thickness: 1),
+                      Row(
+                        children: [
+                          Container(
+                            child: Text(
+                              'Description:',
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(top: 5),
+                        child: Text(
+                          widget.casting.description,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 116),
+                  child: ActionButton(
+                    open: widget.casting.openTimeDateTime,
+                    close: widget.casting.closeTimeDateTime,
+                    castingId: widget.casting.id,
+                    casting: widget.casting,
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -79,6 +278,11 @@ class ActionButton extends StatelessWidget {
             return Row(
               children: [
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.grey,
+                    elevation: 0,
+                    minimumSize: Size(10, 50),
+                  ),
                   onPressed: () async {
                     await ApplyCastingService()
                         .deleteApplyCasting(this.castingId);
@@ -92,6 +296,11 @@ class ActionButton extends StatelessWidget {
             return Row(
               children: [
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: kPrimaryColor,
+                    elevation: 0,
+                    minimumSize: Size(10, 50),
+                  ),
                   onPressed: () async {
                     await ApplyCastingService()
                         .createApplyCasting(this.castingId);
