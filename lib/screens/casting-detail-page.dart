@@ -1,8 +1,10 @@
 import 'package:fero/services/apply-casting-service.dart';
 import 'package:fero/utils/constants.dart';
+import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:fero/viewmodels/casting_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CastingDetailPage extends StatefulWidget {
   final CastingViewModel casting;
@@ -48,6 +50,7 @@ class _CastingDetailPageState extends State<CastingDetailPage> {
                 open: widget.casting.openTimeDateTime,
                 close: widget.casting.closeTimeDateTime,
                 castingId: widget.casting.id,
+                casting: widget.casting,
               )
             ],
           ),
@@ -60,7 +63,8 @@ class _CastingDetailPageState extends State<CastingDetailPage> {
 class ActionButton extends StatelessWidget {
   final DateTime open, close;
   final int castingId;
-  const ActionButton({Key key, this.open, this.close, this.castingId})
+  final CastingViewModel casting;
+  const ActionButton({Key key, this.open, this.close, this.castingId, this.casting})
       : super(key: key);
 
   @override
@@ -77,6 +81,8 @@ class ActionButton extends StatelessWidget {
                   onPressed: () async {
                     await ApplyCastingSrevice()
                         .deleteApplyCasting(this.castingId);
+                  _reloadPage(context, this.casting);
+
                   },
                   child: Text('Cancel'),
                 )
@@ -89,6 +95,8 @@ class ActionButton extends StatelessWidget {
                   onPressed: () async {
                     await ApplyCastingSrevice()
                         .createApplyCasting(this.castingId);
+                  _reloadPage(context, this.casting);
+
                   },
                   child: Text('Apply'),
                 )
@@ -102,4 +110,23 @@ class ActionButton extends StatelessWidget {
       child: null,
     );
   }
+}
+
+void _reloadPage(BuildContext context, CastingViewModel casting) {
+  Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => MultiProvider(
+                      providers: [
+                        ChangeNotifierProvider(
+                            create: (_) => CastingListViewModel()),
+                      ],
+                      child: FutureBuilder(
+                        builder: (context, snapshot) {
+                          return CastingDetailPage(
+                            casting: casting,
+                          );
+                        },
+                      ))),
+        );
 }
