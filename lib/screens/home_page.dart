@@ -1,6 +1,6 @@
 import 'package:fero/components/casting_list_view.dart';
 import 'package:fero/screens/notification_page.dart';
-import 'package:fero/screens/search-casting-page.dart';
+import 'package:fero/screens/search_casting_page.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:flutter/gestures.dart';

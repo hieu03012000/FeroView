@@ -1,4 +1,4 @@
-import 'package:fero/screens/casting-detail-page.dart';
+import 'package:fero/screens/casting_detail_page.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:fero/viewmodels/casting_view_model.dart';

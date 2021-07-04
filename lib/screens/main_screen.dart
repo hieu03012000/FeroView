@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fero/screens/home_page.dart';
-import 'package:fero/screens/model-apply-casting-page.dart';
+import 'package:fero/screens/model_apply_casting_page.dart';
 import 'package:fero/screens/model_image_page.dart';
 import 'package:fero/screens/model_profile_page.dart';
 import 'package:fero/screens/model_schedule_page.dart';
