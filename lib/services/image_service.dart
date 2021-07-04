@@ -16,8 +16,7 @@ void uploadFireBase(String path, String modelId) async {
   var snapshot = await _firebaseStorage
       .ref()
       .child('models/' + modelId + "/avatar/images.jpg")
-      .putFile(file)
-      .onComplete;
+      .putFile(file);
   var downloadUrl = await snapshot.ref.getDownloadURL();
 
   Map<String, dynamic> params = Map<String, dynamic>();
@@ -70,8 +69,7 @@ class ImageService {
               '/body/M' +
               DateTime.now().toString() +
               '.jpg')
-          .putFile(file)
-          .onComplete;
+          .putFile(file);
       var downloadUrl = await snapshot.ref.getDownloadURL();
 
       Map<String, dynamic> params = Map<String, dynamic>();
@@ -99,7 +97,7 @@ class ImageService {
 
     var fileUrl = Uri.decodeFull(Path.basename(imageFileUrl))
         .replaceAll(new RegExp(r'(\?alt).*'), '');
-    final StorageReference firebaseStorageRef =
+    final firebaseStorageRef =
         FirebaseStorage.instance.ref().child(fileUrl);
     await firebaseStorageRef.delete();
 

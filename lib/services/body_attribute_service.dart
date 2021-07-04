@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:fero/models/body-attribute.dart';
 import 'package:fero/utils/constants.dart';
-import 'package:fero/viewmodels/body-attribut-list-view-model.dart';
-import 'package:fero/viewmodels/body-attribute-view-model.dart';
 import 'package:http/http.dart' as http;
 
 class ModelAttributeService {

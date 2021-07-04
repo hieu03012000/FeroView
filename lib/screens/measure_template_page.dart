@@ -1,7 +1,6 @@
-import 'package:fero/screens/main_screen.dart';
-import 'package:fero/screens/update-measure.dart';
+import 'package:fero/screens/update_measure_page.dart';
 import 'package:fero/utils/constants.dart';
-import 'package:fero/viewmodels/body-attribut-list-view-model.dart';
+import 'package:fero/viewmodels/body_attribut_list_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,8 +1,8 @@
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/screens/main_screen_not_active.dart';
 import 'package:fero/utils/constants.dart';
-import 'package:fero/viewmodels/body-attribut-list-view-model.dart';
-import 'package:fero/viewmodels/body-attribute-view-model.dart';
+import 'package:fero/viewmodels/body_attribut_list_view_model.dart';
+import 'package:fero/viewmodels/body_attribute_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';

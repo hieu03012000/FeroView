@@ -1,6 +1,6 @@
 import 'package:fero/models/body-attribute.dart';
-import 'package:fero/services/body-attribute-service.dart';
-import 'package:fero/viewmodels/body-attribute-view-model.dart';
+import 'package:fero/services/body_attribute_service.dart';
+import 'package:fero/viewmodels/body_attribute_view_model.dart';
 import 'package:flutter/material.dart';
 
 class BodyAttributeListViewModel with ChangeNotifier {

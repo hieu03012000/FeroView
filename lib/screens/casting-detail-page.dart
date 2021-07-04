@@ -1,4 +1,4 @@
-import 'package:fero/services/apply-casting-service.dart';
+import 'package:fero/services/apply_casting_service.dart';
 import 'package:fero/utils/common.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';

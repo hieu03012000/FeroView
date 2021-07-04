@@ -36,7 +36,7 @@ class GoogleSignInProvider extends ChangeNotifier {
 
       final googleAuth = await googleUser.authentication;
 
-      final credential = GoogleAuthProvider.getCredential(
+      final credential = GoogleAuthProvider.credential(
           idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
 
       await FirebaseAuth.instance.signInWithCredential(credential);
@@ -97,7 +97,7 @@ class GoogleSignInProvider extends ChangeNotifier {
     if (response.statusCode == 200) {
       var responseBody = LoginModel.fromJson(jsonDecode(response.body));
       final googleAuth = await user.authentication;
-      final credential = GoogleAuthProvider.getCredential(
+      final credential = GoogleAuthProvider.credential(
           idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
       await FirebaseAuth.instance.signInWithCredential(credential);
       Fluttertoast.showToast(msg: 'Create success');

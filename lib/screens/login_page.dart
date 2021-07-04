@@ -1,5 +1,5 @@
 import 'package:fero/animations/fade_animation.dart';
-import 'package:fero/screens/create-account-page.dart';
+import 'package:fero/screens/create_account_page.dart';
 import 'package:fero/screens/main_screen_not_active.dart';
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/services/google_sign_in.dart';

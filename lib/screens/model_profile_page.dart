@@ -1,6 +1,6 @@
 import 'package:fero/screens/change_avatar_page.dart';
 import 'package:fero/screens/login_page.dart';
-import 'package:fero/screens/measure-template-page.dart';
+import 'package:fero/screens/measure_template_page.dart';
 import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/screens/update_profile_page.dart';
