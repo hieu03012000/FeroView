@@ -78,7 +78,7 @@ class CompButton extends StatelessWidget {
           color: Color(0xFFF0F0F0),
           onPressed: () {
             temp != 'Upper part' && temp != 'Bottom'
-                ? Navigator.of(context).pushReplacement(MaterialPageRoute(
+                ? Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) => MultiProvider(
                         providers: [
                           ChangeNotifierProvider(
@@ -89,7 +89,7 @@ class CompButton extends StatelessWidget {
                           template: temp,
                         )),
                   ))
-                : Navigator.of(context).pushReplacement(MaterialPageRoute(
+                : Navigator.of(context).push(MaterialPageRoute(
                     builder: (context) =>
                         MeasureTemplatePage(modelId: modelId, template: temp),
                   ));

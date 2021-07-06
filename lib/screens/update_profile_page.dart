@@ -22,7 +22,7 @@ class _UpdateModelProfilePageState extends State<UpdateModelProfilePage> {
     super.initState();
     // PushNotificationService().init(context);
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -98,6 +98,8 @@ class _ModelUpdateState extends State<ModelUpdate> {
       addressController,
       giftedController;
 
+  GlobalKey<FormState> _profileKey = GlobalKey<FormState>();
+
   @override
   void dispose() {
     nameController.dispose();
@@ -160,147 +162,134 @@ class _ModelUpdateState extends State<ModelUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        width: 300,
-        child: ListView(
-          children: [
-            TextFormField(
-              controller: nameController,
-              cursorColor: kPrimaryColor,
-              decoration: InputDecoration(
-                icon: Icon(Icons.drive_file_rename_outline),
-                labelText: 'Name',
-                // suffixIcon: Icon(
-                //   Icons.check_circle,
-                // ),
-              ),
-            ),
-            DropdownButtonFormField(
-              value: genderController,
-              decoration: InputDecoration(
-                icon: Icon(Icons.drive_file_rename_outline),
-                labelText: 'Gender',
-                // suffixIcon: Icon(
-                //   Icons.check_circle,
-                // ),
-              ),
-              items: [
-                DropdownMenuItem(
-                  child: Text("Male"),
-                  value: 0,
+    return Form(
+      key: _profileKey,
+      child: Column(
+        children: [
+          Container(
+            child: ListView(
+              shrinkWrap: true,
+              padding: EdgeInsets.all(30),
+              children: [
+                TextFormField(
+                  controller: nameController,
+                  cursorColor: kPrimaryColor,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.drive_file_rename_outline),
+                    labelText: 'Name',
+                    // suffixIcon: Icon(
+                    //   Icons.check_circle,
+                    // ),
+                  ),
                 ),
-                DropdownMenuItem(
-                  child: Text("Female"),
-                  value: 1,
-                )
+                DropdownButtonFormField(
+                  value: genderController,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.drive_file_rename_outline),
+                    labelText: 'Gender',
+                    // suffixIcon: Icon(
+                    //   Icons.check_circle,
+                    // ),
+                  ),
+                  items: [
+                    DropdownMenuItem(
+                      child: Text("Male"),
+                      value: 0,
+                    ),
+                    DropdownMenuItem(
+                      child: Text("Female"),
+                      value: 1,
+                    )
+                  ],
+                  onChanged: (int value) {
+                    setState(() {
+                      genderController = value;
+                    });
+                  },
+                ),
+                TextFormField(
+                  controller: dobController,
+                  cursorColor: kPrimaryColor,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.drive_file_rename_outline),
+                    labelText: 'Date of birth',
+                    // suffixIcon: Icon(
+                    //   Icons.check_circle,
+                    // ),
+                  ),
+                ),
+                ElevatedButton.icon(
+                  onPressed: _selectDate,
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.transparent,
+                    elevation: 0,
+                    minimumSize: Size(10, 50),
+                    onPrimary: kPrimaryColor,
+                  ),
+                  icon: Icon(
+                    Icons.calendar_today,
+                  ),
+                  label: Text(''),
+                ),
+                TextFormField(
+                  cursorColor: kPrimaryColor,
+                  controller: phoneController,
+                  decoration: InputDecoration(
+                    icon: Icon(Icons.drive_file_rename_outline),
+                    labelText: 'Phone number',
+                    // suffixIcon: Icon(
+                    //   Icons.check_circle,
+                    // ),
+                  ),
+                ),
+                TextFormField(
+                    cursorColor: kPrimaryColor,
+                    controller: addressController,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.drive_file_rename_outline),
+                      labelText: 'Address',
+                      // suffixIcon: Icon(
+                      //   Icons.check_circle,
+                      // ),
+                    )),
+                TextFormField(
+                    cursorColor: kPrimaryColor,
+                    controller: giftedController,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.drive_file_rename_outline),
+                      labelText: 'Gifted',
+                      // suffixIcon: Icon(
+                      //   Icons.check_circle,
+                      // ),
+                    )),
+                SizedBox(
+                  height: 30,
+                ),
               ],
-              onChanged: (int value) {
-                setState(() {
-                  genderController = value;
-                });
-              },
             ),
-            TextFormField(
-              controller: dobController,
-              cursorColor: kPrimaryColor,
-              decoration: InputDecoration(
-                icon: Icon(Icons.drive_file_rename_outline),
-                labelText: 'Date of birth',
-                // suffixIcon: Icon(
-                //   Icons.check_circle,
-                // ),
-              ),
-            ),
-            ElevatedButton.icon(
-              onPressed: _selectDate,
-              style: ElevatedButton.styleFrom(
-                primary: Colors.transparent,
-                elevation: 0,
-                minimumSize: Size(10, 50),
-                onPrimary: kPrimaryColor,
-              ),
-              icon: Icon(
-                Icons.calendar_today,
-              ),
-              label: Text(''),
-            ),
-            TextFormField(
-              cursorColor: kPrimaryColor,
-              controller: phoneController,
-              decoration: InputDecoration(
-                icon: Icon(Icons.drive_file_rename_outline),
-                labelText: 'Phone number',
-                // suffixIcon: Icon(
-                //   Icons.check_circle,
-                // ),
-              ),
-            ),
-            TextFormField(
-                cursorColor: kPrimaryColor,
-                controller: addressController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.drive_file_rename_outline),
-                  labelText: 'Address',
-                  // suffixIcon: Icon(
-                  //   Icons.check_circle,
-                  // ),
-                )),
-            TextFormField(
-                cursorColor: kPrimaryColor,
-                controller: giftedController,
-                decoration: InputDecoration(
-                  icon: Icon(Icons.drive_file_rename_outline),
-                  labelText: 'Gifted',
-                  // suffixIcon: Icon(
-                  //   Icons.check_circle,
-                  // ),
-                )),
-            SizedBox(
-              height: 30,
-            ),
-            ElevatedButton(
-              child: Text('UPDATE'),
-              onPressed: () async {
-                Map<String, dynamic> params = Map<String, dynamic>();
-                params['id'] = widget.modelDetail.id;
-                params['name'] = nameController.text;
-                params['gender'] = genderController;
-                params['dateOfBirth'] = _date.toString();
-                params['subAddress'] = addressController.text;
-                params['phone'] = phoneController.text;
-                params['gifted'] = giftedController.text;
-                await Provider.of<ModelViewModel>(context, listen: false)
-                    .updateProfileModel(params);
-                // Navigator.of(context).push(MaterialPageRoute(
-                //     builder: (_) =>
-                //         ChangeNotifierProvider<ModelViewModel>.value(
-                //             value: widget.modelDetail,
-                //             child: ModelProfilePage(
-                //                 modelId: widget.modelDetail.id))));
-                dynamic status =
-                    (await FlutterSession().get('modelStatus')).toString();
-                if (status == '1') {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MainScreen(),
-                      ));
-                }
-                if (status == '0') {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MainScreenNotActive(),
-                      ));
-                }
-              },
-              style: ElevatedButton.styleFrom(
+          ),
+          ElevatedButton(
+            child: Text('UPDATE'),
+            onPressed: () async {
+              Map<String, dynamic> params = Map<String, dynamic>();
+              params['id'] = widget.modelDetail.id;
+              params['name'] = nameController.text;
+              params['gender'] = genderController;
+              params['dateOfBirth'] = _date.toString();
+              params['subAddress'] = addressController.text;
+              params['phone'] = phoneController.text;
+              params['gifted'] = giftedController.text;
+              await Provider.of<ModelViewModel>(context, listen: false)
+                  .updateProfileModel(params);
+              Navigator.pop(context);
+            },
+            style: ElevatedButton.styleFrom(
                 primary: kPrimaryColor,
                 elevation: 0,
-                minimumSize: Size(10, 50),
-              ),
-            ),
-          ],
-        ));
+                minimumSize: Size(10, 50)),
+          ),
+        ],
+      ),
+    );
   }
 }

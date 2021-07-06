@@ -119,19 +119,20 @@ class _AttViewState extends State<AttView> {
     return Scaffold(
       body: Column(
         children: [
-          Expanded(
-            child: SizedBox(
-                child: new ListView.builder(
-              padding: EdgeInsets.all(30),
-              itemCount: widget.atts.atts.length,
-              itemBuilder: (context, index) {
-                return MeasureComponent(
-                  model: widget.atts.atts[index],
-                  controller: widget.list?.elementAt(index) ?? '',
-                );
-              },
-            )),
-          ),
+          Container(
+              child: new ListView.builder(
+            shrinkWrap: true,
+            padding: EdgeInsets.all(30),
+            itemCount: widget.atts.atts.length,
+            itemBuilder: (context, index) {
+              return MeasureComponent(
+                model: widget.atts.atts[index],
+                controller: widget.list?.elementAt(index) ?? '',
+              );
+            },
+          )
+              // ),
+              ),
           ElevatedButton(
             child: Text('UPDATE'),
             onPressed: () async {
@@ -148,22 +149,7 @@ class _AttViewState extends State<AttView> {
               var provider = Provider.of<BodyAttributeListViewModel>(context,
                   listen: false);
               provider.updateAtt(params);
-              dynamic status =
-                  (await FlutterSession().get('modelStatus')).toString();
-              if (status == '1') {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MainScreen(),
-                    ));
-              }
-              if (status == '0') {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MainScreenNotActive(),
-                    ));
-              }
+              Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(
               primary: kPrimaryColor,
