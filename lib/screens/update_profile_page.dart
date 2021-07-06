@@ -20,7 +20,7 @@ class _UpdateModelProfilePageState extends State<UpdateModelProfilePage> {
   @override
   void initState() {
     super.initState();
-    PushNotificationService().init(context);
+    // PushNotificationService().init(context);
   }
   
   @override

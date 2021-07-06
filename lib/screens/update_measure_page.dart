@@ -22,7 +22,7 @@ class _UpdateMeasurePageState extends State<UpdateMeasurePage> {
   @override
   void initState() {
     super.initState();
-    PushNotificationService().init(context);
+    // PushNotificationService().init(context);
   }
 
   void loadData(String temp) {

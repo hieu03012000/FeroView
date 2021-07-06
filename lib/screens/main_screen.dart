@@ -30,8 +30,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    PushNotificationService().init(context);
-    PushNotificationService().initLocal(context);
+    // PushNotificationService().init(context);
   }
 
   _MainScreenState(int page) {

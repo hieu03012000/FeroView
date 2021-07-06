@@ -22,8 +22,7 @@ class _ModelImagePageState extends State<ModelImagePage> {
   @override
   void initState() {
     super.initState();
-    PushNotificationService().init(context);
-    PushNotificationService().initLocal(context);
+    // PushNotificationService().init(context);
   }
 
   @override

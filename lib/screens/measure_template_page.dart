@@ -20,8 +20,7 @@ class _MeasureTemplatePageState extends State<MeasureTemplatePage> {
   @override
   void initState() {
     super.initState();
-    PushNotificationService().init(context);
-    PushNotificationService().initLocal(context);
+    // PushNotificationService().init(context);
   }
 
   void loadData(String temp) {

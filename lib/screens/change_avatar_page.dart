@@ -23,8 +23,7 @@ class CameraWidgetState extends State<CameraWidget>{
   @override
   void initState() {
     super.initState();
-    PushNotificationService().init(context);
-    PushNotificationService().initLocal(context);
+    // PushNotificationService().init(context);
   }
   
   PickedFile imageFile;

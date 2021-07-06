@@ -7,7 +7,6 @@ import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,11 +19,13 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-FirebaseMessaging _fm = FirebaseMessaging();
+
+final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
 void main() async {
   HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
+  PushNotificationService().init();
   runApp(MyApp());
 }
 
@@ -46,6 +47,7 @@ class MyApp extends StatelessWidget {
           } else {
             if (data.error == null) {
               return MaterialApp(
+                 navigatorKey: navigatorKey,
                   debugShowCheckedModeBanner: false,
                   title: 'Flutter Demo',
                   theme: ThemeData(

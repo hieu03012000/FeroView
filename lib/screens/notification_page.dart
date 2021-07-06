@@ -21,7 +21,7 @@ class _NotificationPageState extends State<NotificationPage> {
   void initState() {
     super.initState();
     init();
-    PushNotificationService().init(context);
+    PushNotificationService().init();
   }
 
   void init() async {

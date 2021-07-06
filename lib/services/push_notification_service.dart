@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:fero/main.dart';
 import 'package:fero/screens/casting_detail_page.dart';
 import 'package:fero/services/casting_service.dart';
 import 'package:fero/utils/constants.dart';
@@ -14,14 +15,14 @@ import 'package:provider/provider.dart';
 
 class PushNotificationService {
   final FirebaseMessaging _fm = FirebaseMessaging();
-  BuildContext _context;
+  // BuildContext _context;
 
   Future createNotification(String castingId, DateTime end) async {
     DateTime notiDate = end.subtract(Duration(days: 1));
     var modelId = (await FlutterSession().get("modelId")).toString();
   }
   
-  Future init(BuildContext context) async {
+  Future init() async {
     var modelId = (await FlutterSession().get("modelId")).toString();
     _fm.subscribeToTopic(modelId);
     // dynamic token = _fm.getToken();
@@ -35,6 +36,7 @@ class PushNotificationService {
       // },
       onMessage: (message) async {
         print("onMessage: $message");
+        var context = navigatorKey.currentState.overlay.context;
         showDialog(
             context: context,
             builder: (context) {
@@ -67,7 +69,7 @@ class PushNotificationService {
                       elevation: 0,
                     ),
                     onPressed: () async {
-                      await gotoNotification(context, message);
+                      await gotoNotification(message);
                     },
                   ),
                 ],
@@ -80,20 +82,26 @@ class PushNotificationService {
       // },
       onResume: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        await gotoNotification(context, message);
+        await gotoNotification(message);
       },
     );
+
+    _fm.getToken().then((token) => {
+      update(token)
+    });
   }
 
-  Future gotoNotification(
-      BuildContext context, Map<String, dynamic> message) async {
+  update(String token) {
+    print(token);
+  }
+
+  Future gotoNotification(Map<String, dynamic> message) async {
     String castingId = message["data"]["castingId"];
     var casting = await CastingService().getCasting(castingId);
 
     // Navigator.push(
     //   context,
-    Navigator.push(
-      context,
+    navigatorKey.currentState.push(
       MaterialPageRoute(
           builder: (context) => MultiProvider(
                   providers: [
@@ -116,14 +124,13 @@ class PushNotificationService {
   IOSInitializationSettings iosSetting;
   InitializationSettings initSetting;
 
-  void initLocal(BuildContext context) async {
+  void initLocal() async {
     androidSetting = AndroidInitializationSettings('icon');
     iosSetting = IOSInitializationSettings();
     initSetting =
         InitializationSettings(android: androidSetting, iOS: iosSetting);
     await flutterLocalNotificationsPlugin.initialize(initSetting,
         onSelectNotification: onSelect);
-        _context = context;
   }
 
   Future onSelect(String payLoad) async {
@@ -131,8 +138,7 @@ class PushNotificationService {
       print(payLoad);
     }
     dynamic casting = await CastingService().getCasting(payLoad);
-    Navigator.push(
-      _context,
+    navigatorKey.currentState.push(
       MaterialPageRoute(
           builder: (context) => MultiProvider(
                   providers: [
@@ -176,7 +182,4 @@ class PushNotificationService {
         notificationDetails,
         payload: casting.id.toString());
   }
-
-
-
 }

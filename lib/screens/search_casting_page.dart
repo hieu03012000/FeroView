@@ -18,8 +18,8 @@ class _SearchCastingPageState extends State<SearchCastingPage> {
   @override
   void initState() {
     super.initState();
-    PushNotificationService().init(context);
-    PushNotificationService().initLocal(context);
+    // PushNotificationService().init(context);
+    // PushNotificationService().initLocal(context);
   }
 
   @override

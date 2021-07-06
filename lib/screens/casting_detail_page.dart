@@ -19,93 +19,10 @@ class _CastingDetailPageState extends State<CastingDetailPage> {
   @override
   void initState() {
     super.initState();
-    PushNotificationService().init(context);
-    PushNotificationService().initLocal(context);
+    // PushNotificationService().init();
+    PushNotificationService().initLocal();
   }
-
-  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  //     FlutterLocalNotificationsPlugin();
-  // AndroidInitializationSettings androidSetting;
-  // IOSInitializationSettings iosSetting;
-  // InitializationSettings initSetting;
-
-  // void initLocal() async {
-  //   androidSetting = AndroidInitializationSettings('icon');
-  //   iosSetting = IOSInitializationSettings();
-  //   initSetting =
-  //       InitializationSettings(android: androidSetting, iOS: iosSetting);
-  //   await flutterLocalNotificationsPlugin.initialize(initSetting,
-  //       onSelectNotification: onSelect);
-  // }
-
-  // Future onSelect(String payLoad) async {
-  //   if (payLoad != null) {
-  //     print(payLoad);
-  //   }
-  //   dynamic casting = await CastingService().getCasting(payLoad);
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //         builder: (context) => MultiProvider(
-  //                 providers: [
-  //                   ChangeNotifierProvider(
-  //                       create: (_) => CastingListViewModel()),
-  //                 ],
-  //                 child: FutureBuilder(
-  //                   builder: (context, snapshot) {
-  //                     return CastingDetailPage(
-  //                       casting: casting,
-  //                     );
-  //                   },
-  //                 ))),
-  //   );
-  // }
-
-  // void _showNotification(DateTime end, CastingViewModel casting) async {
-  //   await notification(end, casting);
-  // }
-
-  // Future<void> notification(DateTime end, CastingViewModel casting) async {
-  //   // var time = end.subtract(Duration(days: 1));
-  //   var time = DateTime.now().add(Duration(seconds: 10));
-  //   AndroidNotificationDetails androidNotificationDetails =
-  //       AndroidNotificationDetails(
-  //           casting.id.toString(), 'channelName', 'channelDescription',
-  //           priority: Priority.high,
-  //           importance: Importance.max,
-  //           ticker: 'test');
-
-  //   IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
-
-  //   NotificationDetails notificationDetails = NotificationDetails(
-  //       android: androidNotificationDetails, iOS: iosNotificationDetails);
-
-  //   await flutterLocalNotificationsPlugin.schedule(
-  //       casting.id,
-  //       'You have a mesage',
-  //       casting.name + ' casting will close tomorow',
-  //       time,
-  //       notificationDetails,
-  //       payload: casting.id.toString());
-  // }
-
-  // Future onDidReceivedLocalNotification(
-  //     int id, String title, String body, String payLoad) async {
-  //   return CupertinoAlertDialog(
-  //     title: Text(title),
-  //     content: Text(body),
-  //     actions: <Widget>[
-  //       CupertinoDialogAction(
-  //         isDefaultAction: true,
-  //         onPressed: () {
-  //           print('ok');
-  //         },
-  //         child: Text('Ok'),
-  //       )
-  //     ],
-  //   );
-  // }
-
+ 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
