@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:fero/models/task.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/task_list_view_model.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -22,6 +23,26 @@ class TaskService {
       throw Exception('Failed to load');
     }
   }
+
+  Future<bool> createFreeTime(Map<String, dynamic> params) async {
+    final message = jsonEncode(params);
+    final response = await http.post(
+        Uri.parse(
+            baseUrl + 'api/v1/tasks/free-time'),
+        body: message,
+        headers: {"content-type": "application/json"});
+    if (response.statusCode == 200) {
+      // var responseBody = Task.fromJson(jsonDecode(response.body));
+      // return responseBody;
+      Fluttertoast.showToast(msg: 'Create success');
+      return true;
+    } else {
+      Fluttertoast.showToast(msg: 'Can not create');
+      return false;
+    }
+  }
+
+  
 }
 
 List<Appointment> getAppointment(TaskListViewModel list) {

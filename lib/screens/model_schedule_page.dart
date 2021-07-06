@@ -1,8 +1,13 @@
+import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
+import 'package:fero/screens/main_screen.dart';
 import 'package:fero/services/task_service.dart';
+import 'package:fero/utils/common.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/task_list_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -21,7 +26,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: kPrimaryColor,
-        onPressed: () => {},
+        onPressed: () => {_showDateTimePicker(context)},
       ),
       body: FutureBuilder<TaskListViewModel>(
         future: Provider.of<TaskListViewModel>(context, listen: false)
@@ -77,6 +82,169 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
           ),
         ),
       ],
+    );
+  }
+
+  DateTime _date = DateTime.now();
+  TextEditingController fromController, toController, desController;
+
+  void _selectDate(String type) async {
+    final DateTime newDate = await showDatePicker(
+      context: context,
+      initialDate: _date,
+      firstDate: DateTime(1190, 1),
+      lastDate: DateTime.now(),
+      builder: (BuildContext context, Widget child) {
+        return Theme(
+          data: ThemeData.dark().copyWith(
+            colorScheme: ColorScheme.dark(
+              primary: kPrimaryColor,
+              onPrimary: Colors.white,
+              surface: kPrimaryColor,
+              onSurface: Colors.black,
+              primaryVariant: Colors.black,
+            ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: child,
+        );
+      },
+    );
+    if (newDate != null) {
+      setState(() {
+        _date = newDate;
+        if (type == 'from') {
+          fromController = TextEditingController()
+            ..text = formatDate(newDate.toString());
+        } else {
+          toController = TextEditingController()
+            ..text = formatDate(newDate.toString());
+        }
+      });
+    }
+  }
+
+  void _showDateTimePicker(BuildContext context) {
+    return DateTimeRangePicker(
+        startText: "From",
+        endText: "To",
+        doneText: "Yes",
+        cancelText: "Cancel",
+        initialStartTime: DateTime.now(),
+        initialEndTime: DateTime.now(),
+        mode: DateTimeRangePickerMode.dateAndTime,
+        minimumTime: DateTime.now().subtract(Duration(days: 1)),
+        maximumTime: DateTime.now().add(Duration(days: 30)),
+        use24hFormat: true,
+        onConfirm: (start, end) async {
+          if (start.isBefore(end)) {
+            var modelId = (await FlutterSession().get("modelId")).toString();
+            Map<String, dynamic> params = Map<String, dynamic>();
+            params['startAt'] = start.toString();
+            params['endAt'] = end.toString();
+            params['modelId'] = modelId;
+            print(start);
+            print(end);
+            var status = await TaskService().createFreeTime(params);
+            if (status) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MainScreen(page: 0),
+                  ));
+            }
+          } else {
+            Fluttertoast.showToast(msg: 'Incorrect date');
+          }
+        }).showPicker(context);
+  }
+
+  void _showDialog(BuildContext context) {
+    fromController = TextEditingController()
+      ..text = formatDate(_date.toString());
+    toController = TextEditingController()..text = formatDate(_date.toString());
+    desController = TextEditingController()..text = '';
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Set free time"),
+          content: Builder(
+            builder: (context) {
+              // Get available height and width of the build area of this widget. Make a choice depending on the size.
+              // var height = MediaQuery.of(context).size.height;
+              // var width = MediaQuery.of(context).size.width;
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                height: 180,
+                width: 350,
+                child: ListView(
+                  children: [
+                    TextFormField(
+                      cursorColor: kPrimaryColor,
+                      controller: fromController,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.drive_file_rename_outline),
+                        labelText: 'From',
+                      ),
+                    ),
+                    TextFormField(
+                      cursorColor: kPrimaryColor,
+                      controller: toController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.drive_file_rename_outline),
+                        labelText: 'To',
+                      ),
+                    ),
+                    TextFormField(
+                      cursorColor: kPrimaryColor,
+                      controller: desController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.drive_file_rename_outline),
+                        labelText: 'Descripton',
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+          actions: <Widget>[
+            ElevatedButton(
+              child: const Text(
+                'Cancel',
+                style: TextStyle(color: Colors.grey),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                elevation: 0,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            ElevatedButton(
+              child: const Text(
+                'Search',
+                style: TextStyle(color: kPrimaryColor),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                elevation: 0,
+              ),
+              onPressed: () async {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MainScreen(page: 0),
+                    ));
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
