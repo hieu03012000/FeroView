@@ -7,7 +7,7 @@ class CastingListViewModel with ChangeNotifier {
   List<CastingViewModel> castings = List<CastingViewModel>();
 
   void topHeadlines() async {
-    List<Casting> list = await CastingService().getCastingList();
+    List<Casting> list = await CastingService().searchCastingList('', '', '');
     // This call tells the widgets that are listening to this model to rebuild.
     notifyListeners();
 

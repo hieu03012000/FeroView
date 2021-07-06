@@ -19,7 +19,8 @@ String castAge(String date) {
 
 String formatDate(String date) {
   DateTime dt = DateTime.parse(date);
-  var formatter = new DateFormat('EEEE, d MMM, yyyy');
+  // var formatter = new DateFormat('EEEE, dd MMM, yyyy');
+  var formatter = new DateFormat('dd MMM, yyyy');
   return formatter.format(dt);
 }
 

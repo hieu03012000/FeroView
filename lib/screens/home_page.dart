@@ -15,8 +15,8 @@ class Home extends StatelessWidget {
     Size size =
         MediaQuery.of(context).size; //Total height and width of the screen
     return SafeArea(
-      child: SingleChildScrollView(
-          child: Column(children: <Widget>[
+      child: Scaffold(
+          body: Column(children: <Widget>[
         HeaderWithSearchBox(size: size),
         TitleWithButton(
           text: "Upcoming Casting",
@@ -25,10 +25,11 @@ class Home extends StatelessWidget {
         TitleWithButton(
           text: "Notification",
         ),
-        Center(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
+        Expanded(
+            child: Scaffold(
+          body: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
               children: [
                 RecommendNotification(
                   title:
@@ -53,7 +54,7 @@ class Home extends StatelessWidget {
               ],
             ),
           ),
-        ),
+        )),
       ])),
     );
   }
@@ -74,9 +75,9 @@ class RecommendNotification extends StatelessWidget {
       margin: EdgeInsets.only(
           left: kDefaultPadding * 1.5,
           right: kDefaultPadding * 1.5,
-          top: kDefaultPadding / 2,
-          bottom: kDefaultPadding * 2.5),
-      width: size.width * 0.7,
+          top: kDefaultPadding / 3,
+          bottom: kDefaultPadding / 2),
+      width: size.width * 0.9,
       height: size.height * 0.1,
       child: Container(
         child: RichText(
@@ -120,6 +121,25 @@ class TitleWithButton extends StatelessWidget {
                     MaterialPageRoute(
                       builder: (context) => NotificationPage(),
                     ));
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => MultiProvider(
+                              providers: [
+                                ChangeNotifierProvider(
+                                    create: (_) => CastingListViewModel()),
+                              ],
+                              child: FutureBuilder(
+                                builder: (context, snapshot) {
+                                  return SearchCastingPage(
+                                    name: '',
+                                    min: '',
+                                    max: '',
+                                  );
+                                },
+                              ))),
+                );
               }
             },
             child: Text(
