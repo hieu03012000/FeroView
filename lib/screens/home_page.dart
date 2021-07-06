@@ -354,8 +354,7 @@ void _showDialog(BuildContext context) {
               elevation: 0,
             ),
             onPressed: () async {
-              Navigator.push(
-                context,
+              Navigator.of(context, rootNavigator: false).pushReplacement(
                 MaterialPageRoute(
                     builder: (context) => MultiProvider(
                             providers: [
