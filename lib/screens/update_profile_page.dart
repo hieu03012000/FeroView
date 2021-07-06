@@ -1,5 +1,6 @@
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/screens/main_screen_not_active.dart';
+import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/common.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
@@ -16,6 +17,12 @@ class UpdateModelProfilePage extends StatefulWidget {
 }
 
 class _UpdateModelProfilePageState extends State<UpdateModelProfilePage> {
+  @override
+  void initState() {
+    super.initState();
+    PushNotificationService().init(context);
+  }
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(

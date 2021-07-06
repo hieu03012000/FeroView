@@ -25,21 +25,6 @@ FirebaseMessaging _fm = FirebaseMessaging();
 void main() async {
   HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
-  // _fm.configure(
-  //     onMessage: (Map<String, dynamic> message) async {
-  //       print("onMessage: $message");
-  //       // _showItemDialog(message);
-  //     },
-  //     onBackgroundMessage: PushNotificationService().myBackgroundMessageHandler,
-  //     onLaunch: (Map<String, dynamic> message) async {
-  //       print("onLaunch: $message");
-  //       // _navigateToItemDetail(message);
-  //     },
-  //     onResume: (Map<String, dynamic> message) async {
-  //       print("onResume: $message");
-  //       // _navigateToItemDetail(message);
-  //     },
-  //   );
   runApp(MyApp());
 }
 

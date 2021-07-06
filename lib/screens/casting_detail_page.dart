@@ -1,5 +1,5 @@
 import 'package:fero/services/apply_casting_service.dart';
-import 'package:fero/utils/common.dart';
+import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:fero/viewmodels/casting_view_model.dart';
@@ -16,6 +16,96 @@ class CastingDetailPage extends StatefulWidget {
 }
 
 class _CastingDetailPageState extends State<CastingDetailPage> {
+  @override
+  void initState() {
+    super.initState();
+    PushNotificationService().init(context);
+    PushNotificationService().initLocal(context);
+  }
+
+  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
+  // AndroidInitializationSettings androidSetting;
+  // IOSInitializationSettings iosSetting;
+  // InitializationSettings initSetting;
+
+  // void initLocal() async {
+  //   androidSetting = AndroidInitializationSettings('icon');
+  //   iosSetting = IOSInitializationSettings();
+  //   initSetting =
+  //       InitializationSettings(android: androidSetting, iOS: iosSetting);
+  //   await flutterLocalNotificationsPlugin.initialize(initSetting,
+  //       onSelectNotification: onSelect);
+  // }
+
+  // Future onSelect(String payLoad) async {
+  //   if (payLoad != null) {
+  //     print(payLoad);
+  //   }
+  //   dynamic casting = await CastingService().getCasting(payLoad);
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //         builder: (context) => MultiProvider(
+  //                 providers: [
+  //                   ChangeNotifierProvider(
+  //                       create: (_) => CastingListViewModel()),
+  //                 ],
+  //                 child: FutureBuilder(
+  //                   builder: (context, snapshot) {
+  //                     return CastingDetailPage(
+  //                       casting: casting,
+  //                     );
+  //                   },
+  //                 ))),
+  //   );
+  // }
+
+  // void _showNotification(DateTime end, CastingViewModel casting) async {
+  //   await notification(end, casting);
+  // }
+
+  // Future<void> notification(DateTime end, CastingViewModel casting) async {
+  //   // var time = end.subtract(Duration(days: 1));
+  //   var time = DateTime.now().add(Duration(seconds: 10));
+  //   AndroidNotificationDetails androidNotificationDetails =
+  //       AndroidNotificationDetails(
+  //           casting.id.toString(), 'channelName', 'channelDescription',
+  //           priority: Priority.high,
+  //           importance: Importance.max,
+  //           ticker: 'test');
+
+  //   IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+
+  //   NotificationDetails notificationDetails = NotificationDetails(
+  //       android: androidNotificationDetails, iOS: iosNotificationDetails);
+
+  //   await flutterLocalNotificationsPlugin.schedule(
+  //       casting.id,
+  //       'You have a mesage',
+  //       casting.name + ' casting will close tomorow',
+  //       time,
+  //       notificationDetails,
+  //       payload: casting.id.toString());
+  // }
+
+  // Future onDidReceivedLocalNotification(
+  //     int id, String title, String body, String payLoad) async {
+  //   return CupertinoAlertDialog(
+  //     title: Text(title),
+  //     content: Text(body),
+  //     actions: <Widget>[
+  //       CupertinoDialogAction(
+  //         isDefaultAction: true,
+  //         onPressed: () {
+  //           print('ok');
+  //         },
+  //         child: Text('Ok'),
+  //       )
+  //     ],
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -303,8 +393,9 @@ class ActionButton extends StatelessWidget {
                   ),
                   onPressed: () async {
                     await ApplyCastingService()
-                        .createApplyCasting(this.castingId);
+                        .createApplyCasting(this.castingId, this.close);
                     _reloadPage(context, this.casting);
+                    PushNotificationService().showNotification(this.close, casting);
                   },
                   child: Text('Apply'),
                 )
@@ -321,7 +412,7 @@ class ActionButton extends StatelessWidget {
 }
 
 void _reloadPage(BuildContext context, CastingViewModel casting) {
-  Navigator.push(
+  Navigator.pushReplacement(
     context,
     MaterialPageRoute(
         builder: (context) => MultiProvider(

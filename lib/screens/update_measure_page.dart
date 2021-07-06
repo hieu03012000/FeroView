@@ -1,5 +1,6 @@
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/screens/main_screen_not_active.dart';
+import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/body_attribut_list_view_model.dart';
 import 'package:fero/viewmodels/body_attribute_view_model.dart';
@@ -17,6 +18,12 @@ class UpdateMeasurePage extends StatefulWidget {
 
 class _UpdateMeasurePageState extends State<UpdateMeasurePage> {
   List<String> bodyList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    PushNotificationService().init(context);
+  }
 
   void loadData(String temp) {
     if (temp == 'Arm') bodyList = ['Length', 'Wrist', 'Arm', 'Elbow'];

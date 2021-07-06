@@ -1,40 +1,182 @@
+import 'dart:io';
+
+import 'package:fero/screens/casting_detail_page.dart';
+import 'package:fero/services/casting_service.dart';
+import 'package:fero/utils/constants.dart';
+import 'package:fero/viewmodels/casting_list_view_model.dart';
+import 'package:fero/viewmodels/casting_view_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_session/flutter_session.dart';
+import 'package:provider/provider.dart';
 
 class PushNotificationService {
-  // final FirebaseMessaging _fm = FirebaseMessaging();
+  final FirebaseMessaging _fm = FirebaseMessaging();
+  BuildContext _context;
 
-  Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
-  if (message.containsKey('data')) {
-    // Handle data message
-    final dynamic data = message['data'];
+  Future createNotification(String castingId, DateTime end) async {
+    DateTime notiDate = end.subtract(Duration(days: 1));
+    var modelId = (await FlutterSession().get("modelId")).toString();
+  }
+  
+  Future init(BuildContext context) async {
+    var modelId = (await FlutterSession().get("modelId")).toString();
+    _fm.subscribeToTopic(modelId);
+    // dynamic token = _fm.getToken();
+    if (Platform.isIOS) {
+      _fm.requestNotificationPermissions(IosNotificationSettings());  
+    }
+    _fm.configure(
+      // onBackgroundMessage: (message) async {
+      //   print("onLaunch: $message");
+      //   await gotoNotification(context, message);
+      // },
+      onMessage: (message) async {
+        print("onMessage: $message");
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                content: ListTile(
+                  title: Text(message['notification']['title']),
+                  subtitle: Text(message['notification']['body']),
+                ),
+                actions: <Widget>[
+                  ElevatedButton(
+                    child: const Text(
+                      'Cancel',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      elevation: 0,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  ElevatedButton(
+                    child: const Text(
+                      'Go',
+                      style: TextStyle(color: kPrimaryColor),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.white,
+                      elevation: 0,
+                    ),
+                    onPressed: () async {
+                      await gotoNotification(context, message);
+                    },
+                  ),
+                ],
+              );
+            });
+      },
+      // onLaunch: (Map<String, dynamic> message) async {
+      //   print("onLaunch: $message");
+      //   // _navigateToItemDetail(message);
+      // },
+      onResume: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        await gotoNotification(context, message);
+      },
+    );
   }
 
-  if (message.containsKey('notification')) {
-    // Handle notification message
-    final dynamic notification = message['notification'];
+  Future gotoNotification(
+      BuildContext context, Map<String, dynamic> message) async {
+    String castingId = message["data"]["castingId"];
+    var casting = await CastingService().getCasting(castingId);
+
+    // Navigator.push(
+    //   context,
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(
+                        create: (_) => CastingListViewModel()),
+                  ],
+                  child: FutureBuilder(
+                    builder: (context, snapshot) {
+                      return CastingDetailPage(
+                        casting: casting,
+                      );
+                    },
+                  ))),
+    );
   }
 
-  // Or do other work.
-}
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  AndroidInitializationSettings androidSetting;
+  IOSInitializationSettings iosSetting;
+  InitializationSettings initSetting;
 
-  // Future init() async {
-  //   if (Platform.isIOS) {
-  //     _fm.requestNotificationPermissions(IosNotificationSettings());
-  //   }
+  void initLocal(BuildContext context) async {
+    androidSetting = AndroidInitializationSettings('icon');
+    iosSetting = IOSInitializationSettings();
+    initSetting =
+        InitializationSettings(android: androidSetting, iOS: iosSetting);
+    await flutterLocalNotificationsPlugin.initialize(initSetting,
+        onSelectNotification: onSelect);
+        _context = context;
+  }
 
-  //   _fm.configure(
-  //     //call when app in foreground
-  //     onMessage: (Map<String, dynamic> mess) async {
-  //       print('onMessage: $mess');
-  //     },
-  //     //call when app close
-  //     onLaunch: (Map<String, dynamic> mess) async {
-  //       print('onLaunch: $mess');
-  //     },
-  //     //call when app in background
-  //     onResume: (Map<String, dynamic> mess) async {
-  //       print('onResume: $mess');
-  //     },
-  //   );
-  // }
+  Future onSelect(String payLoad) async {
+    if (payLoad != null) {
+      print(payLoad);
+    }
+    dynamic casting = await CastingService().getCasting(payLoad);
+    Navigator.push(
+      _context,
+      MaterialPageRoute(
+          builder: (context) => MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(
+                        create: (_) => CastingListViewModel()),
+                  ],
+                  child: FutureBuilder(
+                    builder: (context, snapshot) {
+                      return CastingDetailPage(
+                        casting: casting,
+                      );
+                    },
+                  ))),
+    );
+  }
+
+  void showNotification(DateTime end, CastingViewModel casting) async {
+    await notification(end, casting);
+  }
+
+  Future<void> notification(DateTime end, CastingViewModel casting) async {
+    // var time = end.subtract(Duration(days: 1));
+    var time = DateTime.now().add(Duration(seconds: 30));
+    AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+            casting.id.toString(), 'channelName', 'channelDescription',
+            priority: Priority.high,
+            importance: Importance.max,
+            ticker: 'test');
+
+    IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+
+    NotificationDetails notificationDetails = NotificationDetails(
+        android: androidNotificationDetails, iOS: iosNotificationDetails);
+
+    await flutterLocalNotificationsPlugin.schedule(
+        casting.id,
+        'You have a mesage',
+        casting.name + ' casting will close tomorow',
+        time,
+        notificationDetails,
+        payload: casting.id.toString());
+  }
+
+
+
 }

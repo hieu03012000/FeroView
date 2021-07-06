@@ -6,7 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class ApplyCastingService {
-  Future createApplyCasting(int castingId) async {
+  Future createApplyCasting(int castingId, DateTime end) async {
     var modelId = (await FlutterSession().get("modelId")).toString();
 
     Map<String, dynamic> params = Map<String, dynamic>();

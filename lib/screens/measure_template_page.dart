@@ -1,4 +1,5 @@
 import 'package:fero/screens/update_measure_page.dart';
+import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/body_attribut_list_view_model.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,13 @@ class MeasureTemplatePage extends StatefulWidget {
 
 class _MeasureTemplatePageState extends State<MeasureTemplatePage> {
   List<String> bodyList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    PushNotificationService().init(context);
+    PushNotificationService().initLocal(context);
+  }
 
   void loadData(String temp) {
     if (temp.endsWith('1')) bodyList = ['Body', 'Upper part', 'Bottom'];

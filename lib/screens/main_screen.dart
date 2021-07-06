@@ -5,6 +5,7 @@ import 'package:fero/screens/model_image_page.dart';
 import 'package:fero/screens/model_profile_page.dart';
 import 'package:fero/screens/model_schedule_page.dart';
 import 'package:fero/services/google_sign_in.dart';
+import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
@@ -25,6 +26,13 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int pageIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    PushNotificationService().init(context);
+    PushNotificationService().initLocal(context);
+  }
 
   _MainScreenState(int page) {
     this.pageIndex = page;

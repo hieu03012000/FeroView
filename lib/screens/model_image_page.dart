@@ -1,6 +1,7 @@
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/screens/main_screen_not_active.dart';
 import 'package:fero/services/image_service.dart';
+import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/image_list_view_model.dart';
 import 'package:fero/viewmodels/model_image_view_model.dart';
@@ -21,6 +22,8 @@ class _ModelImagePageState extends State<ModelImagePage> {
   @override
   void initState() {
     super.initState();
+    PushNotificationService().init(context);
+    PushNotificationService().initLocal(context);
   }
 
   @override

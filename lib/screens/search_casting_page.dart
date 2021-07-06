@@ -1,4 +1,5 @@
 import 'package:fero/components/casting_card.dart';
+import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,6 +15,13 @@ class SearchCastingPage extends StatefulWidget {
 }
 
 class _SearchCastingPageState extends State<SearchCastingPage> {
+  @override
+  void initState() {
+    super.initState();
+    PushNotificationService().init(context);
+    PushNotificationService().initLocal(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;

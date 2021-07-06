@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/services/image_service.dart';
+import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,13 @@ class CameraWidget extends StatefulWidget{
 }
 
 class CameraWidgetState extends State<CameraWidget>{
+  @override
+  void initState() {
+    super.initState();
+    PushNotificationService().init(context);
+    PushNotificationService().initLocal(context);
+  }
+  
   PickedFile imageFile;
   Future _showChoiceDialog(BuildContext context)
   {

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fero/models/casting.dart';
 import 'package:fero/utils/constants.dart';
+import 'package:fero/viewmodels/casting_view_model.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -36,11 +37,25 @@ class CastingService {
 
   Future<List<Casting>> modelApplyCasting() async {
     var modelId = (await FlutterSession().get("modelId")).toString();
-    final response = await http.get(Uri.parse(
-        baseUrl + 'api/v1/castings/$modelId/apply'));
+    final response =
+        await http.get(Uri.parse(baseUrl + 'api/v1/castings/$modelId/apply'));
     if (response.statusCode == 200) {
       var list = parseCastingList(response.body);
       return list;
+    } else {
+      Fluttertoast.showToast(msg: 'Not found');
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future<CastingViewModel> getCasting(String castingId) async {
+    // var modelId = (await FlutterSession().get("modelId")).toString();
+    final response =
+        await http.get(Uri.parse(baseUrl + 'api/v1/castings/$castingId'));
+    if (response.statusCode == 200) {
+      var casting = CastingViewModel(
+          casting: Casting.fromJson(jsonDecode(response.body)));
+      return casting;
     } else {
       Fluttertoast.showToast(msg: 'Not found');
       throw Exception('Failed to load');
