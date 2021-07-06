@@ -277,22 +277,22 @@ class _ModelUpdateState extends State<ModelUpdate> {
                 //             value: widget.modelDetail,
                 //             child: ModelProfilePage(
                 //                 modelId: widget.modelDetail.id))));
-                dynamic status = (await FlutterSession().get('modelStatus')).toString();
-                if(status == '1') {
+                dynamic status =
+                    (await FlutterSession().get('modelStatus')).toString();
+                if (status == '1') {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MainScreen(page: 4),
-                    ));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainScreen(),
+                      ));
                 }
-                if(status == '0') {
+                if (status == '0') {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MainScreenNotActive(page: 1),
-                    ));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainScreenNotActive(),
+                      ));
                 }
-                
               },
               style: ElevatedButton.styleFrom(
                 primary: kPrimaryColor,

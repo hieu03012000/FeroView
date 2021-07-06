@@ -4,7 +4,6 @@ import 'package:fero/screens/login_page.dart';
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/screens/main_screen_not_active.dart';
 import 'package:fero/services/google_sign_in.dart';
-import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -62,14 +61,10 @@ class MyApp extends StatelessWidget {
                     future: GoogleSignInProvider().checkLogin(),
                     builder: (context, snapshot) {
                       if (snapshot.data.toString() == '1') {
-                        return MainScreenNotActive(
-                          page: 1,
-                        );
+                        return MainScreenNotActive();
                       }
                       if (snapshot.data.toString() == '2') {
-                        return MainScreen(
-                          page: 2,
-                        );
+                        return MainScreen();
                       }
                       return MultiProvider(
                         providers: [

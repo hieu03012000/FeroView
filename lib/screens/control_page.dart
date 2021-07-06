@@ -20,9 +20,7 @@ class ControlPage extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasData) {
-            return MainScreen(
-              page: 2,
-            );
+            return MainScreen();
           } else if (snapshot.hasError) {
             return Center(
               child: Text('Some things error'),

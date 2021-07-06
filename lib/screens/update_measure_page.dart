@@ -154,14 +154,14 @@ class _AttViewState extends State<AttView> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MainScreen(page: 4),
+                      builder: (context) => MainScreen(),
                     ));
               }
               if (status == '0') {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MainScreenNotActive(page: 1),
+                      builder: (context) => MainScreenNotActive(),
                     ));
               }
             },

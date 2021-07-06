@@ -33,9 +33,7 @@ class _ModelImagePageState extends State<ModelImagePage> {
           child: Icon(Icons.add),
           backgroundColor: kPrimaryColor,
           onPressed: () async =>
-              {
-                await ImageService().uploadImage(widget.modelId),
-                _reloadPage()},
+              {await ImageService().uploadImage(widget.modelId), _reloadPage()},
         ),
         backgroundColor: kBackgroundColor,
         body: SafeArea(
@@ -195,14 +193,14 @@ class _ModelImagePageState extends State<ModelImagePage> {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MainScreen(page: 3),
+            builder: (context) => MainScreen(),
           ));
     }
     if (status == '0') {
       Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => MainScreenNotActive(page: 0),
+            builder: (context) => MainScreenNotActive(),
           ));
     }
   }

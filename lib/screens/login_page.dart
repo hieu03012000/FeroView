@@ -133,17 +133,16 @@ class _LoginPageState extends State<LoginPage> {
                                                 Navigator.of(context)
                                                     .pushReplacement(
                                                         MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      MainScreen(page: 2),
-                                                ))
+                                                            builder: (context) =>
+                                                                MainScreen()))
                                               },
                                             if (value == 0)
                                               {
-                                               Navigator.of(context)
+                                                Navigator.of(context)
                                                     .pushReplacement(
                                                         MaterialPageRoute(
                                                   builder: (context) =>
-                                                      MainScreenNotActive(page: 1),
+                                                      MainScreenNotActive(),
                                                 ))
                                               }
                                           })

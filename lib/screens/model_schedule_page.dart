@@ -150,7 +150,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MainScreen(page: 0),
+                    builder: (context) => MainScreen(),
                   ));
             }
           } else {
@@ -238,7 +238,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => MainScreen(page: 0),
+                      builder: (context) => MainScreen(),
                     ));
               },
             ),

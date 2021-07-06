@@ -1,31 +1,25 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:fero/screens/home_page.dart';
-import 'package:fero/screens/model_apply_casting_page.dart';
-import 'package:fero/screens/model_image_page.dart';
-import 'package:fero/screens/model_profile_page.dart';
-import 'package:fero/screens/model_schedule_page.dart';
-import 'package:fero/services/google_sign_in.dart';
-import 'package:fero/services/push_notification_service.dart';
+import 'package:fero/components/tab_navigator.dart';
 import 'package:fero/utils/constants.dart';
-import 'package:fero/viewmodels/casting_list_view_model.dart';
-import 'package:fero/viewmodels/model_view_model.dart';
-import 'package:fero/viewmodels/task_list_view_model.dart';
-import 'package:fero/viewmodels/image_list_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_session/flutter_session.dart';
-import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
-  final int page;
-  const MainScreen({Key key, this.page}) : super(key: key);
-
   @override
-  _MainScreenState createState() => _MainScreenState(this.page);
+  _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int pageIndex;
+  String _currentPage = "Page3";
+  List<String> pageKeys = ["Page1", "Page2", "Page3", "Page4", "Page5"];
+  Map<String, GlobalKey<NavigatorState>> _navigatorKeys = {
+    "Page1": GlobalKey<NavigatorState>(),
+    "Page2": GlobalKey<NavigatorState>(),
+    "Page3": GlobalKey<NavigatorState>(),
+    "Page4": GlobalKey<NavigatorState>(),
+    "Page5": GlobalKey<NavigatorState>(),
+  };
+  int _selectedIndex = 2;
 
   @override
   void initState() {
@@ -33,70 +27,45 @@ class _MainScreenState extends State<MainScreen> {
     // PushNotificationService().init(context);
   }
 
-  _MainScreenState(int page) {
-    this.pageIndex = page;
+  void _selectTab(String tabItem, int index) {
+    if (tabItem == _currentPage) {
+      _navigatorKeys[tabItem].currentState.popUntil((route) => route.isFirst);
+    } else {
+      setState(() {
+        _currentPage = pageKeys[index];
+        _selectedIndex = index;
+      });
+    }
   }
-
-  List<Widget> pageList = <Widget>[
-    MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => TaskListViewModel()),
-        ],
-        child: FutureBuilder(
-          future: FlutterSession().get('modelId'),
-          builder: (context, snapshot) {
-            return ModelSchedulePage(
-              modelId: snapshot.data.toString(),
-            );
-          },
-        )),
-    MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => CastingListViewModel()),
-        ],
-        child: FutureBuilder(
-          builder: (context, snapshot) {
-            return ModelApplyCastingPage();
-          },
-        )),
-    MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_) => CastingListViewModel()),
-    ], child: Home()),
-    MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => ImageListViewModel()),
-        ],
-        child: FutureBuilder(
-          future: FlutterSession().get('modelId'),
-          builder: (context, snapshot) {
-            return ModelImagePage(
-              modelId: snapshot.data.toString(),
-            );
-          },
-        )),
-    MultiProvider(
-        providers: [
-          ChangeNotifierProvider(create: (_) => ModelViewModel()),
-          ChangeNotifierProvider(create: (_) => GoogleSignInProvider()),
-        ],
-        child: FutureBuilder(
-          future: FlutterSession().get('modelId'),
-          builder: (context, snapshot) {
-            return ModelProfilePage(
-              modelId: snapshot.data.toString(),
-            );
-          },
-        )),
-  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: pageList[pageIndex],
+    return WillPopScope(
+      onWillPop: () async {
+        final isFirstRouteInCurrentTab =
+            !await _navigatorKeys[_currentPage].currentState.maybePop();
+        if (isFirstRouteInCurrentTab) {
+          if (_currentPage != "Page3") {
+            _selectTab("Page3", 3);
+
+            return false;
+          }
+        }
+        // let system handle back button if we're on the first route
+        return isFirstRouteInCurrentTab;
+      },
+      child: Scaffold(
+        body: Stack(children: <Widget>[
+          _buildOffstageNavigator("Page1"),
+          _buildOffstageNavigator("Page2"),
+          _buildOffstageNavigator("Page3"),
+          _buildOffstageNavigator("Page4"),
+          _buildOffstageNavigator("Page5"),
+        ]),
         bottomNavigationBar: CurvedNavigationBar(
           backgroundColor: Colors.transparent,
           color: kPrimaryColor,
-          index: pageIndex,
+          index: _selectedIndex,
           items: <Widget>[
             Icon(
               Icons.schedule,
@@ -120,10 +89,20 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ],
           onTap: (index) {
-            setState(() {
-              pageIndex = index;
-            });
+            _selectTab(pageKeys[index], index);
           },
-        ));
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOffstageNavigator(String tabItem) {
+    return Offstage(
+      offstage: _currentPage != tabItem,
+      child: TabNavigator(
+        navigatorKey: _navigatorKeys[tabItem],
+        tabItem: tabItem,
+      ),
+    );
   }
 }
