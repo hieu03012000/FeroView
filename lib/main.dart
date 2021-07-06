@@ -4,6 +4,7 @@ import 'package:fero/screens/login_page.dart';
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/screens/main_screen_not_active.dart';
 import 'package:fero/services/google_sign_in.dart';
+import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,6 @@ class MyHttpOverrides extends HttpOverrides {
           (X509Certificate cert, String host, int port) => true;
   }
 }
-
 
 final GlobalKey<NavigatorState> navigatorKey = new GlobalKey<NavigatorState>();
 
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
           } else {
             if (data.error == null) {
               return MaterialApp(
-                 navigatorKey: navigatorKey,
+                  navigatorKey: navigatorKey,
                   debugShowCheckedModeBanner: false,
                   title: 'Flutter Demo',
                   theme: ThemeData(
