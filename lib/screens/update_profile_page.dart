@@ -227,23 +227,6 @@ class _ModelUpdateState extends State<ModelUpdate> {
                       Icon(
                         Icons.calendar_today,
                       )
-                      // Padding(
-                      //     padding: EdgeInsets.symmetric(horizontal: 5),
-                      //     child: Center(
-                      //       child: ElevatedButton.icon(
-                      //         onPressed: _selectDate,
-                      //         style: ElevatedButton.styleFrom(
-                      //           primary: Colors.transparent,
-                      //           elevation: 0,
-                      //           minimumSize: Size(10, 50),
-                      //           onPrimary: kPrimaryColor,
-                      //         ),
-                      //         icon: Icon(
-                      //           Icons.calendar_today,
-                      //         ),
-                      //         label: Text(''),
-                      //       ),
-                      //     )),
                     ],
                   ),
                 ),
@@ -253,9 +236,6 @@ class _ModelUpdateState extends State<ModelUpdate> {
                   decoration: InputDecoration(
                     icon: Icon(Icons.phone),
                     labelText: 'Phone number',
-                    // suffixIcon: Icon(
-                    //   Icons.check_circle,
-                    // ),
                   ),
                 ),
                 TextFormField(
@@ -264,9 +244,6 @@ class _ModelUpdateState extends State<ModelUpdate> {
                     decoration: InputDecoration(
                       icon: Icon(Icons.home_work_outlined),
                       labelText: 'Address',
-                      // suffixIcon: Icon(
-                      //   Icons.check_circle,
-                      // ),
                     )),
                 TextFormField(
                     cursorColor: kPrimaryColor,
@@ -274,9 +251,6 @@ class _ModelUpdateState extends State<ModelUpdate> {
                     decoration: InputDecoration(
                       icon: Icon(Icons.star_outline),
                       labelText: 'Gifted',
-                      // suffixIcon: Icon(
-                      //   Icons.check_circle,
-                      // ),
                     )),
                 SizedBox(
                   height: 30,

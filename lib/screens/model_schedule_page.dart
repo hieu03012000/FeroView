@@ -146,11 +146,22 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
             print(end);
             var status = await TaskService().createFreeTime(params);
             if (status) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => MainScreen(),
-                  ));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MultiProvider(
+                            providers: [
+                              ChangeNotifierProvider(
+                                  create: (_) => TaskListViewModel()),
+                            ],
+                            child: FutureBuilder(
+                              builder: (context, snapshot) {
+                                return ModelSchedulePage(
+                                  modelId: widget.modelId,
+                                );
+                              },
+                            ))),
+              );
             }
           } else {
             Fluttertoast.showToast(msg: 'Incorrect date');
@@ -158,92 +169,92 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
         }).showPicker(context);
   }
 
-  void _showDialog(BuildContext context) {
-    fromController = TextEditingController()
-      ..text = formatDate(_date.toString());
-    toController = TextEditingController()..text = formatDate(_date.toString());
-    desController = TextEditingController()..text = '';
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text("Set free time"),
-          content: Builder(
-            builder: (context) {
-              // Get available height and width of the build area of this widget. Make a choice depending on the size.
-              // var height = MediaQuery.of(context).size.height;
-              // var width = MediaQuery.of(context).size.width;
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                height: 180,
-                width: 350,
-                child: ListView(
-                  children: [
-                    TextFormField(
-                      cursorColor: kTextColor,
-                      controller: fromController,
-                      decoration: InputDecoration(
-                        icon: Icon(Icons.drive_file_rename_outline),
-                        labelText: 'From',
-                      ),
-                    ),
-                    TextFormField(
-                      cursorColor: kTextColor,
-                      controller: toController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        icon: Icon(Icons.drive_file_rename_outline),
-                        labelText: 'To',
-                      ),
-                    ),
-                    TextFormField(
-                      cursorColor: kTextColor,
-                      controller: desController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        icon: Icon(Icons.drive_file_rename_outline),
-                        labelText: 'Descripton',
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-          actions: <Widget>[
-            ElevatedButton(
-              child: const Text(
-                'Cancel',
-                style: TextStyle(color: Colors.grey),
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                elevation: 0,
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            ElevatedButton(
-              child: const Text(
-                'Search',
-                style: TextStyle(color: kPrimaryColor),
-              ),
-              style: ElevatedButton.styleFrom(
-                primary: Colors.white,
-                elevation: 0,
-              ),
-              onPressed: () async {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MainScreen(),
-                    ));
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+//   void _showDialog(BuildContext context) {
+//     fromController = TextEditingController()
+//       ..text = formatDate(_date.toString());
+//     toController = TextEditingController()..text = formatDate(_date.toString());
+//     desController = TextEditingController()..text = '';
+//     showDialog(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return AlertDialog(
+//           title: new Text("Set free time"),
+//           content: Builder(
+//             builder: (context) {
+//               // Get available height and width of the build area of this widget. Make a choice depending on the size.
+//               // var height = MediaQuery.of(context).size.height;
+//               // var width = MediaQuery.of(context).size.width;
+//               return Container(
+//                 padding: EdgeInsets.symmetric(horizontal: 20),
+//                 height: 180,
+//                 width: 350,
+//                 child: ListView(
+//                   children: [
+//                     TextFormField(
+//                       cursorColor: kTextColor,
+//                       controller: fromController,
+//                       decoration: InputDecoration(
+//                         icon: Icon(Icons.drive_file_rename_outline),
+//                         labelText: 'From',
+//                       ),
+//                     ),
+//                     TextFormField(
+//                       cursorColor: kTextColor,
+//                       controller: toController,
+//                       keyboardType: TextInputType.number,
+//                       decoration: InputDecoration(
+//                         icon: Icon(Icons.drive_file_rename_outline),
+//                         labelText: 'To',
+//                       ),
+//                     ),
+//                     TextFormField(
+//                       cursorColor: kTextColor,
+//                       controller: desController,
+//                       keyboardType: TextInputType.number,
+//                       decoration: InputDecoration(
+//                         icon: Icon(Icons.drive_file_rename_outline),
+//                         labelText: 'Descripton',
+//                       ),
+//                     ),
+//                   ],
+//                 ),
+//               );
+//             },
+//           ),
+//           actions: <Widget>[
+//             ElevatedButton(
+//               child: const Text(
+//                 'Cancel',
+//                 style: TextStyle(color: Colors.grey),
+//               ),
+//               style: ElevatedButton.styleFrom(
+//                 primary: Colors.white,
+//                 elevation: 0,
+//               ),
+//               onPressed: () {
+//                 Navigator.of(context).pop();
+//               },
+//             ),
+//             ElevatedButton(
+//               child: const Text(
+//                 'Search',
+//                 style: TextStyle(color: kPrimaryColor),
+//               ),
+//               style: ElevatedButton.styleFrom(
+//                 primary: Colors.white,
+//                 elevation: 0,
+//               ),
+//               onPressed: () async {
+//                 Navigator.push(
+//                     context,
+//                     MaterialPageRoute(
+//                       builder: (context) => MainScreen(),
+//                     ));
+//               },
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
 }

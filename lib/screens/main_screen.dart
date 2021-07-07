@@ -68,15 +68,15 @@ class _MainScreenState extends State<MainScreen> {
           index: _selectedIndex,
           items: <Widget>[
             Icon(
+             Icons.home,
+              color: kTextColor,
+            ),
+            Icon(
               Icons.schedule,
               color: kTextColor,
             ),
             Icon(
               Icons.list_alt,
-              color: kTextColor,
-            ),
-            Icon(
-              Icons.home,
               color: kTextColor,
             ),
             Icon(

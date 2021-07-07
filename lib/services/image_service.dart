@@ -11,6 +11,7 @@ import 'package:path/path.dart' as Path;
 
 void uploadFireBase(String path, String modelId) async {
   final _firebaseStorage = FirebaseStorage.instance;
+
   var file = File(path);
 
   var snapshot = await _firebaseStorage

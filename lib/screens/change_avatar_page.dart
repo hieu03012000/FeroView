@@ -7,6 +7,7 @@ import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
@@ -123,23 +124,27 @@ class CameraWidgetState extends State<CameraWidget> {
               ),
               RaisedButton(
                 onPressed: () {
-                  uploadFireBase(imageFile.path, widget.modelId);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => MultiProvider(
-                                providers: [
-                                  ChangeNotifierProvider(
-                                      create: (_) => ModelViewModel()),
-                                ],
-                                child: FutureBuilder(
-                                  builder: (context, snapshot) {
-                                    return ModelProfilePage(
-                                      modelId: widget.modelId,
-                                    );
-                                  },
-                                ))),
-                  );
+                  if (imageFile != null) {
+                    uploadFireBase(imageFile.path, widget.modelId);
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MultiProvider(
+                                  providers: [
+                                    ChangeNotifierProvider(
+                                        create: (_) => ModelViewModel()),
+                                  ],
+                                  child: FutureBuilder(
+                                    builder: (context, snapshot) {
+                                      return ModelProfilePage(
+                                        modelId: widget.modelId,
+                                      );
+                                    },
+                                  ))),
+                    );
+                  } else {
+                    Fluttertoast.showToast(msg: 'Please choose image');
+                  }
                   // Navigator.push(
                   //     context,
                   //     MaterialPageRoute(
