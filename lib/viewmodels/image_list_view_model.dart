@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 class ImageListViewModel with ChangeNotifier {
   List<ModelImageViewModel> images = List<ModelImageViewModel>();
 
-  Future<ImageListViewModel> getImageList(String modelId) async {
-    List<ModelImage> list = await ImageService().getImageList(modelId);
+  Future<ImageListViewModel> getImageList(int collectionId) async {
+    List<ModelImage> list = await ImageService().getImageList(collectionId);
     notifyListeners();
     this.images =
         list.map((images) => ModelImageViewModel(image: images)).toList();

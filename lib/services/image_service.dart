@@ -40,10 +40,9 @@ class ImageService {
     return parsed.map<ModelImage>((json) => ModelImage.fromJson(json)).toList();
   }
 
-  Future<List<ModelImage>> getImageList(String modelId) async {
-    modelId = (await FlutterSession().get('modelId')).toString();
-    final response = await http
-        .get(Uri.parse(baseUrl + "api/v1/models/" + modelId + "/images"));
+  Future<List<ModelImage>> getImageList(int collectionId) async {
+    final response =
+        await http.get(Uri.parse(baseUrl + "api/v1/images/$collectionId"));
     if (response.statusCode == 200) {
       var list = parseImageList(response.body);
       return list;
@@ -52,14 +51,14 @@ class ImageService {
     }
   }
 
-  Future uploadImage(String modelId) async {
+  Future uploadImage(int collectionId) async {
     final _firebaseStorage = FirebaseStorage.instance;
     final _imagePicker = ImagePicker();
     PickedFile image;
     //Select Image
     image = await _imagePicker.getImage(source: ImageSource.gallery);
     var file = File(image.path);
-
+    String modelId = (await FlutterSession().get('modelId')).toString();
     if (image != null) {
       //Upload to Firebase
       var snapshot = await _firebaseStorage
@@ -77,7 +76,7 @@ class ImageService {
 
       final message = jsonEncode(params);
       final response = await http.post(
-          Uri.parse(baseUrl + 'api/v1/models/$modelId/image'),
+          Uri.parse(baseUrl + 'api/v1/models/$modelId/$collectionId/image'),
           body: message,
           headers: {"content-type": "application/json"});
       if (response.statusCode == 200) {
@@ -87,22 +86,20 @@ class ImageService {
     }
   }
 
-  Future deleteImage(
-      String imageFileUrl, int imageId, String modelId) async {
+  Future deleteImage(String imageFileUrl, int imageId) async {
     var ids = [imageId];
-
+    String modelId = (await FlutterSession().get('modelId')).toString();
     Map<String, dynamic> params = Map<String, dynamic>();
     params['id'] = ids;
     final message = jsonEncode(params);
 
     var fileUrl = Uri.decodeFull(Path.basename(imageFileUrl))
         .replaceAll(new RegExp(r'(\?alt).*'), '');
-    final firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(fileUrl);
+    final firebaseStorageRef = FirebaseStorage.instance.ref().child(fileUrl);
     await firebaseStorageRef.delete();
 
     final response = await http.put(
-        Uri.parse(baseUrl + 'api/v1/models/${modelId}/image'),
+        Uri.parse(baseUrl + 'api/v1/models/$modelId/image'),
         body: message,
         headers: {"content-type": "application/json"});
     if (response.statusCode == 200) {

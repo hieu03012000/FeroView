@@ -1,5 +1,9 @@
+import 'package:fero/models/image_collection.dart';
+import 'package:fero/screens/image_in_collection_page.dart';
 import 'package:fero/services/image_service.dart';
 import 'package:fero/utils/constants.dart';
+import 'package:fero/viewmodels/image_collection_list_view_model.dart';
+import 'package:fero/viewmodels/image_collection_view_model.dart';
 import 'package:fero/viewmodels/image_list_view_model.dart';
 import 'package:fero/viewmodels/model_image_view_model.dart';
 import 'package:flutter/material.dart';
@@ -18,19 +22,20 @@ class _ModelImagePageState extends State<ModelImagePage> {
   @override
   void initState() {
     super.initState();
-    // PushNotificationService().init(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          backgroundColor: kPrimaryColor,
-          onPressed: () async =>
-              {await ImageService().uploadImage(widget.modelId), _reloadPage()},
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   child: Icon(Icons.add),
+        //   backgroundColor: kPrimaryColor,
+        //   onPressed: () async => {
+        //     await Provider.of<ImageCollectionListViewModel>(context, listen: false)
+        //         .getImageCollectionList()
+        //   },
+        // ),
         backgroundColor: kBackgroundColor,
         body: SafeArea(
           child: Column(
@@ -51,10 +56,10 @@ class _ModelImagePageState extends State<ModelImagePage> {
               Expanded(
                 child: Padding(
                     padding: EdgeInsets.only(left: 5, right: 5),
-                    child: FutureBuilder<ImageListViewModel>(
-                      future: Provider.of<ImageListViewModel>(context,
+                    child: FutureBuilder<ImageCollectionListViewModel>(
+                      future: Provider.of<ImageCollectionListViewModel>(context,
                               listen: false)
-                          .getImageList(widget.modelId),
+                          .getImageCollectionList(),
                       builder: (context, data) {
                         if (data.connectionState == ConnectionState.waiting) {
                           return Column(
@@ -67,19 +72,14 @@ class _ModelImagePageState extends State<ModelImagePage> {
                           );
                         } else {
                           if (data.error == null) {
-                            return Consumer<ImageListViewModel>(
-                              builder: (ctx, data, child) =>
-                                  StaggeredGridView.countBuilder(
-                                      crossAxisCount: 2,
-                                      itemCount: data.images.length,
-                                      itemBuilder: (context, index) {
-                                        return _buildImageList(
-                                            (context), data.images[index]);
-                                      },
-                                      staggeredTileBuilder: (index) {
-                                        return new StaggeredTile.count(
-                                            1, index.isEven ? 1.2 : 2);
-                                      }),
+                            return Consumer<ImageCollectionListViewModel>(
+                              builder: (ctx, data, child) => ListView.builder(
+                                itemCount: data.imageCollections.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return _buildImageCollectList(
+                                      (context), data.imageCollections[index]);
+                                },
+                              ),
                             );
                           } else {
                             return Text('Error');
@@ -95,126 +95,65 @@ class _ModelImagePageState extends State<ModelImagePage> {
     );
   }
 
-  Widget _buildImageList(BuildContext context, ModelImageViewModel image) {
-    bool isSelect = false;
-    Future _showDialog(BuildContext context) {
-      return showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text(
-                "Do you want to delete",
-                style: TextStyle(color: kPrimaryColor),
+  Widget _buildImageCollectList(
+      BuildContext context, ImageCollectionViewModel collection) {
+    // Size size = MediaQuery.of(context).size;
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+      child: Container(
+        decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+              offset: Offset(-2, 5),
+              blurRadius: 10,
+              color: kPrimaryColor.withOpacity(0.5),
+            )
+          ],
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: kPrimaryColor,
+            // width: 2,
+          ),
+        ),
+        child: FlatButton(
+          padding: EdgeInsets.only(left: 30, top: 15, bottom: 15),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          color: kBackgroundColor,
+          onPressed: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MultiProvider(
+                            providers: [
+                              ChangeNotifierProvider(
+                                  create: (_) => ImageListViewModel()),
+                            ],
+                            child: FutureBuilder(
+                              builder: (context, snapshot) {
+                                return ImageInCollectionPage(collectionId: collection.id,);
+                              },
+                            ))),
+              );
+          },
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  collection.name,
+                  style: TextStyle(fontSize: 16),
+                ),
               ),
-              actions: <Widget>[
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(color: Colors.grey),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    elevation: 0,
-                  ),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    await ImageService()
-                        .deleteImage(image.fileName, image.id, widget.modelId);
-                    Navigator.of(context).pop();
-                    _reloadPage();
-                  },
-                  child: const Text(
-                    'Delete',
-                    style: TextStyle(color: kPrimaryColor),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.white,
-                    elevation: 0,
-                  ),
-                ),
-              ],
-            );
-          });
-    }
-
-    return GestureDetector(
-        onLongPress: () => {
-              _showDialog(context),
-            },
-        child: (!isSelect)
-            ? Container(
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(-2, 5),
-                        blurRadius: 10,
-                        color: kPrimaryColor.withOpacity(0.3),
-                      )
-                    ],
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                        image: NetworkImage(
-                          image.fileName,
-                        ),
-                        fit: BoxFit.cover)),
-              )
-            : Container(
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      offset: Offset(-2, 5),
-                      blurRadius: 10,
-                      color: kPrimaryColor.withOpacity(0.3),
-                    )
-                  ],
-                  color: kPrimaryColor,
-                  borderRadius: BorderRadius.circular(10),
-                  // image: DecorationImage(
-                  //   image: NetworkImage(image.fileName,),
-                  //       fit: BoxFit.cover
-                  // )
-                ),
-              ));
-  }
-
-  Future _reloadPage() async {
-    // dynamic status = (await FlutterSession().get('modelStatus')).toString();
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-          builder: (context) => MultiProvider(
-                  providers: [
-                    ChangeNotifierProvider(create: (_) => ImageListViewModel()),
-                  ],
-                  child: FutureBuilder(
-                    builder: (context, snapshot) {
-                      return ModelImagePage(
-                        modelId: widget.modelId,
-                      );
-                    },
-                  ))),
+              Icon(
+                Icons.navigate_next,
+              ),
+              SizedBox(
+                width: 30,
+              ),
+            ],
+          ),
+        ),
+      ),
     );
-
-    // if (status == '1') {
-    //   Navigator.push(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => MainScreen(),
-    //       ));
-    // }
-    // if (status == '0') {
-    //   Navigator.push(
-    //       context,
-    //       MaterialPageRoute(
-    //         builder: (context) => MainScreenNotActive(),
-    //       ));
-    // }
   }
 }
