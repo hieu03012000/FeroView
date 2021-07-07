@@ -1,12 +1,8 @@
-import 'package:fero/screens/main_screen.dart';
-import 'package:fero/screens/main_screen_not_active.dart';
 import 'package:fero/services/image_service.dart';
-import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/image_list_view_model.dart';
 import 'package:fero/viewmodels/model_image_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_session/flutter_session.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 
@@ -128,6 +124,7 @@ class _ModelImagePageState extends State<ModelImagePage> {
                   onPressed: () async {
                     await ImageService()
                         .deleteImage(image.fileName, image.id, widget.modelId);
+                    Navigator.of(context).pop();
                     _reloadPage();
                   },
                   child: const Text(
@@ -188,20 +185,36 @@ class _ModelImagePageState extends State<ModelImagePage> {
   }
 
   Future _reloadPage() async {
-    dynamic status = (await FlutterSession().get('modelStatus')).toString();
-    if (status == '1') {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MainScreen(),
-          ));
-    }
-    if (status == '0') {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MainScreenNotActive(),
-          ));
-    }
+    // dynamic status = (await FlutterSession().get('modelStatus')).toString();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+          builder: (context) => MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(create: (_) => ImageListViewModel()),
+                  ],
+                  child: FutureBuilder(
+                    builder: (context, snapshot) {
+                      return ModelImagePage(
+                        modelId: widget.modelId,
+                      );
+                    },
+                  ))),
+    );
+
+    // if (status == '1') {
+    //   Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => MainScreen(),
+    //       ));
+    // }
+    // if (status == '0') {
+    //   Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //         builder: (context) => MainScreenNotActive(),
+    //       ));
+    // }
   }
 }

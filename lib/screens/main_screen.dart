@@ -12,7 +12,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   String _currentPage = "Page3";
   List<String> pageKeys = ["Page1", "Page2", "Page3", "Page4", "Page5"];
-  Map<String, GlobalKey<NavigatorState>> _navigatorKeys = {
+  final Map<String, GlobalKey<NavigatorState>> _navigatorKeys = {
     "Page1": GlobalKey<NavigatorState>(),
     "Page2": GlobalKey<NavigatorState>(),
     "Page3": GlobalKey<NavigatorState>(),
@@ -69,23 +69,23 @@ class _MainScreenState extends State<MainScreen> {
           items: <Widget>[
             Icon(
               Icons.schedule,
-              color: kBackgroundColor,
+              color: kTextColor,
             ),
             Icon(
               Icons.list_alt,
-              color: kBackgroundColor,
+              color: kTextColor,
             ),
             Icon(
               Icons.home,
-              color: kBackgroundColor,
+              color: kTextColor,
             ),
             Icon(
               Icons.image,
-              color: kBackgroundColor,
+              color: kTextColor,
             ),
             Icon(
               Icons.account_circle,
-              color: kBackgroundColor,
+              color: kTextColor,
             ),
           ],
           onTap: (index) {

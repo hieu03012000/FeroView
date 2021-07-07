@@ -31,7 +31,7 @@ class ApplyCastingService {
     final response = await http.delete(Uri.parse(baseUrl +
         'api/v1/apply-castings/cancel?modelId=$modelId&castingId=$castingId'));
     if (response.statusCode == 200) {
-      Fluttertoast.showToast(msg: 'Apply success');
+      Fluttertoast.showToast(msg: 'Cancel success');
     } else {
       throw Exception('Failed to load');
     }

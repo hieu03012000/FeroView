@@ -54,7 +54,7 @@ class CastingCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: kPrimaryColor,
+                color: kPrimaryColor.withOpacity(0.5),
                 offset: Offset(0, 5),
                 blurRadius: 10,
               )

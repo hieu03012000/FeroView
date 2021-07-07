@@ -28,7 +28,7 @@ class ModelApplyCastingPage extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(bottom: 100),
               child: SizedBox(
-                height: height - 90,
+                height: height - 162,
                 child: FutureBuilder<CastingListViewModel>(
                     future: Provider.of<CastingListViewModel>(context,
                             listen: false)

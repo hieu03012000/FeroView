@@ -155,7 +155,7 @@ void _showDialog(BuildContext context) {
               elevation: 0,
             ),
             onPressed: () async {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) => MultiProvider(

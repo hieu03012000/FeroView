@@ -144,7 +144,7 @@ class TitleWithButton extends StatelessWidget {
             },
             child: Text(
               'More',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: kTextColor),
             ))
       ]),
     );
@@ -192,7 +192,7 @@ class HeaderWithSearchBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: kDefaultPadding * 2.5),
+      margin: EdgeInsets.only(bottom: 10),
       height: size.height * 0.2,
       child: Stack(
         children: <Widget>[
@@ -221,7 +221,7 @@ class HeaderWithSearchBox extends StatelessWidget {
                             'Hi ' + snapshot.data.toString() + '!',
                             style:
                                 Theme.of(context).textTheme.headline5.copyWith(
-                                      color: Colors.white,
+                                      color: kTextColor,
                                       fontWeight: FontWeight.bold,
                                       letterSpacing: 1.0,
                                     ),
@@ -353,8 +353,9 @@ void _showDialog(BuildContext context) {
               primary: Colors.white,
               elevation: 0,
             ),
-            onPressed: () async {
-              Navigator.of(context, rootNavigator: false).pushReplacement(
+            onPressed: () {
+              Navigator.push(
+                context,
                 MaterialPageRoute(
                     builder: (context) => MultiProvider(
                             providers: [
@@ -371,6 +372,7 @@ void _showDialog(BuildContext context) {
                               },
                             ))),
               );
+              // Navigator.of(context).pop();
             },
           ),
         ],

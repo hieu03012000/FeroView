@@ -1,5 +1,6 @@
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/screens/main_screen_not_active.dart';
+import 'package:fero/screens/model_profile_page.dart';
 import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/common.dart';
 import 'package:fero/utils/constants.dart';
@@ -175,7 +176,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
                   controller: nameController,
                   cursorColor: kPrimaryColor,
                   decoration: InputDecoration(
-                    icon: Icon(Icons.drive_file_rename_outline),
+                    icon: Icon(Icons.credit_card),
                     labelText: 'Name',
                     // suffixIcon: Icon(
                     //   Icons.check_circle,
@@ -207,35 +208,48 @@ class _ModelUpdateState extends State<ModelUpdate> {
                     });
                   },
                 ),
-                TextFormField(
-                  controller: dobController,
-                  cursorColor: kPrimaryColor,
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.drive_file_rename_outline),
-                    labelText: 'Date of birth',
-                    // suffixIcon: Icon(
-                    //   Icons.check_circle,
-                    // ),
+                GestureDetector(
+                  onTap: _selectDate,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 260,
+                        child: TextFormField(
+                          controller: dobController,
+                          cursorColor: kPrimaryColor,
+                          enabled: false,
+                          decoration: InputDecoration(
+                            icon: Icon(Icons.cake_outlined),
+                            labelText: 'Date of birth',
+                          ),
+                        ),
+                      ),
+                      Icon(Icons.calendar_today,)
+                      // Padding(
+                      //     padding: EdgeInsets.symmetric(horizontal: 5),
+                      //     child: Center(
+                      //       child: ElevatedButton.icon(
+                      //         onPressed: _selectDate,
+                      //         style: ElevatedButton.styleFrom(
+                      //           primary: Colors.transparent,
+                      //           elevation: 0,
+                      //           minimumSize: Size(10, 50),
+                      //           onPrimary: kPrimaryColor,
+                      //         ),
+                      //         icon: Icon(
+                      //           Icons.calendar_today,
+                      //         ),
+                      //         label: Text(''),
+                      //       ),
+                      //     )),
+                    ],
                   ),
-                ),
-                ElevatedButton.icon(
-                  onPressed: _selectDate,
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.transparent,
-                    elevation: 0,
-                    minimumSize: Size(10, 50),
-                    onPrimary: kPrimaryColor,
-                  ),
-                  icon: Icon(
-                    Icons.calendar_today,
-                  ),
-                  label: Text(''),
                 ),
                 TextFormField(
                   cursorColor: kPrimaryColor,
                   controller: phoneController,
                   decoration: InputDecoration(
-                    icon: Icon(Icons.drive_file_rename_outline),
+                    icon: Icon(Icons.phone),
                     labelText: 'Phone number',
                     // suffixIcon: Icon(
                     //   Icons.check_circle,
@@ -246,7 +260,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
                     cursorColor: kPrimaryColor,
                     controller: addressController,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.drive_file_rename_outline),
+                      icon: Icon(Icons.home_work_outlined),
                       labelText: 'Address',
                       // suffixIcon: Icon(
                       //   Icons.check_circle,
@@ -256,7 +270,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
                     cursorColor: kPrimaryColor,
                     controller: giftedController,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.drive_file_rename_outline),
+                      icon: Icon(Icons.star_outline),
                       labelText: 'Gifted',
                       // suffixIcon: Icon(
                       //   Icons.check_circle,
@@ -281,7 +295,22 @@ class _ModelUpdateState extends State<ModelUpdate> {
               params['gifted'] = giftedController.text;
               await Provider.of<ModelViewModel>(context, listen: false)
                   .updateProfileModel(params);
-              Navigator.pop(context);
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MultiProvider(
+                            providers: [
+                              ChangeNotifierProvider(
+                                  create: (_) => ModelViewModel()),
+                            ],
+                            child: FutureBuilder(
+                              builder: (context, snapshot) {
+                                return ModelProfilePage(
+                                  modelId: widget.modelDetail.id,
+                                );
+                              },
+                            ))),
+              );
             },
             style: ElevatedButton.styleFrom(
                 primary: kPrimaryColor,

@@ -57,6 +57,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
   }
 
   ListView scheduleView({BuildContext context, TaskListViewModel tasks}) {
+    Size size = MediaQuery.of(context).size;
     return ListView(
       children: [
         Center(
@@ -72,7 +73,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
           ),
         ),
         Container(
-          height: 650,
+          height: size.height - 165,
           child: SfCalendar(
             view: CalendarView.workWeek,
             dataSource: TaskDataSource(getAppointment(tasks)),

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fero/main.dart';
 import 'package:fero/screens/casting_detail_page.dart';
+import 'package:fero/screens/main_screen.dart';
 import 'package:fero/services/casting_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
@@ -138,6 +139,7 @@ class PushNotificationService {
       print(payLoad);
     }
     dynamic casting = await CastingService().getCasting(payLoad);
+    // navigatorKeys['page2']
     navigatorKey.currentState.push(
       MaterialPageRoute(
           builder: (context) => MultiProvider(
