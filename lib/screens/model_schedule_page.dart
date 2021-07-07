@@ -25,7 +25,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        backgroundColor: kPrimaryColor,
+        backgroundColor: kTextColor,
         onPressed: () => {_showDateTimePicker(context)},
       ),
       body: FutureBuilder<TaskListViewModel>(
@@ -66,9 +66,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
             child: Text(
               'Schedule',
               style: TextStyle(
-                  color: kPrimaryColor,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
+                  color: kTextColor, fontSize: 25, fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -182,7 +180,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
                 child: ListView(
                   children: [
                     TextFormField(
-                      cursorColor: kPrimaryColor,
+                      cursorColor: kTextColor,
                       controller: fromController,
                       decoration: InputDecoration(
                         icon: Icon(Icons.drive_file_rename_outline),
@@ -190,7 +188,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
                       ),
                     ),
                     TextFormField(
-                      cursorColor: kPrimaryColor,
+                      cursorColor: kTextColor,
                       controller: toController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
@@ -199,7 +197,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
                       ),
                     ),
                     TextFormField(
-                      cursorColor: kPrimaryColor,
+                      cursorColor: kTextColor,
                       controller: desController,
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(

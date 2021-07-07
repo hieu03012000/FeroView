@@ -66,9 +66,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
             child: Text(
               'Account',
               style: TextStyle(
-                  color: kPrimaryColor,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
+                  color: kTextColor, fontSize: 25, fontWeight: FontWeight.bold),
             ),
           ),
         ),
@@ -78,7 +76,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
         Stack(
           children: [
             Center(
-              child: Container(
+                child: Container(
               height: 100,
               width: 100,
               decoration: BoxDecoration(
@@ -113,7 +111,7 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                           child: ClipOval(
                               child: Container(
                             padding: EdgeInsets.all(5),
-                            color: kPrimaryColor,
+                            color: kTextColor,
                             child: Icon(
                               Icons.edit,
                               color: Colors.white,
@@ -216,7 +214,8 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => MeasureTemplatePage(
-                              modelId: widget.modelId, template: '1',
+                              modelId: widget.modelId,
+                              template: '1',
                             ),
                           ));
                     },

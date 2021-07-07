@@ -175,7 +175,7 @@ class _CreateTextBoxState extends State<CreateTextBox> {
                                 child: ClipOval(
                                     child: Container(
                                   padding: EdgeInsets.all(5),
-                                  color: kPrimaryColor,
+                                  color: kTextColor,
                                   child: Icon(
                                     Icons.edit,
                                     color: Colors.white,
@@ -287,12 +287,12 @@ class _CreateTextBoxState extends State<CreateTextBox> {
                 ),
               ),
               TextFormField(
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter address';
-                  }
-                  return null;
-                },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please enter address';
+                    }
+                    return null;
+                  },
                   cursorColor: kPrimaryColor,
                   controller: addressController,
                   maxLength: 100,

@@ -134,7 +134,7 @@ class _AttViewState extends State<AttView> {
               // ),
               ),
           ElevatedButton(
-            child: Text('UPDATE'),
+            child: Text('UPDATE', style: TextStyle(color: kTextColor)),
             onPressed: () async {
               List<Map<String, dynamic>> params = [];
               for (int i = 0; i < widget.list.length; i++) {

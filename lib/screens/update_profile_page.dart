@@ -30,14 +30,14 @@ class _UpdateModelProfilePageState extends State<UpdateModelProfilePage> {
       child: Scaffold(
         appBar: AppBar(
           leading: BackButton(
-            color: kPrimaryColor,
+            color: kTextColor,
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,
           title: Text(
             'Update profile',
             style: TextStyle(
-              color: kPrimaryColor,
+              color: kTextColor,
             ),
           ),
           // actions: [
@@ -121,7 +121,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
         return Theme(
           data: ThemeData.dark().copyWith(
             colorScheme: ColorScheme.dark(
-              primary: kPrimaryColor,
+              primary: kTextColor,
               onPrimary: Colors.white,
               surface: kPrimaryColor,
               onSurface: Colors.black,
@@ -224,7 +224,9 @@ class _ModelUpdateState extends State<ModelUpdate> {
                           ),
                         ),
                       ),
-                      Icon(Icons.calendar_today,)
+                      Icon(
+                        Icons.calendar_today,
+                      )
                       // Padding(
                       //     padding: EdgeInsets.symmetric(horizontal: 5),
                       //     child: Center(
@@ -283,7 +285,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
             ),
           ),
           ElevatedButton(
-            child: Text('UPDATE'),
+            child: Text('UPDATE', style: TextStyle(color: kTextColor)),
             onPressed: () async {
               Map<String, dynamic> params = Map<String, dynamic>();
               params['id'] = widget.modelDetail.id;

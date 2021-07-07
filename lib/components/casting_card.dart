@@ -71,7 +71,7 @@ class CastingCard extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: kPrimaryColor),
+                        color: kTextColor),
                   ),
                   padding: EdgeInsets.symmetric(vertical: 5),
                 ),

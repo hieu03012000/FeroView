@@ -105,7 +105,7 @@ class CameraWidgetState extends State<CameraWidget> {
                             child: Text(
                               "Choose Image",
                               style: TextStyle(
-                                  color: kBackgroundColor,
+                                  color: kTextColor,
                                   fontSize: 20,
                                   fontStyle: FontStyle.italic),
                             ),
@@ -149,7 +149,7 @@ class CameraWidgetState extends State<CameraWidget> {
                 color: kPrimaryColor,
                 child: Text(
                   "Select Image",
-                  style: TextStyle(color: kBackgroundColor),
+                  style: TextStyle(color: kTextColor),
                 ),
               )
             ],

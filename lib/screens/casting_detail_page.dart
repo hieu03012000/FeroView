@@ -40,7 +40,7 @@ class _CastingDetailPageState extends State<CastingDetailPage> {
                     Text(
                       widget.casting.name,
                       style: TextStyle(
-                          color: kPrimaryColor,
+                          color: kTextColor,
                           fontWeight: FontWeight.bold,
                           fontSize: 24),
                       textAlign: TextAlign.center,
@@ -293,7 +293,10 @@ class ActionButton extends StatelessWidget {
                     PushNotificationService()
                         .showNotification(this.close, casting);
                   },
-                  child: Text('Apply'),
+                  child: Text(
+                    'Apply',
+                    style: TextStyle(color: kTextColor),
+                  ),
                 )
               ],
             );

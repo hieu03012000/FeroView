@@ -265,7 +265,7 @@ class HeaderWithSearchBox extends StatelessWidget {
                     ),
                     Text(
                       'Search',
-                      style: TextStyle(color: kPrimaryColor, fontSize: 18),
+                      style: TextStyle(color: kTextColor, fontSize: 18),
                     )
                   ],
                 ),

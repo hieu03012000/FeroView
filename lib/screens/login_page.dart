@@ -42,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
         decoration: BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topCenter,
-                colors: [kPrimaryColor, kSecondaryColor])),
+                colors: [kPrimaryColor, kBackgroundColor])),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -57,20 +57,20 @@ class _LoginPageState extends State<LoginPage> {
                   FadeAnimation(
                     1,
                     Text(
-                      'Login',
+                      'Model Booking',
                       style: TextStyle(
-                        color: kBackgroundColor,
-                        fontSize: 40,
-                      ),
+                          color: kTextColor,
+                          fontSize: 40,
+                          fontWeight: FontWeight.bold),
                     ),
                   ),
                   SizedBox(height: 10),
                   FadeAnimation(
                       1,
                       Text(
-                        'Wellcome back',
+                        'Welcome back',
                         style: TextStyle(
-                          color: kBackgroundColor,
+                          color: kTextColor,
                           fontSize: 18,
                         ),
                       ))
@@ -120,7 +120,10 @@ class _LoginPageState extends State<LoginPage> {
                         FadeAnimation(
                             1,
                             ElevatedButton.icon(
-                                icon: FaIcon(FontAwesomeIcons.google),
+                                icon: FaIcon(
+                                  FontAwesomeIcons.google,
+                                  color: kTextColor,
+                                ),
                                 onPressed: () {
                                   final provider =
                                       Provider.of<GoogleSignInProvider>(context,
@@ -160,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                                 label: Text(
                                   'Login with Google',
                                   style: TextStyle(
-                                      color: kBackgroundColor, fontSize: 20),
+                                      color: kTextColor, fontSize: 20),
                                 ))),
                         SizedBox(
                           height: 20,
@@ -193,8 +196,8 @@ class _LoginPageState extends State<LoginPage> {
                               },
                               child: Text(
                                 'Create new account',
-                                style: TextStyle(
-                                    color: kPrimaryColor, fontSize: 16),
+                                style:
+                                    TextStyle(color: kTextColor, fontSize: 16),
                               ),
                             )),
                       ],

@@ -10,7 +10,7 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  String _currentPage = "Page3";
+  String _currentPage = "Page1";
   List<String> pageKeys = ["Page1", "Page2", "Page3", "Page4", "Page5"];
   final Map<String, GlobalKey<NavigatorState>> _navigatorKeys = {
     "Page1": GlobalKey<NavigatorState>(),
@@ -19,7 +19,7 @@ class _MainScreenState extends State<MainScreen> {
     "Page4": GlobalKey<NavigatorState>(),
     "Page5": GlobalKey<NavigatorState>(),
   };
-  int _selectedIndex = 2;
+  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -45,8 +45,8 @@ class _MainScreenState extends State<MainScreen> {
         final isFirstRouteInCurrentTab =
             !await _navigatorKeys[_currentPage].currentState.maybePop();
         if (isFirstRouteInCurrentTab) {
-          if (_currentPage != "Page3") {
-            _selectTab("Page3", 3);
+          if (_currentPage != "Page1") {
+            _selectTab("Page1", 1);
 
             return false;
           }

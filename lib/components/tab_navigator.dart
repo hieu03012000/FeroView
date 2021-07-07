@@ -52,6 +52,17 @@ class Page1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => CastingListViewModel()),
+    ], child: Home());
+  }
+}
+
+class Page2 extends StatelessWidget {
+  const Page2({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => TaskListViewModel()),
@@ -67,8 +78,8 @@ class Page1 extends StatelessWidget {
   }
 }
 
-class Page2 extends StatelessWidget {
-  const Page2({Key key}) : super(key: key);
+class Page3 extends StatelessWidget {
+  const Page3({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -81,22 +92,6 @@ class Page2 extends StatelessWidget {
             return ModelApplyCastingPage();
           },
         ));
-  }
-}
-
-class Page3 extends StatefulWidget {
-  const Page3({Key key}) : super(key: key);
-
-  @override
-  _Page3State createState() => _Page3State();
-}
-
-class _Page3State extends State<Page3> {
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_) => CastingListViewModel()),
-    ], child: Home());
   }
 }
 

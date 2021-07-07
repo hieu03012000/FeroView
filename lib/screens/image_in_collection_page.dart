@@ -25,10 +25,13 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
+          child: Icon(
+            Icons.add,
+            color: kTextColor,
+          ),
           backgroundColor: kPrimaryColor,
           onPressed: () async => {
-            await ImageService().uploadImage(widget.collectionId), 
+            await ImageService().uploadImage(widget.collectionId),
             _reloadPage()
           },
         ),
@@ -43,7 +46,7 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
                   child: Text(
                     'Gallery',
                     style: TextStyle(
-                        color: kPrimaryColor,
+                        color: kTextColor,
                         fontSize: 25,
                         fontWeight: FontWeight.bold),
                   ),
@@ -123,8 +126,7 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    await ImageService()
-                        .deleteImage(image.fileName, image.id);
+                    await ImageService().deleteImage(image.fileName, image.id);
                     Navigator.of(context).pop();
                     _reloadPage();
                   },

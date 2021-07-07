@@ -47,7 +47,7 @@ class _ModelImagePageState extends State<ModelImagePage> {
                   child: Text(
                     'Gallery',
                     style: TextStyle(
-                        color: kPrimaryColor,
+                        color: kTextColor,
                         fontSize: 25,
                         fontWeight: FontWeight.bold),
                   ),
@@ -122,19 +122,21 @@ class _ModelImagePageState extends State<ModelImagePage> {
           color: kBackgroundColor,
           onPressed: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MultiProvider(
-                            providers: [
-                              ChangeNotifierProvider(
-                                  create: (_) => ImageListViewModel()),
-                            ],
-                            child: FutureBuilder(
-                              builder: (context, snapshot) {
-                                return ImageInCollectionPage(collectionId: collection.id,);
-                              },
-                            ))),
-              );
+              context,
+              MaterialPageRoute(
+                  builder: (context) => MultiProvider(
+                          providers: [
+                            ChangeNotifierProvider(
+                                create: (_) => ImageListViewModel()),
+                          ],
+                          child: FutureBuilder(
+                            builder: (context, snapshot) {
+                              return ImageInCollectionPage(
+                                collectionId: collection.id,
+                              );
+                            },
+                          ))),
+            );
           },
           child: Row(
             children: [

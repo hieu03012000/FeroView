@@ -31,8 +31,10 @@ class _SearchCastingPageState extends State<SearchCastingPage> {
           title: Text('Casting List'),
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.search),
-          backgroundColor: kPrimaryColor,
+          child: Icon(
+            Icons.search,
+          ),
+          backgroundColor: kTextColor,
           onPressed: () => {
             _showDialog(context),
           },
