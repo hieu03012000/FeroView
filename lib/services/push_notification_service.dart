@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:fero/main.dart';
 import 'package:fero/screens/casting_detail_page.dart';
+import 'package:fero/screens/casting_notification_page.dart';
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/services/casting_service.dart';
 import 'package:fero/utils/constants.dart';
@@ -22,13 +23,13 @@ class PushNotificationService {
     DateTime notiDate = end.subtract(Duration(days: 1));
     var modelId = (await FlutterSession().get("modelId")).toString();
   }
-  
+
   Future init() async {
     var modelId = (await FlutterSession().get("modelId")).toString();
     _fm.subscribeToTopic(modelId);
     // dynamic token = _fm.getToken();
     if (Platform.isIOS) {
-      _fm.requestNotificationPermissions(IosNotificationSettings());  
+      _fm.requestNotificationPermissions(IosNotificationSettings());
     }
     _fm.configure(
       // onBackgroundMessage: (message) async {
@@ -87,9 +88,7 @@ class PushNotificationService {
       },
     );
 
-    _fm.getToken().then((token) => {
-      update(token)
-    });
+    _fm.getToken().then((token) => {update(token)});
   }
 
   update(String token) {
@@ -98,11 +97,15 @@ class PushNotificationService {
 
   Future gotoNotification(Map<String, dynamic> message) async {
     String castingId = message["data"]["castingId"];
-    var casting = await CastingService().getCasting(castingId);
 
-    // Navigator.push(
-    //   context,
-    navigatorKey.currentState.push(
+    var parts = castingId.split(",");
+    var ids = new List<int>();
+
+    for (int i = 0; i < parts.length - 2; i++) {
+      ids.add(int.parse(parts[i]));
+    }
+
+    navigatorKey.currentState.pushReplacement(
       MaterialPageRoute(
           builder: (context) => MultiProvider(
                   providers: [
@@ -111,8 +114,8 @@ class PushNotificationService {
                   ],
                   child: FutureBuilder(
                     builder: (context, snapshot) {
-                      return CastingDetailPage(
-                        casting: casting,
+                      return CastingNotificationPage(
+                        castings: ids,
                       );
                     },
                   ))),

@@ -1,5 +1,4 @@
 import 'package:fero/components/casting_card.dart';
-import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:flutter/cupertino.dart';

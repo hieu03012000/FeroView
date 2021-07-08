@@ -108,4 +108,14 @@ class ImageService {
       throw Exception('Failed to load');
     }
   }
+
+  // List<int> generateGIF(Iterable<Image> images) {
+  // final animation = Animation();
+  // for(Image image in images) {
+  //   animation.addFrame(image);
+  // }
+  // return encodeGifAnimation(animation);
+// }
+
+
 }

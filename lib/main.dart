@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fero/screens/login_page.dart';
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/screens/main_screen_not_active.dart';
+import 'package:fero/services/casting_service.dart';
 import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
@@ -25,6 +26,7 @@ void main() async {
   HttpOverrides.global = new MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
   PushNotificationService().init();
+  CastingService().startThread();
   runApp(MyApp());
 }
 

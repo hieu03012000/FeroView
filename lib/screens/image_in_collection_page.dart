@@ -1,3 +1,4 @@
+import 'package:fero/screens/intro_image_page.dart';
 import 'package:fero/services/image_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/image_list_view_model.dart';
@@ -78,7 +79,7 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
                                       itemCount: data.images.length,
                                       itemBuilder: (context, index) {
                                         return _buildImageList(
-                                            (context), data.images[index]);
+                                            (context), data.images[index], index);
                                       },
                                       staggeredTileBuilder: (index) {
                                         return new StaggeredTile.count(
@@ -99,7 +100,7 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
     );
   }
 
-  Widget _buildImageList(BuildContext context, ModelImageViewModel image) {
+  Widget _buildImageList(BuildContext context, ModelImageViewModel image, int index) {
     bool isSelect = false;
     Future _showDialog(BuildContext context) {
       return showDialog(
@@ -148,6 +149,25 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
         onLongPress: () => {
               _showDialog(context),
             },
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => MultiProvider(
+                        providers: [
+                          ChangeNotifierProvider(
+                              create: (_) => ImageListViewModel()),
+                        ],
+                        child: FutureBuilder(
+                          builder: (context, snapshot) {
+                            return IntroImagePage(
+                              beginIndex: index,
+                              collectionId: widget.collectionId,
+                            );
+                          },
+                        ))),
+          );
+        },
         child: (!isSelect)
             ? Container(
                 margin: EdgeInsets.all(10),
@@ -165,6 +185,7 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
                         image: NetworkImage(
                           image.fileName,
                         ),
+                        
                         fit: BoxFit.cover)),
               )
             : Container(

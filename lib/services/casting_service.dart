@@ -61,4 +61,49 @@ class CastingService {
       throw Exception('Failed to load');
     }
   }
+
+  Future<List<Casting>> getCastingByIds(List<int> castingIds) async {
+    // var modelId = (await FlutterSession().get("modelId")).toString();
+    Map<String, dynamic> params = Map<String, dynamic>();
+    params['castingIds'] = castingIds;
+
+    final message = jsonEncode(params);
+    final response = await http.post(Uri.parse(baseUrl + 'api/v1/castings'),
+        body: message, headers: {"content-type": "application/json"});
+    if (response.statusCode == 200) {
+      var list = parseCastingList(response.body);
+      return list;
+    } else {
+      Fluttertoast.showToast(msg: 'Not found');
+      throw Exception('Failed to load');
+    }
+  }
+
+  Future startThread() async {
+    var modelId = (await FlutterSession().get("modelId")).toString();
+
+    final response =
+        await http.get(Uri.parse(baseUrl + 'api/v1/castings/$modelId/thread'));
+    if (response.statusCode == 200) {
+      // var casting = CastingViewModel(
+      //     casting: Casting.fromJson(jsonDecode(response.body)));
+      // return casting;
+    } else {
+      Fluttertoast.showToast(msg: 'Not found');
+      throw Exception('Failed to load');
+    }
+  }
+
+  // Future endThread() async {
+  //   final response =
+  //       await http.get(Uri.parse(baseUrl + 'api/v1/castings/end-thread'));
+  //   if (response.statusCode == 200) {
+  //     // var casting = CastingViewModel(
+  //     //     casting: Casting.fromJson(jsonDecode(response.body)));
+  //     // return casting;
+  //   } else {
+  //     Fluttertoast.showToast(msg: 'Not found');
+  //     throw Exception('Failed to load');
+  //   }
+  // }
 }

@@ -6,16 +6,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class CastingListComponent extends StatelessWidget {
+class CastingListComponent extends StatefulWidget {
   final CastingListViewModel list;
-  const CastingListComponent({Key key, this.list}) : super(key: key);
+ CastingListComponent({Key key, this.list}) : super(key: key);
 
+  @override
+   CastingListComponentState createState() =>  CastingListComponentState();
+}
+
+class  CastingListComponentState extends State<CastingListComponent> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      itemCount: list.castings.length,
+      itemCount: widget.list.castings.length,
       itemBuilder: (context, index) {
-        return CastingCard(casting: list.castings[index]);
+        print(index);
+        return CastingCard(casting: widget.list.castings[index]);
       },
     );
   }
@@ -67,7 +73,7 @@ class CastingCard extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: Text(
-                    casting.name,
+                    casting.name?? '',
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -77,7 +83,7 @@ class CastingCard extends StatelessWidget {
                 ),
                 Container(
                     child: Text(
-                      casting.getStatus,
+                      casting.getStatus?? '',
                       style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -96,7 +102,7 @@ class CastingCard extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  casting.salary,
+                  casting.salary?? '',
                   style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -106,7 +112,7 @@ class CastingCard extends StatelessWidget {
             ),
             Container(
               child: Text(
-                casting.description,
+                casting.description?? '',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
                 softWrap: false,
@@ -117,7 +123,7 @@ class CastingCard extends StatelessWidget {
               children: [
                 Text('Open at: '),
                 Text(
-                  casting.openDate,
+                  casting.openDate?? '',
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ],
