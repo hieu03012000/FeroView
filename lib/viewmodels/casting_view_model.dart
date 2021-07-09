@@ -69,4 +69,12 @@ class CastingViewModel {
   String get getStatus {
     return getCastingStatus(_casting.openTime, _casting.closeTime);
   }
+
+  String get incomingTaskDate {
+    return _casting.incomingTask != null ? formatDate(_casting.incomingTask) : 'null';
+  }
+
+  String get incomingTaskTime {
+    return _casting.incomingTask != null ? formatTime(_casting.incomingTask) : 'null';
+  }
 }

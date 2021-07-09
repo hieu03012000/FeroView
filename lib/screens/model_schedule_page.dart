@@ -1,7 +1,5 @@
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
-import 'package:fero/screens/main_screen.dart';
 import 'package:fero/services/task_service.dart';
-import 'package:fero/utils/common.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/task_list_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,8 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
 class ModelSchedulePage extends StatefulWidget {
-  final String modelId;
-  ModelSchedulePage({Key key, this.modelId}) : super(key: key);
+  ModelSchedulePage({Key key}) : super(key: key);
 
   @override
   _ModelSchedulePageState createState() => _ModelSchedulePageState();
@@ -30,7 +27,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
       ),
       body: FutureBuilder<TaskListViewModel>(
         future: Provider.of<TaskListViewModel>(context, listen: false)
-            .getTaskList(widget.modelId),
+            .getTaskList(),
         builder: (ctx, prevData) {
           if (prevData.connectionState == ConnectionState.waiting) {
             return Column(
@@ -84,45 +81,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
     );
   }
 
-  DateTime _date = DateTime.now();
   TextEditingController fromController, toController, desController;
-
-  void _selectDate(String type) async {
-    final DateTime newDate = await showDatePicker(
-      context: context,
-      initialDate: _date,
-      firstDate: DateTime(1190, 1),
-      lastDate: DateTime.now(),
-      builder: (BuildContext context, Widget child) {
-        return Theme(
-          data: ThemeData.dark().copyWith(
-            colorScheme: ColorScheme.dark(
-              primary: kPrimaryColor,
-              onPrimary: Colors.white,
-              surface: kPrimaryColor,
-              onSurface: Colors.black,
-              primaryVariant: Colors.black,
-            ),
-            dialogBackgroundColor: Colors.white,
-          ),
-          child: child,
-        );
-      },
-    );
-    if (newDate != null) {
-      setState(() {
-        _date = newDate;
-        if (type == 'from') {
-          fromController = TextEditingController()
-            ..text = formatDate(newDate.toString());
-        } else {
-          toController = TextEditingController()
-            ..text = formatDate(newDate.toString());
-        }
-      });
-    }
-  }
-
   void _showDateTimePicker(BuildContext context) {
     return DateTimeRangePicker(
         startText: "From",
@@ -156,9 +115,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
                             ],
                             child: FutureBuilder(
                               builder: (context, snapshot) {
-                                return ModelSchedulePage(
-                                  modelId: widget.modelId,
-                                );
+                                return ModelSchedulePage();
                               },
                             ))),
               );
@@ -168,93 +125,4 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
           }
         }).showPicker(context);
   }
-
-//   void _showDialog(BuildContext context) {
-//     fromController = TextEditingController()
-//       ..text = formatDate(_date.toString());
-//     toController = TextEditingController()..text = formatDate(_date.toString());
-//     desController = TextEditingController()..text = '';
-//     showDialog(
-//       context: context,
-//       builder: (BuildContext context) {
-//         return AlertDialog(
-//           title: new Text("Set free time"),
-//           content: Builder(
-//             builder: (context) {
-//               // Get available height and width of the build area of this widget. Make a choice depending on the size.
-//               // var height = MediaQuery.of(context).size.height;
-//               // var width = MediaQuery.of(context).size.width;
-//               return Container(
-//                 padding: EdgeInsets.symmetric(horizontal: 20),
-//                 height: 180,
-//                 width: 350,
-//                 child: ListView(
-//                   children: [
-//                     TextFormField(
-//                       cursorColor: kTextColor,
-//                       controller: fromController,
-//                       decoration: InputDecoration(
-//                         icon: Icon(Icons.drive_file_rename_outline),
-//                         labelText: 'From',
-//                       ),
-//                     ),
-//                     TextFormField(
-//                       cursorColor: kTextColor,
-//                       controller: toController,
-//                       keyboardType: TextInputType.number,
-//                       decoration: InputDecoration(
-//                         icon: Icon(Icons.drive_file_rename_outline),
-//                         labelText: 'To',
-//                       ),
-//                     ),
-//                     TextFormField(
-//                       cursorColor: kTextColor,
-//                       controller: desController,
-//                       keyboardType: TextInputType.number,
-//                       decoration: InputDecoration(
-//                         icon: Icon(Icons.drive_file_rename_outline),
-//                         labelText: 'Descripton',
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//               );
-//             },
-//           ),
-//           actions: <Widget>[
-//             ElevatedButton(
-//               child: const Text(
-//                 'Cancel',
-//                 style: TextStyle(color: Colors.grey),
-//               ),
-//               style: ElevatedButton.styleFrom(
-//                 primary: Colors.white,
-//                 elevation: 0,
-//               ),
-//               onPressed: () {
-//                 Navigator.of(context).pop();
-//               },
-//             ),
-//             ElevatedButton(
-//               child: const Text(
-//                 'Search',
-//                 style: TextStyle(color: kPrimaryColor),
-//               ),
-//               style: ElevatedButton.styleFrom(
-//                 primary: Colors.white,
-//                 elevation: 0,
-//               ),
-//               onPressed: () async {
-//                 Navigator.push(
-//                     context,
-//                     MaterialPageRoute(
-//                       builder: (context) => MainScreen(),
-//                     ));
-//               },
-//             ),
-//           ],
-//         );
-//       },
-//     );
-//   }
 }

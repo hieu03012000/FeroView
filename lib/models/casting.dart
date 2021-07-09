@@ -10,6 +10,7 @@ class Casting {
   final int brandId;
   final double salary;
   final String customerName;
+  final String incomingTask;
 
   Casting({
     this.id,
@@ -22,7 +23,8 @@ class Casting {
     this.customerId,
     this.brandId,
     this.salary,
-    this.customerName
+    this.customerName,
+    this.incomingTask
   });
 
   //static method
@@ -39,6 +41,7 @@ class Casting {
       brandId: json['brandId'],
       salary: json['salary'],
       customerName: json['customerName'],
+      incomingTask: json['incomingTask']
     );
   }
 }

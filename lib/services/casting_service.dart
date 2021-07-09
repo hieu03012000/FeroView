@@ -48,6 +48,20 @@ class CastingService {
     }
   }
 
+
+  Future<List<Casting>> getIncomingCasting() async {
+    var modelId = (await FlutterSession().get("modelId")).toString();
+    final response =
+        await http.get(Uri.parse(baseUrl + 'api/v1/castings/$modelId/incoming'));
+    if (response.statusCode == 200) {
+      var list = parseCastingList(response.body);
+      return list;
+    } else {
+      Fluttertoast.showToast(msg: 'Not found');
+      throw Exception('Failed to load');
+    }
+  }
+
   Future<CastingViewModel> getCasting(String castingId) async {
     // var modelId = (await FlutterSession().get("modelId")).toString();
     final response =

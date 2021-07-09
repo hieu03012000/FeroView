@@ -39,4 +39,13 @@ class CastingListViewModel with ChangeNotifier {
       this.castings = list.map((casting) => CastingViewModel(casting: casting)).toList();
     });
   }
+
+  
+  Future<CastingListViewModel> imcomingCasting() async {
+    return Future.delayed(const Duration(seconds: 1), () async {
+      List<Casting> list = await CastingService().getIncomingCasting();
+      notifyListeners();
+      this.castings = list.map((casting) => CastingViewModel(casting: casting)).toList();
+    });
+  }
 }

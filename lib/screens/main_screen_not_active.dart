@@ -61,13 +61,39 @@ class _MainScreenNotActiveState extends State<MainScreenNotActive> {
           color: kPrimaryColor,
           index: _selectedIndex,
           items: <Widget>[
-            Icon(
-              Icons.image,
-              color: kBackgroundColor,
+            SizedBox(
+              height: 38,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.image,
+                    color: kTextColor,
+                  ),
+                  Center(
+                    child: Text(
+                      'Gallery',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  )
+                ],
+              ),
             ),
-            Icon(
-              Icons.account_circle,
-              color: kBackgroundColor,
+            SizedBox(
+              height: 38,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.account_circle,
+                    color: kTextColor,
+                  ),
+                  Center(
+                    child: Text(
+                      'Account',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  )
+                ],
+              ),
             ),
           ],
           onTap: (index) {

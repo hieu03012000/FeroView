@@ -67,25 +67,90 @@ class _MainScreenState extends State<MainScreen> {
           color: kPrimaryColor,
           index: _selectedIndex,
           items: <Widget>[
-            Icon(
-             Icons.home,
-              color: kTextColor,
+            SizedBox(
+              height: 38,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.home,
+                    color: kTextColor,
+                  ),
+                  Center(
+                    child: Text(
+                      'Home',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  )
+                ],
+              ),
             ),
-            Icon(
-              Icons.schedule,
-              color: kTextColor,
+            SizedBox(
+              height: 38,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.schedule,
+                    color: kTextColor,
+                  ),
+                  Center(
+                    child: Text(
+                      'Booking',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  )
+                ],
+              ),
             ),
-            Icon(
-              Icons.list_alt,
-              color: kTextColor,
+            SizedBox(
+              height: 38,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.list_alt,
+                    color: kTextColor,
+                  ),
+                  Center(
+                    child: Text(
+                      'Request',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  )
+                ],
+              ),
             ),
-            Icon(
-              Icons.image,
-              color: kTextColor,
+            SizedBox(
+              height: 38,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.image,
+                    color: kTextColor,
+                  ),
+                  Center(
+                    child: Text(
+                      'Gallery',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  )
+                ],
+              ),
             ),
-            Icon(
-              Icons.account_circle,
-              color: kTextColor,
+            SizedBox(
+              height: 38,
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.account_circle,
+                    color: kTextColor,
+                  ),
+                  Center(
+                    child: Text(
+                      'Account',
+                      style: TextStyle(fontSize: 10),
+                    ),
+                  )
+                ],
+              ),
             ),
           ],
           onTap: (index) {

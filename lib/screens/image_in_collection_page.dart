@@ -28,9 +28,9 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
         floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.add,
-            color: kTextColor,
+            color: kBackgroundColor,
           ),
-          backgroundColor: kPrimaryColor,
+          backgroundColor: kTextColor,
           onPressed: () async => {
             await ImageService().uploadImage(widget.collectionId),
             _reloadPage()
@@ -176,10 +176,10 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
                       BoxShadow(
                         offset: Offset(-2, 5),
                         blurRadius: 10,
-                        color: kPrimaryColor.withOpacity(0.3),
+                        color: kTextColor.withOpacity(0.3),
                       )
                     ],
-                    color: kPrimaryColor,
+                    color: kTextColor,
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
                         image: NetworkImage(

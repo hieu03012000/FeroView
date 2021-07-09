@@ -1,4 +1,5 @@
 import 'package:fero/screens/home_page.dart';
+import 'package:fero/screens/imcoming_casting_page.dart';
 import 'package:fero/screens/model_apply_casting_page.dart';
 import 'package:fero/screens/model_image_page.dart';
 import 'package:fero/screens/model_profile_page.dart';
@@ -65,14 +66,12 @@ class Page2 extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
         providers: [
-          ChangeNotifierProvider(create: (_) => TaskListViewModel()),
+          ChangeNotifierProvider(create: (_) => CastingListViewModel()),
         ],
         child: FutureBuilder(
           future: FlutterSession().get('modelId'),
           builder: (context, snapshot) {
-            return ModelSchedulePage(
-              modelId: snapshot.data.toString(),
-            );
+            return IncomingCastingPage();
           },
         ));
   }
