@@ -19,6 +19,7 @@ class _IntroImagePageState extends State<IntroImagePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Center(
         child: SizedBox.fromSize(
             size: const Size.fromHeight(500.0),

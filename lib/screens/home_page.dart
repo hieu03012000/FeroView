@@ -16,86 +16,63 @@ class Home extends StatelessWidget {
         MediaQuery.of(context).size; //Total height and width of the screen
     return SafeArea(
       child: Scaffold(
-          body: Column(children: <Widget>[
-        HeaderWithSearchBox(size: size),
-        TitleWithButton(
-          text: "Upcoming Casting",
-        ),
-        Casting(),
-        TitleWithButton(
-          text: "Notification",
-        ),
-        Expanded(
-            child: Scaffold(
           body: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              children: [
-                RecommendNotification(
-                  title:
-                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                  date: 'Today, 12:00',
-                ),
-                RecommendNotification(
-                  title:
-                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                  date: 'Today, 12:00',
-                ),
-                RecommendNotification(
-                  title:
-                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                  date: 'Today, 12:00',
-                ),
-                RecommendNotification(
-                  title:
-                      'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-                  date: 'Today, 12:00',
-                ),
-              ],
-            ),
+        child: Column(children: <Widget>[
+          HeaderWithSearchBox(size: size),
+          TitleWithButton(
+            text: "Upcoming Booking",
           ),
-        )),
-      ])),
+          Casting(),
+          TitleWithButton(
+            text: "New Casting",
+          ),
+          Casting(),
+          TitleWithButton(
+            text: "Best for you",
+          ),
+          Casting(),
+        ]),
+      )),
     );
   }
 }
 
-class RecommendNotification extends StatelessWidget {
-  const RecommendNotification({Key key, this.title, this.date})
-      : super(key: key);
+// class RecommendNotification extends StatelessWidget {
+//   const RecommendNotification({Key key, this.title, this.date})
+//       : super(key: key);
 
-  final String title, date;
+//   final String title, date;
 
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Container(
-      decoration: BoxDecoration(border: Border.all(color: kPrimaryColor)),
-      padding: EdgeInsets.all(kDefaultPadding / 4),
-      margin: EdgeInsets.only(
-          left: kDefaultPadding * 1.5,
-          right: kDefaultPadding * 1.5,
-          top: kDefaultPadding / 3,
-          bottom: kDefaultPadding / 2),
-      width: size.width * 0.9,
-      height: size.height * 0.1,
-      child: Container(
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(
-                  text: "$title\n", style: Theme.of(context).textTheme.button),
-              TextSpan(
-                text: date,
-                style: TextStyle(color: kPrimaryColor.withOpacity(0.5)),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     Size size = MediaQuery.of(context).size;
+//     return Container(
+//       decoration: BoxDecoration(border: Border.all(color: kPrimaryColor)),
+//       padding: EdgeInsets.all(kDefaultPadding / 4),
+//       margin: EdgeInsets.only(
+//           left: kDefaultPadding * 1.5,
+//           right: kDefaultPadding * 1.5,
+//           top: kDefaultPadding / 3,
+//           bottom: kDefaultPadding / 2),
+//       width: size.width * 0.9,
+//       height: size.height * 0.1,
+//       child: Container(
+//         child: RichText(
+//           text: TextSpan(
+//             children: [
+//               TextSpan(
+//                   text: "$title\n", style: Theme.of(context).textTheme.button),
+//               TextSpan(
+//                 text: date,
+//                 style: TextStyle(color: kPrimaryColor.withOpacity(0.5)),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class TitleWithButton extends StatelessWidget {
   const TitleWithButton({Key key, this.text}) : super(key: key);

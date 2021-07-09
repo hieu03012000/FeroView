@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class Casting extends StatefulWidget {
+  const Casting({Key key}) : super(key: key);
   @override
   _CastingState createState() => _CastingState();
 }
@@ -25,13 +26,13 @@ class _CastingState extends State<Casting> {
       child: Column(
         children: <Widget>[
           SizedBox(
-            height: 250, // constrain height
+            height: 270, // constrain height
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               shrinkWrap: true,
               itemCount: listCasting.castings.length,
               itemBuilder: (context, index) {
-                return _buildCarousel(context, listCasting.castings[index]);
+                return CastingView(list: listCasting.castings[index]);
               },
             ),
           )
@@ -39,9 +40,14 @@ class _CastingState extends State<Casting> {
       ),
     );
   }
+}
 
-  Widget _buildCarousel(BuildContext context, CastingViewModel list) {
-    Size size = MediaQuery.of(context).size;
+class CastingView extends StatelessWidget {
+  final CastingViewModel list;
+  const CastingView({Key key, this.list}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return (list.openTimeDateTime.isBefore(DateTime.now()) &&
             list.closeTimeDateTime.isAfter(DateTime.now()))
         ? GestureDetector(
@@ -84,12 +90,9 @@ class _CastingState extends State<Casting> {
                     )
                   ]),
               child: Stack(
-                // mainAxisAlignment: MainAxisAlignment.start,
-                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Positioned(
-                    top: 0,
-                    right: 0,
+                  Container(
+                    alignment: Alignment.topRight,
                     child: Container(
                       decoration: BoxDecoration(
                           color: kPrimaryColor,
@@ -100,7 +103,7 @@ class _CastingState extends State<Casting> {
                             bottomLeft: Radius.circular(kDefaultPadding),
                           )),
                       width: 100,
-                      height: 50,
+                      height: 30,
                       child: Center(
                         child: Text(
                           list.salary.toString(),
@@ -112,9 +115,12 @@ class _CastingState extends State<Casting> {
                       ),
                     ),
                   ),
-                  Positioned(
-                      top: 60,
-                      child: Container(
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 40),
                         decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.vertical(
@@ -122,7 +128,7 @@ class _CastingState extends State<Casting> {
                               bottom: Radius.circular(kDefaultPadding * 2),
                             )),
                         width: 170,
-                        height: 175,
+                        // height: 175,
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10),
                           child: Column(
@@ -194,10 +200,34 @@ class _CastingState extends State<Casting> {
                                   )
                                 ],
                               ),
+                              SizedBox(height: 10),
+                              Container(
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(bottom: 10),
+                                child: Container(
+                                    child: Text(
+                                      list.getStatus ?? '',
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: kBackgroundColor),
+                                    ),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        color: list.getStatus == 'Opening'
+                                            ? Colors.green
+                                            : list.getStatus == 'Closed'
+                                                ? kNumberColor
+                                                : Colors.grey[800])),
+                              ),
                             ],
                           ),
                         ),
-                      ))
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),

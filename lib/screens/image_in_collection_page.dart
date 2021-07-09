@@ -25,6 +25,7 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(),
         floatingActionButton: FloatingActionButton(
           child: Icon(
             Icons.add,

@@ -7,28 +7,30 @@ class CastingListViewModel with ChangeNotifier {
   List<CastingViewModel> castings = List<CastingViewModel>();
 
   void topHeadlines() async {
-    List<Casting> list = await CastingService().searchCastingList('', '', '');
-    // This call tells the widgets that are listening to this model to rebuild.
+    List<Casting> list = [];
+    list = await CastingService().searchCastingList('', '', '');
     notifyListeners();
-
     this.castings =
         list.map((casting) => CastingViewModel(casting: casting)).toList();
   }
 
-  Future<CastingListViewModel> searchCastingList(String name, String min, String max) async {
+  Future<CastingListViewModel> searchCastingList(
+      String name, String min, String max) async {
     return Future.delayed(const Duration(seconds: 1), () async {
-      List<Casting> list = await CastingService().searchCastingList(name, min, max);
+      List<Casting> list =
+          await CastingService().searchCastingList(name, min, max);
       notifyListeners();
-      this.castings = list.map((casting) => CastingViewModel(casting: casting)).toList();
+      this.castings =
+          list.map((casting) => CastingViewModel(casting: casting)).toList();
     });
   }
 
-  
   Future<CastingListViewModel> modelApplyCasting() async {
     return Future.delayed(const Duration(seconds: 1), () async {
       List<Casting> list = await CastingService().modelApplyCasting();
       notifyListeners();
-      this.castings = list.map((casting) => CastingViewModel(casting: casting)).toList();
+      this.castings =
+          list.map((casting) => CastingViewModel(casting: casting)).toList();
     });
   }
 
@@ -36,7 +38,8 @@ class CastingListViewModel with ChangeNotifier {
     return Future.delayed(const Duration(seconds: 1), () async {
       List<Casting> list = await CastingService().getCastingByIds(castings);
       notifyListeners();
-      this.castings = list.map((casting) => CastingViewModel(casting: casting)).toList();
+      this.castings =
+          list.map((casting) => CastingViewModel(casting: casting)).toList();
     });
   }
 
