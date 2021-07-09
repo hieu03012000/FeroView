@@ -29,4 +29,20 @@ class ModelTaskViewModel {
   String get modelId {
     return _task.modelId;
   }
+
+  String get startAtDate {
+    return _task.startAt != null ? formatDate(_task.startAt) : 'null';
+  }
+
+  String get startAtTime {
+    return _task.startAt != null ? formatTime(_task.startAt) : 'null';
+  }
+  
+  String get endAtDate {
+    return _task.endAt != null ? formatDate(_task.endAt) : 'null';
+  }
+
+  String get endAtTime {
+    return _task.endAt != null ? formatTime(_task.endAt) : 'null';
+  }
 }

@@ -29,7 +29,7 @@ class TaskService {
   Future<List<Task>> getIncomingTaskList(int castingId) async {
     var modelId = (await FlutterSession().get("modelId")).toString();
     final response = await http
-        .get(Uri.parse(baseUrl + "/api/v1/tasks/$modelId/$castingId/task"));
+        .get(Uri.parse(baseUrl + "api/v1/tasks/$modelId/$castingId/task"));
     if (response.statusCode == 200) {
       var list = parseTaskList(response.body);
       return list;
