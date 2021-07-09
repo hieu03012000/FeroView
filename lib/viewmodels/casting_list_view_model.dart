@@ -1,5 +1,6 @@
 import 'package:fero/models/casting.dart';
 import 'package:fero/services/casting_service.dart';
+import 'package:fero/utils/common.dart';
 import 'package:fero/viewmodels/casting_view_model.dart';
 import 'package:flutter/widgets.dart';
 
@@ -10,8 +11,13 @@ class CastingListViewModel with ChangeNotifier {
     List<Casting> list = [];
     list = await CastingService().searchCastingList('', '', '');
     notifyListeners();
-    this.castings =
-        list.map((casting) => CastingViewModel(casting: casting)).toList();
+    this.castings = list
+        .where((item) =>
+            parseDatetime(item.openTime).isBefore(DateTime.now()) &&
+            parseDatetime(item.closeTime).isAfter(DateTime.now()))
+        .map((casting) => CastingViewModel(casting: casting))
+        .toList();
+    this.castings.sort((a, b) => a.openDate.compareTo(b.openDate));
   }
 
   Future<CastingListViewModel> searchCastingList(
@@ -43,12 +49,12 @@ class CastingListViewModel with ChangeNotifier {
     });
   }
 
-  
   Future<CastingListViewModel> imcomingCasting() async {
     return Future.delayed(const Duration(seconds: 1), () async {
       List<Casting> list = await CastingService().getIncomingCasting();
       notifyListeners();
-      this.castings = list.map((casting) => CastingViewModel(casting: casting)).toList();
+      this.castings =
+          list.map((casting) => CastingViewModel(casting: casting)).toList();
     });
   }
 }

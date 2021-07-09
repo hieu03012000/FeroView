@@ -22,15 +22,15 @@ class Home extends StatelessWidget {
           TitleWithButton(
             text: "Upcoming Booking",
           ),
-          Casting(),
+          Casting(typeView: 1),
           TitleWithButton(
             text: "New Casting",
           ),
-          Casting(),
+          Casting(typeView: 2),
           TitleWithButton(
             text: "Best for you",
           ),
-          Casting(),
+          Casting(typeView: 3),
         ]),
       )),
     );

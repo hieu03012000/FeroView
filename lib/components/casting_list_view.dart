@@ -1,13 +1,16 @@
 import 'package:fero/screens/casting_detail_page.dart';
 import 'package:fero/utils/constants.dart';
+import 'package:fero/viewmodels/best_casting_list_view_model.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:fero/viewmodels/casting_view_model.dart';
+import 'package:fero/viewmodels/upcoming_casting_list_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class Casting extends StatefulWidget {
-  const Casting({Key key}) : super(key: key);
+  final int typeView;
+  const Casting({Key key, this.typeView}) : super(key: key);
   @override
   _CastingState createState() => _CastingState();
 }
@@ -16,12 +19,38 @@ class _CastingState extends State<Casting> {
   @override
   void initState() {
     super.initState();
-    Provider.of<CastingListViewModel>(context, listen: false).topHeadlines();
+    switch (widget.typeView) {
+      case 1:
+        Provider.of<CastingListViewModel>(context, listen: false)
+            .topHeadlines();
+        break;
+      case 2:
+        Provider.of<UpcomingCastingListViewModel>(context, listen: false)
+            .topHeadlines();
+        break;
+      case 3:
+        Provider.of<BestCastingListViewModel>(context, listen: false)
+            .topHeadlines();
+        break;
+      default:
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    var listCasting = Provider.of<CastingListViewModel>(context);
+    var listCasting;
+    switch (widget.typeView) {
+      case 1:
+        listCasting = Provider.of<CastingListViewModel>(context);
+        break;
+      case 2:
+        listCasting = Provider.of<UpcomingCastingListViewModel>(context);
+        break;
+      case 3:
+        listCasting = Provider.of<BestCastingListViewModel>(context);
+        break;
+      default:
+    }
     return Container(
       child: Column(
         children: <Widget>[
@@ -32,7 +61,9 @@ class _CastingState extends State<Casting> {
               shrinkWrap: true,
               itemCount: listCasting.castings.length,
               itemBuilder: (context, index) {
-                return CastingView(list: listCasting.castings[index]);
+                return CastingView(
+                    list: listCasting.castings[index],
+                    typeView: widget.typeView);
               },
             ),
           )
@@ -44,12 +75,12 @@ class _CastingState extends State<Casting> {
 
 class CastingView extends StatelessWidget {
   final CastingViewModel list;
-  const CastingView({Key key, this.list}) : super(key: key);
+  final int typeView;
+  const CastingView({Key key, this.list, this.typeView}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return (list.openTimeDateTime.isBefore(DateTime.now()) &&
-            list.closeTimeDateTime.isAfter(DateTime.now()))
+    return list != null
         ? GestureDetector(
             onTap: () {
               Navigator.push(
@@ -57,8 +88,17 @@ class CastingView extends StatelessWidget {
                 MaterialPageRoute(
                     builder: (context) => MultiProvider(
                             providers: [
-                              ChangeNotifierProvider(
-                                  create: (_) => CastingListViewModel()),
+                              ChangeNotifierProvider(create: (_) {
+                                switch (typeView) {
+                                  case 1:
+                                    return CastingListViewModel();
+                                  case 2:
+                                    return UpcomingCastingListViewModel();
+                                  case 3:
+                                    return BestCastingListViewModel();
+                                  default:
+                                }
+                              }),
                             ],
                             child: FutureBuilder(
                               builder: (context, snapshot) {
