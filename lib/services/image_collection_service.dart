@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:fero/models/image_collection.dart';
+import 'package:fero/models/image_collection_gif.dart';
 import 'package:fero/services/image_service.dart';
 import 'package:fero/utils/constants.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_session/flutter_session.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class ImageCollectionService {
@@ -27,8 +28,8 @@ class ImageCollectionService {
     }
   }
 
-  Future convertToGif(int castingId) async {
-    var images = await ImageService().getImageList(castingId);
+  Future convertToGif(int collectionId) async {
+    var images = await ImageService().getImageList(collectionId);
 
     List<Map<String, dynamic>> fileValues = List<Map<String, dynamic>>();
     for (int i = 0; i < images.length; i++) {
@@ -36,10 +37,10 @@ class ImageCollectionService {
       url['Url'] = images.elementAt(i).fileName;
       fileValues.add(url);
     }
-    Map<String, dynamic> urlsEx = Map<String, dynamic>();
-    urlsEx['Name'] = 'my_file.jpg';
-    urlsEx['Data'] = '<Base64 encoded file content>';
-    fileValues.add(urlsEx);
+    // Map<String, dynamic> urlsEx = Map<String, dynamic>();
+    // urlsEx['Name'] = 'F:\\my_file.jpg';
+    // urlsEx['Data'] = 'Base64';
+    // fileValues.add(urlsEx);
 
     List<Map<String, dynamic>> parameters = List<Map<String, dynamic>>();
     Map<String, dynamic> files = Map<String, dynamic>();
@@ -60,9 +61,14 @@ class ImageCollectionService {
     final response = await http.post(
         Uri.parse('https://v2.convertapi.com/convert/jpg/to/gif?Secret=afGAodLwkQyIPtOQ'),
         body: message,
-        headers: {"content-type": "application/json"});
+        headers: {"Content-Type": "application/json"});
     if (response.statusCode == 200) {
-    } else {
+      var json = jsonDecode(response.body);
+      var gif = ImageCollectionGif.fromJson(json);
+      await ImageService().saveGif(gif, collectionId);
+    } 
+    else {
+      Fluttertoast.showToast(msg: 'Picturea must same size');
       throw Exception('Failed to load');
     }
   }

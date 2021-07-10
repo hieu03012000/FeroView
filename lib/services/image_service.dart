@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:fero/models/image_collection_gif.dart';
 import 'package:fero/models/images.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -117,5 +118,32 @@ class ImageService {
   // return encodeGifAnimation(animation);
 // }
 
+  Future<void> saveGif(ImageCollectionGif gif, int collecttionId) async {
+    String modelId = (await FlutterSession().get('modelId')).toString();
+    // final _firebaseStorage = FirebaseStorage.instance;
 
+    // File('assets/img/${gif.Url}').create();
+    // var file = File('assets/img/${gif.Url}');
+
+    // var snapshot = await _firebaseStorage
+    //     .ref()
+    //     .child('models/' + modelId + "/gif/${gif.FileName}")
+    //     .putString(gif.Url);
+
+    // var downloadUrl = await snapshot.ref.getDownloadURL();
+
+    Map<String, dynamic> params = Map<String, dynamic>();
+    params['collectionId'] = collecttionId;
+    params['gif'] = gif.Url;
+
+    final message = jsonEncode(params);
+    final response = await http.put(
+        Uri.parse(baseUrl + 'api/v1/collection-images/$modelId/gif'),
+        body: message,
+        headers: {"content-type": "application/json"});
+    if (response.statusCode == 200) {
+    } else {
+      throw Exception('Failed to load');
+    }
+  }
 }

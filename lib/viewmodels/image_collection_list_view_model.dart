@@ -1,5 +1,4 @@
 import 'package:fero/models/image_collection.dart';
-import 'package:fero/models/images.dart';
 import 'package:fero/services/image_collection_service.dart';
 import 'package:fero/viewmodels/image_collection_view_model.dart';
 import 'package:flutter/material.dart';

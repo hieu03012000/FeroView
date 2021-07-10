@@ -20,7 +20,6 @@ class  CastingListComponentState extends State<CastingListComponent> {
     return ListView.builder(
       itemCount: widget.list.castings.length,
       itemBuilder: (context, index) {
-        print(index);
         return CastingCard(casting: widget.list.castings[index]);
       },
     );

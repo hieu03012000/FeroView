@@ -77,7 +77,10 @@ class _ModelImagePageState extends State<ModelImagePage> {
                                 itemCount: data.imageCollections.length,
                                 itemBuilder: (BuildContext context, int index) {
                                   return _buildImageCollectList(
-                                      (context), data.imageCollections[index]);
+                                      (context), 
+                                      data.imageCollections[index],
+                                      index
+                                      );
                                 },
                               ),
                             );
@@ -96,7 +99,7 @@ class _ModelImagePageState extends State<ModelImagePage> {
   }
 
   Widget _buildImageCollectList(
-      BuildContext context, ImageCollectionViewModel collection) {
+      BuildContext context, ImageCollectionViewModel collection, int index) {
     // Size size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
@@ -132,7 +135,8 @@ class _ModelImagePageState extends State<ModelImagePage> {
                           child: FutureBuilder(
                             builder: (context, snapshot) {
                               return ImageInCollectionPage(
-                                collectionId: collection.id,
+                                collection: collection,
+                                index: index,
                               );
                             },
                           ))),

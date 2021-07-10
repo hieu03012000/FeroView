@@ -12,4 +12,8 @@ class ImageCollectionViewModel {
   String get name {
     return _imageCollection.name;
   }
+
+  String get gif {
+    return _imageCollection.gif;
+  }
 }
