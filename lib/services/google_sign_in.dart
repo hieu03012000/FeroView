@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fero/models/login.dart';
+import 'package:fero/models/token.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,30 +23,42 @@ class GoogleSignInProvider extends ChangeNotifier {
       if (googleUser == null) throw Exception('Not choose');
       _user = googleUser;
 
-      final modelLogin = await loginDB(googleUser.email);
-
-      if (modelLogin == null) {
-        await googleSignIn.disconnect();
-        Fluttertoast.showToast(msg: 'Please create account');
-        throw Exception('Please create account');
-      }
-
-      await FlutterSession().set("modelId", modelLogin.id);
-      await FlutterSession().set("modelName", modelLogin.name);
-      await FlutterSession().set("modelStatus", modelLogin.status);
-
       final googleAuth = await googleUser.authentication;
 
       final credential = GoogleAuthProvider.credential(
           idToken: googleAuth.idToken, accessToken: googleAuth.accessToken);
 
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      var method = await FirebaseAuth.instance
+          .fetchSignInMethodsForEmail(googleUser.email);
 
-      Fluttertoast.showToast(msg: 'Login success');
+      if (method.contains("google.com")) {
+        var user = await FirebaseAuth.instance.signInWithCredential(credential);
 
-      notifyListeners();
+        Token check = await checkToken(await user.user.getIdToken(), googleUser.email);
 
-      return modelLogin.status;
+        if (check != null) {
+          final modelLogin = await loginDB(googleUser.email);
+
+          await FlutterSession().set("token", check.token);
+          await FlutterSession().set("modelId", modelLogin.id);
+          await FlutterSession().set("modelName", modelLogin.name);
+          await FlutterSession().set("modelStatus", modelLogin.status);
+
+          Fluttertoast.showToast(msg: 'Login success');
+
+          notifyListeners();
+
+          return modelLogin.status;
+        }
+      } else {
+        await googleSignIn.disconnect();
+        Fluttertoast.showToast(msg: 'Please create account');
+        throw Exception('Please create account');
+      }
+      if (await googleSignIn.isSignedIn()) {
+        await googleSignIn.disconnect();
+      }
+      return -1;
     } catch (e) {
       if (await googleSignIn.isSignedIn()) {
         await googleSignIn.disconnect();
@@ -122,6 +135,23 @@ class GoogleSignInProvider extends ChangeNotifier {
         await http.get(Uri.parse(baseUrl + 'api/v1/models/' + mail + '/model'));
     if (response.statusCode == 200) {
       var responseBody = LoginModel.fromJson(jsonDecode(response.body));
+      return responseBody;
+    } else {
+      return null;
+    }
+  }
+
+  Future<Token> checkToken(String token, String mail) async {
+    Map<String, dynamic> params = new Map<String, dynamic>();
+    params['token'] = token;
+    params['mail'] = mail;
+    final message = jsonEncode(params);
+    final response = await http.post(
+        Uri.parse(baseUrl + 'api/v1/models/check-token'),
+        body: message,
+        headers: {"content-type": "application/json"});
+    if (response.statusCode == 200) {
+      var responseBody = Token.fromJson(jsonDecode(response.body));
       return responseBody;
     } else {
       return null;

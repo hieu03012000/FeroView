@@ -17,9 +17,14 @@ class ImageCollectionService {
   }
 
   Future<List<ImageCollection>> getImageCollectionList() async {
+    var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    heads['Authorization'] = 'Bearer $token';
     String modelId = (await FlutterSession().get('modelId')).toString();
     final response = await http
-        .get(Uri.parse(baseUrl + "api/v1/collection-images/$modelId"));
+        .get(Uri.parse(baseUrl + "api/v1/collection-images/$modelId"), headers: heads);
     if (response.statusCode == 200) {
       var list = parseImageCollectionList(response.body);
       return list;

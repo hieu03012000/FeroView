@@ -11,6 +11,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
 
 void uploadFireBase(String path, String modelId) async {
+  var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    heads['Authorization'] = 'Bearer $token';
   final _firebaseStorage = FirebaseStorage.instance;
 
   var file = File(path);
@@ -29,7 +34,7 @@ void uploadFireBase(String path, String modelId) async {
   final response = await http.put(
       Uri.parse(baseUrl + 'api/v1/models/${params["id"]}/avatar'),
       body: message,
-      headers: {"content-type": "application/json"});
+      headers: heads);
   if (response.statusCode == 200) {
   } else {
     throw Exception('Failed to load');
@@ -43,8 +48,13 @@ class ImageService {
   }
 
   Future<List<ModelImage>> getImageList(int collectionId) async {
+    var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    heads['Authorization'] = 'Bearer $token';
     final response =
-        await http.get(Uri.parse(baseUrl + "api/v1/images/$collectionId"));
+        await http.get(Uri.parse(baseUrl + "api/v1/images/$collectionId"), headers: heads);
     if (response.statusCode == 200) {
       var list = parseImageList(response.body);
       return list;
@@ -54,6 +64,11 @@ class ImageService {
   }
 
   Future uploadImage(int collectionId) async {
+    var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    heads['Authorization'] = 'Bearer $token';
     final _firebaseStorage = FirebaseStorage.instance;
     final _imagePicker = ImagePicker();
     PickedFile image;
@@ -80,7 +95,7 @@ class ImageService {
       final response = await http.post(
           Uri.parse(baseUrl + 'api/v1/models/$modelId/$collectionId/image'),
           body: message,
-          headers: {"content-type": "application/json"});
+          headers: heads);
       if (response.statusCode == 200) {
       } else {
         throw Exception('Failed to load');

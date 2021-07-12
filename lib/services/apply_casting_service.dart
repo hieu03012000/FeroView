@@ -9,6 +9,12 @@ class ApplyCastingService {
   Future createApplyCasting(int castingId, DateTime end) async {
     var modelId = (await FlutterSession().get("modelId")).toString();
 
+    var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    heads['Authorization'] = 'Bearer $token';
+
     Map<String, dynamic> params = Map<String, dynamic>();
     params['modelId'] = modelId;
     params['castingId'] = castingId;
@@ -17,7 +23,7 @@ class ApplyCastingService {
     final response = await http.post(
         Uri.parse(baseUrl + 'api/v1/apply-castings'),
         body: message,
-        headers: {"content-type": "application/json"});
+        headers: heads);
     if (response.statusCode == 200) {
       Fluttertoast.showToast(msg: 'Apply success');
     } else {
@@ -27,9 +33,15 @@ class ApplyCastingService {
 
   Future deleteApplyCasting(int castingId) async {
     var modelId = (await FlutterSession().get("modelId")).toString();
-
-    final response = await http.delete(Uri.parse(baseUrl +
-        'api/v1/apply-castings/cancel?modelId=$modelId&castingId=$castingId'));
+    var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    heads['Authorization'] = 'Bearer $token';
+    final response = await http.delete(
+        Uri.parse(baseUrl +
+            'api/v1/apply-castings/cancel?modelId=$modelId&castingId=$castingId'),
+        headers: heads);
     if (response.statusCode == 200) {
       Fluttertoast.showToast(msg: 'Cancel success');
     } else {
@@ -39,9 +51,15 @@ class ApplyCastingService {
 
   Future<bool> isApply(int castingId) async {
     var modelId = (await FlutterSession().get("modelId")).toString();
-
-    final response = await http.get(Uri.parse(baseUrl +
-        'api/v1/apply-castings/check?modelId=$modelId&castingId=$castingId'));
+    var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    heads['Authorization'] = 'Bearer $token';
+    final response = await http.get(
+        Uri.parse(baseUrl +
+            'api/v1/apply-castings/check?modelId=$modelId&castingId=$castingId'),
+        headers: heads);
     if (response.statusCode == 200) {
       final res = response.body;
       if (res == 'true') {

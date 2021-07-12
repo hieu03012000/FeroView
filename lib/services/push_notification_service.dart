@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:fero/main.dart';
 import 'package:fero/screens/casting_detail_page.dart';
 import 'package:fero/screens/casting_notification_page.dart';
-import 'package:fero/screens/main_screen.dart';
 import 'package:fero/services/casting_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_list_view_model.dart';

@@ -15,9 +15,14 @@ class TaskService {
   }
 
   Future<List<Task>> getTaskList() async {
+    var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    heads['Authorization'] = 'Bearer $token';
     var modelId = (await FlutterSession().get("modelId")).toString();
     final response = await http
-        .get(Uri.parse(baseUrl + "api/v1/models/" + modelId + "/tasks"));
+        .get(Uri.parse(baseUrl + "api/v1/models/" + modelId + "/tasks"), headers: heads);
     if (response.statusCode == 200) {
       var list = parseTaskList(response.body);
       return list;
@@ -27,9 +32,14 @@ class TaskService {
   }
 
   Future<List<Task>> getIncomingTaskList(int castingId) async {
+    var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    heads['Authorization'] = 'Bearer $token';
     var modelId = (await FlutterSession().get("modelId")).toString();
     final response = await http
-        .get(Uri.parse(baseUrl + "api/v1/tasks/$modelId/$castingId/task"));
+        .get(Uri.parse(baseUrl + "api/v1/tasks/$modelId/$castingId/task"), headers: heads);
     if (response.statusCode == 200) {
       var list = parseTaskList(response.body);
       return list;
@@ -39,12 +49,17 @@ class TaskService {
   }
 
   Future<bool> createFreeTime(Map<String, dynamic> params) async {
+    var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    heads['Authorization'] = 'Bearer $token';
     final message = jsonEncode(params);
     final response = await http.post(
         Uri.parse(
             baseUrl + 'api/v1/tasks/free-time'),
         body: message,
-        headers: {"content-type": "application/json"});
+        headers: heads);
     if (response.statusCode == 200) {
       // var responseBody = Task.fromJson(jsonDecode(response.body));
       // return responseBody;
