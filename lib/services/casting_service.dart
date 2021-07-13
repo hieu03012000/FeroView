@@ -52,7 +52,7 @@ class CastingService {
   Future<List<Casting>> modelApplyCasting() async {
     var modelId = (await FlutterSession().get("modelId")).toString();
     var token = (await FlutterSession().get("token")).toString();
-    Map<String, String> heads = Map<String, dynamic>();
+    Map<String, String> heads = Map<String, String>();
     heads['Content-Type'] = 'application/json';
     heads['Accept'] = 'application/json';
     heads['Authorization'] = 'Bearer $token';
