@@ -25,6 +25,7 @@ class PushNotificationService {
 
   Future init() async {
     var modelId = (await FlutterSession().get("modelId")).toString();
+    _fm.subscribeToTopic('all');
     _fm.subscribeToTopic(modelId);
     // dynamic token = _fm.getToken();
     if (Platform.isIOS) {

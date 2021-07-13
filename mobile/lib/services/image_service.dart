@@ -12,10 +12,10 @@ import 'package:path/path.dart' as Path;
 
 void uploadFireBase(String path, String modelId) async {
   var token = (await FlutterSession().get("token")).toString();
-    Map<String, String> heads = Map<String, String>();
-    heads['Content-Type'] = 'application/json';
-    heads['Accept'] = 'application/json';
-    heads['Authorization'] = 'Bearer $token';
+  Map<String, String> heads = Map<String, String>();
+  heads['Content-Type'] = 'application/json';
+  heads['Accept'] = 'application/json';
+  heads['Authorization'] = 'Bearer $token';
   final _firebaseStorage = FirebaseStorage.instance;
 
   var file = File(path);
@@ -53,8 +53,9 @@ class ImageService {
     heads['Content-Type'] = 'application/json';
     heads['Accept'] = 'application/json';
     heads['Authorization'] = 'Bearer $token';
-    final response =
-        await http.get(Uri.parse(baseUrl + "api/v1/images/$collectionId"), headers: heads);
+    final response = await http.get(
+        Uri.parse(baseUrl + "api/v1/images/$collectionId"),
+        headers: heads);
     if (response.statusCode == 200) {
       var list = parseImageList(response.body);
       return list;
@@ -125,13 +126,13 @@ class ImageService {
     }
   }
 
-  // List<int> generateGIF(Iterable<Image> images) {
-  // final animation = Animation();
-  // for(Image image in images) {
-  //   animation.addFrame(image);
+  // List<int> generateGIF(Iterable<Image> images) async {
+  //   var token = (await FlutterSession().get("token")).toString();
+  //   Map<String, String> heads = Map<String, String>();
+  //   heads['Content-Type'] = 'application/json';
+  //   heads['Accept'] = 'application/json';
+  //   heads['Authorization'] = 'Bearer $token';
   // }
-  // return encodeGifAnimation(animation);
-// }
 
   Future<void> saveGif(ImageCollectionGif gif, int collecttionId) async {
     String modelId = (await FlutterSession().get('modelId')).toString();
