@@ -33,6 +33,45 @@ class ImageCollectionService {
     }
   }
 
+  Future<void> createCollection(String collectionName) async {
+    // var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    // heads['Authorization'] = 'Bearer $token';
+    Map<String, dynamic> body = Map<String, dynamic>();
+    body['name'] = collectionName;
+    var mess = jsonEncode(body);
+    String modelId = (await FlutterSession().get('modelId')).toString();
+    final response = await http
+        .post(Uri.parse(baseUrl + "api/v1/collection-images/$modelId"), 
+        body: mess,
+        headers: heads);
+    if (response.statusCode == 200) {
+      Fluttertoast.showToast(msg: 'Create success');
+    } else {
+      Fluttertoast.showToast(msg: 'Create fail');
+      return null;
+    }
+  }
+
+ Future<void> deleteCollection(int collectionId) async {
+    // var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    // heads['Authorization'] = 'Bearer $token';
+    final response = await http
+        .delete(Uri.parse(baseUrl + "api/v1/collection-images/$collectionId"), 
+        headers: heads);
+    if (response.statusCode == 200) {
+      Fluttertoast.showToast(msg: 'Delete success');
+    } else {
+      Fluttertoast.showToast(msg: 'Delete fail');
+      return null;
+    }
+  } 
+
   Future convertToGif(int collectionId) async {
     var images = await ImageService().getImageList(collectionId);
 
