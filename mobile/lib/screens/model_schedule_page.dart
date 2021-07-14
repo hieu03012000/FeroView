@@ -45,7 +45,10 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
                         child: scheduleView(context: ctx, tasks: data),
                       ));
             } else {
-              return Text('Error');
+              return Consumer<TaskListViewModel>(
+                  builder: (ctx, data, child) => Center(
+                        child: scheduleView(context: ctx, tasks: null),
+                      ));
             }
           }
         },
@@ -71,7 +74,8 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
           height: size.height - 165,
           child: SfCalendar(
             view: CalendarView.workWeek,
-            dataSource: TaskDataSource(getAppointment(tasks)),
+            dataSource:
+                tasks != null ? TaskDataSource(getAppointment(tasks)) : null,
             backgroundColor: kBackgroundColor,
             timeSlotViewSettings: TimeSlotViewSettings(
                 startHour: 0, endHour: 24, nonWorkingDays: <int>[]),

@@ -4,7 +4,6 @@ import 'package:fero/models/casting.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/casting_view_model.dart';
 import 'package:flutter_session/flutter_session.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class CastingService {
@@ -63,7 +62,7 @@ class CastingService {
       var list = parseCastingList(response.body);
       return list;
     } else {
-      Fluttertoast.showToast(msg: 'Not found');
+      // return null;
       throw Exception('Failed to load');
     }
   }
@@ -82,8 +81,8 @@ class CastingService {
       var list = parseCastingList(response.body);
       return list;
     } else {
-      Fluttertoast.showToast(msg: 'Not found');
-      throw Exception('Failed to load');
+      return null;
+      // throw Exception('Failed to load');
     }
   }
 
@@ -102,7 +101,6 @@ class CastingService {
           casting: Casting.fromJson(jsonDecode(response.body)));
       return casting;
     } else {
-      Fluttertoast.showToast(msg: 'Not found');
       throw Exception('Failed to load');
     }
   }
@@ -124,7 +122,6 @@ class CastingService {
       var list = parseCastingList(response.body);
       return list;
     } else {
-      Fluttertoast.showToast(msg: 'Not found');
       throw Exception('Failed to load');
     }
   }

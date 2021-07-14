@@ -64,7 +64,7 @@ class IncomingCastingPage extends StatelessWidget {
                             ],
                           );
                         } else {
-                          if (data.error == null) {
+                          if (data.error == null && data.data != null) {
                             return Consumer<CastingListViewModel>(
                                 builder: (ctx, data, child) =>
                                     IncomingCastingListComponent(
@@ -73,7 +73,7 @@ class IncomingCastingPage extends StatelessWidget {
                           } else {
                             return Center(
                               child: SizedBox(
-                                child: Text('Not found'),
+                                child: Center(child: Text('Not have any booking'),),
                               ),
                             );
                           }
