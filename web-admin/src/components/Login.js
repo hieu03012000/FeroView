@@ -12,6 +12,7 @@ export default function Login({ navigation }) {
     staffService.get(username, password).then(({ status, data }) => {
       if (status === 200) {
         localStorage.setItem('username', data.name);
+        localStorage.setItem('authToken', data.authToken);
         history.push('/auth');
       } else {
         setMsg('Email or password is incorrect!')

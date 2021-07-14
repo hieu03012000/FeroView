@@ -74,24 +74,24 @@ class _Dashboard extends React.Component {
                     {
                       model.status === 1
                       ? <td className="text-center">
-                        <button class="btn btn-outline-secondary btn-sm" 
+                        <button className="btn btn-outline-secondary btn-sm" 
                           type="submit"
                           onClick={ () => this.onPressInactive(model.id) }
                         >Inactive</button>
                       </td>
                       : model.status === 2
                       ? <td className="text-center">
-                        <button class="btn btn-outline-primary btn-sm"
+                        <button className="btn btn-outline-primary btn-sm"
                           type="submit"
                           onClick={ () => this.onPressActive(model.id) }
                         >Active</button>
                       </td>
                       : <td>
-                        <button class="btn btn-outline-primary btn-sm m-r-5"
+                        <button className="btn btn-outline-primary btn-sm m-r-5"
                           type="submit"
                           onClick={ () => this.onPressActive(model.id) }
                         >Approve</button>
-                        <button class="btn btn-outline-secondary btn-sm"
+                        <button className="btn btn-outline-secondary btn-sm"
                           type="submit"
                           onClick={ () => this.onPressInactive(model.id) }
                         >Reject</button>
