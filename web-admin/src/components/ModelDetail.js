@@ -18,7 +18,7 @@ class _ModelDetail extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { model: undefined, isShown: false };
+    this.state = { model: undefined, isShown: false, collection: [], imgs: [] };
   }
 
   componentDidMount() {
@@ -29,10 +29,11 @@ class _ModelDetail extends React.Component {
     const modelService = new ModelService();
     const model = await modelService.getById(this.props.modelId);
     const collectionService = new CollectionImageService();
-    const collection = await collectionService.get(this.props.modelId);
+    const { data } = await collectionService.get(this.props.modelId);
+    const collection = data ? data : [];
     const imgs = [];
     const imageService = new ImageService();
-    for (let col of collection.data) {
+    for (let col of collection) {
       if (col.gif) {
         imgs.push([{url: col.gif, title: col.name}]);
       } else {
@@ -40,8 +41,7 @@ class _ModelDetail extends React.Component {
         imgs.push(data.map(img => { return { url: img.fileName, title: col.name }; }));
       }
     }
-    console.log(imgs);
-    this.setState({ model: model.data, collection: collection.data, imgs });
+    this.setState({ model: model.data, collection, imgs });
   }
 
   showLightBox = (collectionIndex, imgIndex) => {

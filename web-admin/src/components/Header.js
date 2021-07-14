@@ -6,6 +6,7 @@ export default function Header(props) {
 	const username = localStorage.getItem('username');
 	const signOut = () => {
 		localStorage.setItem('username', '');
+		localStorage.setItem('authToken', '');
 		history.goBack();
 	}
 	return (
