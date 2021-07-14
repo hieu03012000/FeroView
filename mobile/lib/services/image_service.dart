@@ -152,11 +152,17 @@ class ImageService {
     params['collectionId'] = collecttionId;
     params['gif'] = gif.Url;
 
+    var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    heads['Authorization'] = 'Bearer $token';
+
     final message = jsonEncode(params);
     final response = await http.put(
         Uri.parse(baseUrl + 'api/v1/collection-images/$modelId/gif'),
         body: message,
-        headers: {"content-type": "application/json"});
+        headers: heads);
     if (response.statusCode == 200) {
     } else {
       throw Exception('Failed to load');

@@ -23,7 +23,10 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
   @override
   void initState() {
     super.initState();
+    isLoading = false;
   }
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,37 +37,50 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
               child: (widget.collection.gif == null)
-                  ? GestureDetector(
-                      child: Icon(
-                        Icons.gif,
-                        size: 40,
-                      ),
-                      onTap: () async {
-                        await ImageCollectionService()
-                            .convertToGif(widget.collection.id);
-                        var collection = ImageCollectionViewModel(
-                            imageCollection: (await ImageCollectionService()
-                                    .getImageCollectionList())
-                                .elementAt(widget.index));
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MultiProvider(
-                                      providers: [
-                                        ChangeNotifierProvider(
-                                            create: (_) =>
-                                                ImageListViewModel()),
-                                      ],
-                                      child: FutureBuilder(
-                                        builder: (context, snapshot) {
-                                          return ImageInCollectionPage(
-                                            collection: collection,
-                                          );
-                                        },
-                                      ))),
-                        );
-                      },
-                    )
+                  ? !isLoading
+                      ? GestureDetector(
+                          child: Icon(
+                            Icons.gif,
+                            size: 40,
+                          ),
+                          onTap: () async {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            var check = await ImageCollectionService()
+                                .convertToGif(widget.collection.id);
+                            setState(() {
+                              isLoading = false;
+                            });
+                            if (check) {
+                              var collection = ImageCollectionViewModel(
+                                  imageCollection:
+                                      (await ImageCollectionService()
+                                              .getImageCollectionList())
+                                          .elementAt(widget.index));
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MultiProvider(
+                                            providers: [
+                                              ChangeNotifierProvider(
+                                                  create: (_) =>
+                                                      ImageListViewModel()),
+                                            ],
+                                            child: FutureBuilder(
+                                              builder: (context, snapshot) {
+                                                return ImageInCollectionPage(
+                                                  collection: collection,
+                                                );
+                                              },
+                                            ))),
+                              );
+                            }
+                          },
+                        )
+                      : Center(child: CircularProgressIndicator(
+                        color: kTextColor,
+                      ))
                   : null,
             )
           ],

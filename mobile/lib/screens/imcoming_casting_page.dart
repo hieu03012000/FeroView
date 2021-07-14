@@ -64,7 +64,7 @@ class IncomingCastingPage extends StatelessWidget {
                             ],
                           );
                         } else {
-                          if (data.error == null && data.data != null) {
+                          if (data.error == null) {
                             return Consumer<CastingListViewModel>(
                                 builder: (ctx, data, child) =>
                                     IncomingCastingListComponent(

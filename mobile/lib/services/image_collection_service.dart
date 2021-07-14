@@ -72,7 +72,7 @@ class ImageCollectionService {
     }
   } 
 
-  Future convertToGif(int collectionId) async {
+  Future<bool> convertToGif(int collectionId) async {
     var images = await ImageService().getImageList(collectionId);
 
     List<Map<String, dynamic>> fileValues = List<Map<String, dynamic>>();
@@ -110,10 +110,11 @@ class ImageCollectionService {
       var json = jsonDecode(response.body);
       var gif = ImageCollectionGif.fromJson(json);
       await ImageService().saveGif(gif, collectionId);
+      return true;
     } 
     else {
-      Fluttertoast.showToast(msg: 'Picturea must same size');
-      throw Exception('Failed to load');
+      Fluttertoast.showToast(msg: 'Picture must same size');
+      return false;
     }
   }
 }
