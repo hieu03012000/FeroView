@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:12346/api/v1';
+const baseUrl = 'http://localhost:18920/api/v1';
 
 export default {
     model: axios.create({

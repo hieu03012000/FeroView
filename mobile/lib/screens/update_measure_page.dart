@@ -1,16 +1,14 @@
-import 'package:fero/screens/main_screen.dart';
-import 'package:fero/screens/main_screen_not_active.dart';
-import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/body_attribut_list_view_model.dart';
 import 'package:fero/viewmodels/body_attribute_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_session/flutter_session.dart';
 import 'package:provider/provider.dart';
 
 class UpdateMeasurePage extends StatefulWidget {
   final String modelId, template;
-  UpdateMeasurePage({Key key, this.modelId, this.template}) : super(key: key);
+  final int bodyPartId;
+  UpdateMeasurePage({Key key, this.modelId, this.template, this.bodyPartId})
+      : super(key: key);
 
   @override
   _UpdateMeasurePageState createState() => _UpdateMeasurePageState();
@@ -25,59 +23,37 @@ class _UpdateMeasurePageState extends State<UpdateMeasurePage> {
     // PushNotificationService().init(context);
   }
 
-  void loadData(String temp) {
-    if (temp == 'Arm') bodyList = ['Length', 'Wrist', 'Arm', 'Elbow'];
-    if (temp == 'Hand') bodyList = ['Length', 'Finger', 'Palm'];
-    if (temp == 'Shoulder') bodyList = ['Wide'];
-    if (temp == 'Leg') bodyList = ['Length', 'Thing', 'Calf', 'Knee'];
-    if (temp == 'Foot') bodyList = ['Toe', 'Heel', 'Sole'];
-  }
-
   @override
   Widget build(BuildContext context) {
-    loadData(widget.template);
     return SafeArea(
-      child: Scaffold(
-          appBar: AppBar(
-            title: Text(widget.template),
-          ),
-          body: widget.template != 'Body'
-              ? ListView.builder(
-                  padding: EdgeInsets.all(30),
-                  itemCount: bodyList.length,
-                  itemBuilder: (context, index) {
-                    return MeasureTextBox(
-                      name: bodyList[index],
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text(widget.template),
+            ),
+            body: FutureBuilder(
+                future: Provider.of<BodyAttributeListViewModel>(context,
+                        listen: false)
+                    .getAttList(widget.bodyPartId),
+                builder: (ctx, prevData) {
+                  if (prevData.connectionState == ConnectionState.waiting) {
+                    return Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 150,
+                        ),
+                        Center(child: CircularProgressIndicator()),
+                      ],
                     );
-                  },
-                )
-              : FutureBuilder(
-                  future: Provider.of<BodyAttributeListViewModel>(context,
-                          listen: false)
-                      .getAttList(widget.modelId, widget.template),
-                  builder: (ctx, prevData) {
-                    if (prevData.connectionState == ConnectionState.waiting) {
-                      return Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: 150,
-                          ),
-                          Center(child: CircularProgressIndicator()),
-                        ],
-                      );
-                    } else {
-                      if (prevData.error == null) {
-                        return Consumer<BodyAttributeListViewModel>(
-                            builder: (ctx, data, child) => Center(
-                                  child: AttView(context: ctx, atts: data),
-                                ));
-                      } else {
-                        return Text('Error');
-                      }
+                  } else {
+                    if (prevData.error == null) {
+                      return Consumer<BodyAttributeListViewModel>(
+                          builder: (ctx, data, child) => Center(
+                                child: AttView(context: ctx, atts: data),
+                              ));
                     }
-                  },
-                )),
-    );
+                  }
+                  ;
+                })));
   }
 }
 

@@ -6,10 +6,9 @@ import 'package:flutter/material.dart';
 class BodyAttributeListViewModel with ChangeNotifier {
   List<ModelAttributeViewModel> atts = List<ModelAttributeViewModel>();
 
-  Future<BodyAttributeListViewModel> getAttList(String modelId, String type) async {
+  Future<BodyAttributeListViewModel> getAttList(int bodyPartId) async {
     return Future.delayed(const Duration(seconds: 1), () async {
-      type = type.toLowerCase();
-      List<BodyAttribite> list = await ModelAttributeService().getAttsList(modelId, type);
+      List<BodyAttribite> list = await ModelAttributeService().getAttsList(bodyPartId);
       notifyListeners();
       this.atts = list.map((att) => ModelAttributeViewModel(bodyAttribite: att)).toList();
     });

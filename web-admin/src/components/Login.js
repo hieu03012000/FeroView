@@ -10,6 +10,7 @@ export default function Login({ navigation }) {
   const signIn = () => {
     const staffService = new StaffService();
     staffService.get(username, password).then(({ status, data }) => {
+      console.log(data)
       if (status === 200) {
         localStorage.setItem('username', data.name);
         localStorage.setItem('authToken', data.authToken);
