@@ -1,14 +1,13 @@
 import 'package:fero/screens/update_measure_page.dart';
-import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/body_attribut_list_view_model.dart';
+import 'package:fero/viewmodels/body_part_list_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MeasureTemplatePage extends StatefulWidget {
   final String modelId;
-  final String template;
-  MeasureTemplatePage({Key key, this.modelId, this.template}) : super(key: key);
+  MeasureTemplatePage({Key key, this.modelId}) : super(key: key);
 
   @override
   _MeasureTemplatePageState createState() => _MeasureTemplatePageState();
@@ -20,41 +19,58 @@ class _MeasureTemplatePageState extends State<MeasureTemplatePage> {
   @override
   void initState() {
     super.initState();
-    // PushNotificationService().init(context);
-  }
-
-  void loadData(String temp) {
-    if (temp.endsWith('1')) bodyList = ['Body', 'Upper part', 'Bottom'];
-    if (temp.endsWith('Upper part')) bodyList = ['Arm', 'Hand', 'Shoulder'];
-    if (temp.endsWith('Bottom')) bodyList = ['Leg', 'Foot'];
   }
 
   @override
   Widget build(BuildContext context) {
-    loadData(widget.template);
     return SafeArea(
-      child: Scaffold(
-          appBar: AppBar(
-            backgroundColor: kPrimaryColor,
-            title: Text('Measure template'),
-          ),
-          body: ListView.builder(
-              padding: EdgeInsets.only(top: 30),
-              itemCount: bodyList.length,
-              itemBuilder: (context, index) {
-                return CompButton(
-                  temp: bodyList[index],
-                  modelId: widget.modelId,
-                );
-              })),
-    );
+        child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: kPrimaryColor,
+              title: Text('Measure template'),
+            ),
+            body: FutureBuilder<BodyPartListViewModel>(
+              future: Provider.of<BodyPartListViewModel>(context, listen: false)
+                  .getBodyPartList(),
+              builder: (ctx, prevData) {
+                if (prevData.connectionState == ConnectionState.waiting) {
+                  return Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: 150,
+                      ),
+                      Center(child: CircularProgressIndicator()),
+                    ],
+                  );
+                } else {
+                  if (prevData.error == null) {
+                    return Consumer<BodyPartListViewModel>(
+                      builder: (ctx, data, child) => Center(
+                          child: ListView.builder(
+                              padding: EdgeInsets.only(top: 30),
+                              itemCount: data.bodyParts.length,
+                              itemBuilder: (context, index) {
+                                return CompButton(
+                                  temp: data.bodyParts[index].name,
+                                  bodyPartId: data.bodyParts[index].id,
+                                  modelId: widget.modelId,
+                                );
+                              })),
+                    );
+                  } else {
+                    return Text('Error');
+                  }
+                }
+              },
+            )));
   }
 }
 
 class CompButton extends StatelessWidget {
   final String temp;
   final String modelId;
-  const CompButton({Key key, this.temp, this.modelId}) : super(key: key);
+  final int bodyPartId;
+  const CompButton({Key key, this.temp, this.modelId, this.bodyPartId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -66,10 +82,14 @@ class CompButton extends StatelessWidget {
             BoxShadow(
               offset: Offset(-2, 5),
               blurRadius: 10,
-              color: kPrimaryColor.withOpacity(0.3),
+              color: kPrimaryColor.withOpacity(0.5),
             )
           ],
           borderRadius: BorderRadius.circular(10),
+          border: Border.all(
+            color: kPrimaryColor,
+            // width: 2,
+          ),
         ),
         child: FlatButton(
           padding: EdgeInsets.only(left: 30, top: 15, bottom: 15),
@@ -77,22 +97,18 @@ class CompButton extends StatelessWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           color: Color(0xFFF0F0F0),
           onPressed: () {
-            temp != 'Upper part' && temp != 'Bottom'
-                ? Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => MultiProvider(
-                        providers: [
-                          ChangeNotifierProvider(
-                              create: (_) => BodyAttributeListViewModel()),
-                        ],
-                        child: UpdateMeasurePage(
-                          modelId: modelId,
-                          template: temp,
-                        )),
-                  ))
-                : Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        MeasureTemplatePage(modelId: modelId, template: temp),
-                  ));
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => MultiProvider(
+                  providers: [
+                    ChangeNotifierProvider(
+                        create: (_) => BodyAttributeListViewModel()),
+                  ],
+                  child: UpdateMeasurePage(
+                    bodyPartId: bodyPartId,
+                    modelId: modelId,
+                    template: temp,
+                  )),
+            ));
           },
           child: Row(
             children: [

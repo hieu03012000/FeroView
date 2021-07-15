@@ -4,6 +4,7 @@ import 'package:fero/screens/measure_template_page.dart';
 import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/screens/update_profile_page.dart';
+import 'package:fero/viewmodels/body_part_list_view_model.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -154,10 +155,14 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                       BoxShadow(
                         offset: Offset(-2, 5),
                         blurRadius: 10,
-                        color: kPrimaryColor.withOpacity(0.3),
+                        color: kPrimaryColor.withOpacity(0.5),
                       )
                     ],
                     borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: kPrimaryColor,
+                      // width: 2,
+                    ),
                   ),
                   child: FlatButton(
                     padding: EdgeInsets.only(left: 20, top: 15, bottom: 15),
@@ -199,10 +204,14 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                       BoxShadow(
                         offset: Offset(-2, 5),
                         blurRadius: 10,
-                        color: kPrimaryColor.withOpacity(0.3),
+                        color: kPrimaryColor.withOpacity(0.5),
                       )
                     ],
                     borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: kPrimaryColor,
+                      // width: 2,
+                    ),
                   ),
                   child: FlatButton(
                     padding: EdgeInsets.only(left: 20, top: 15, bottom: 15),
@@ -211,13 +220,22 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                     color: Color(0xFFF0F0F0),
                     onPressed: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => MeasureTemplatePage(
-                              modelId: widget.modelId,
-                              template: '1',
-                            ),
-                          ));
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MultiProvider(
+                                    providers: [
+                                      ChangeNotifierProvider(
+                                          create: (_) =>
+                                              BodyPartListViewModel()),
+                                    ],
+                                    child: FutureBuilder(
+                                      builder: (context, snapshot) {
+                                        return MeasureTemplatePage(
+                                          modelId: widget.modelId,
+                                        );
+                                      },
+                                    ))),
+                      );
                     },
                     child: Row(
                       children: [
@@ -246,10 +264,14 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                       BoxShadow(
                         offset: Offset(-2, 5),
                         blurRadius: 10,
-                        color: kPrimaryColor.withOpacity(0.3),
+                        color: kPrimaryColor.withOpacity(0.5),
                       )
                     ],
                     borderRadius: BorderRadius.circular(10),
+                    border: Border.all(
+                      color: kPrimaryColor,
+                      // width: 2,
+                    ),
                   ),
                   child: FlatButton(
                     padding: EdgeInsets.only(left: 20, top: 15, bottom: 15),
@@ -265,8 +287,8 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                           .pushReplacement(MaterialPageRoute(
                               builder: (context) => MultiProvider(providers: [
                                     ChangeNotifierProvider(
-                                        create: (_) => GoogleSignInProvider(),
-                                        ),
+                                      create: (_) => GoogleSignInProvider(),
+                                    ),
                                   ], child: LoginPage())));
                     },
                     child: Row(

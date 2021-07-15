@@ -11,14 +11,14 @@ class ModelAttributeService {
     return parsed.map<BodyAttribite>((json) => BodyAttribite.fromJson(json)).toList();
   }
 
-   Future<List<BodyAttribite>> getAttsList(String modelId, String type) async {
+   Future<List<BodyAttribite>> getAttsList(int bodyPartId) async {
      var token = (await FlutterSession().get("token")).toString();
     Map<String, String> heads = Map<String, String>();
     heads['Content-Type'] = 'application/json';
     heads['Accept'] = 'application/json';
     heads['Authorization'] = 'Bearer $token';
     final response = await http
-        .get(Uri.parse(baseUrl + "api/v1/body-attributes/" + modelId + "/" + type), headers: heads);
+        .get(Uri.parse(baseUrl + "api/v1/body-attributes/" + bodyPartId.toString()), headers: heads);
     if (response.statusCode == 200) {
       var list = parseAttsList(response.body);
       return list;
