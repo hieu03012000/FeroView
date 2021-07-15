@@ -111,6 +111,12 @@ class ImageService {
     params['id'] = ids;
     final message = jsonEncode(params);
 
+    var token = (await FlutterSession().get("token")).toString();
+    Map<String, String> heads = Map<String, String>();
+    heads['Content-Type'] = 'application/json';
+    heads['Accept'] = 'application/json';
+    heads['Authorization'] = 'Bearer $token';
+
     var fileUrl = Uri.decodeFull(Path.basename(imageFileUrl))
         .replaceAll(new RegExp(r'(\?alt).*'), '');
     final firebaseStorageRef = FirebaseStorage.instance.ref().child(fileUrl);
@@ -119,7 +125,7 @@ class ImageService {
     final response = await http.put(
         Uri.parse(baseUrl + 'api/v1/models/$modelId/image'),
         body: message,
-        headers: {"content-type": "application/json"});
+        headers: heads);
     if (response.statusCode == 200) {
     } else {
       throw Exception('Failed to load');

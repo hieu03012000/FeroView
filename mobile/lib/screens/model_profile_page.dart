@@ -1,5 +1,4 @@
 import 'package:fero/screens/change_avatar_page.dart';
-import 'package:fero/screens/login_page.dart';
 import 'package:fero/screens/measure_template_page.dart';
 import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/utils/constants.dart';
@@ -261,13 +260,13 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                           context,
                           listen: false);
                       provider.logout();
-                      Navigator.of(context, rootNavigator: true)
-                          .pushReplacement(MaterialPageRoute(
-                              builder: (context) => MultiProvider(providers: [
-                                    ChangeNotifierProvider(
-                                        create: (_) => GoogleSignInProvider(),
-                                        ),
-                                  ], child: LoginPage())));
+                      // Navigator.of(context, rootNavigator: true)
+                      //     .pushReplacement(MaterialPageRoute(
+                      //         builder: (context) => MultiProvider(providers: [
+                      //               ChangeNotifierProvider(
+                      //                   create: (_) => GoogleSignInProvider(),
+                      //                   ),
+                      //             ], child: LoginPage())));
                     },
                     child: Row(
                       children: [

@@ -2,6 +2,7 @@ import 'package:fero/models/model.dart';
 import 'package:fero/services/model_service.dart';
 import 'package:fero/utils/common.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_session/flutter_session.dart';
 
 class ModelViewModel with ChangeNotifier {
   Model _model;
