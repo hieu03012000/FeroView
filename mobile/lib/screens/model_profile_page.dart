@@ -265,7 +265,8 @@ class _ModelProfilePageState extends State<ModelProfilePage> {
                           .pushReplacement(MaterialPageRoute(
                               builder: (context) => MultiProvider(providers: [
                                     ChangeNotifierProvider(
-                                        create: (_) => GoogleSignInProvider()),
+                                        create: (_) => GoogleSignInProvider(),
+                                        ),
                                   ], child: LoginPage())));
                     },
                     child: Row(

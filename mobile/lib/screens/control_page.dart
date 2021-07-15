@@ -1,6 +1,7 @@
 import 'package:fero/screens/login_page.dart';
 import 'package:fero/screens/main_screen.dart';
 import 'package:fero/services/google_sign_in.dart';
+import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,8 @@ class ControlPage extends StatelessWidget {
                 builder: (context) => MultiProvider(providers: [
                       ChangeNotifierProvider(
                           create: (_) => GoogleSignInProvider()),
+                      ChangeNotifierProvider(
+                          create: (_) => ModelViewModel()),
                     ], child: LoginPage())));
           }
         },
