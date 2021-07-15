@@ -1,5 +1,4 @@
 import 'package:fero/screens/change_avatar_page.dart';
-import 'package:fero/screens/login_page.dart';
 import 'package:fero/screens/measure_template_page.dart';
 import 'package:fero/services/google_sign_in.dart';
 import 'package:fero/utils/constants.dart';
@@ -9,6 +8,8 @@ import 'package:fero/viewmodels/model_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'login_page.dart';
 
 class ModelProfilePage extends StatefulWidget {
   final String modelId;

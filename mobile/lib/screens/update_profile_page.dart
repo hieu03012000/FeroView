@@ -1,7 +1,4 @@
-import 'package:fero/screens/main_screen.dart';
-import 'package:fero/screens/main_screen_not_active.dart';
 import 'package:fero/screens/model_profile_page.dart';
-import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/common.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:fero/viewmodels/model_view_model.dart';
@@ -271,6 +268,7 @@ class _ModelUpdateState extends State<ModelUpdate> {
               params['gifted'] = giftedController.text;
               await Provider.of<ModelViewModel>(context, listen: false)
                   .updateProfileModel(params);
+              await FlutterSession().set("modelName", nameController.text);
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
