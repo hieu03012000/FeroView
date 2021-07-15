@@ -55,6 +55,7 @@ class CastingListViewModel with ChangeNotifier {
       notifyListeners();
       this.castings =
           list.map((casting) => CastingViewModel(casting: casting)).toList();
+      this.castings.sort((a, b) => a.openDate.compareTo(b.openDate));
     });
   }
 }

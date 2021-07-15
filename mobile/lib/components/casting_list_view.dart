@@ -20,10 +20,10 @@ class _CastingState extends State<Casting> {
   void initState() {
     super.initState();
     switch (widget.typeView) {
-      case 1:
-        Provider.of<CastingListViewModel>(context, listen: false)
-            .topHeadlines();
-        break;
+      // case 1:
+      //   Provider.of<CastingListViewModel>(context, listen: false)
+      //       .topHeadlines();
+      //   break;
       case 2:
         Provider.of<UpcomingCastingListViewModel>(context, listen: false)
             .topHeadlines();
@@ -40,9 +40,9 @@ class _CastingState extends State<Casting> {
   Widget build(BuildContext context) {
     var listCasting;
     switch (widget.typeView) {
-      case 1:
-        listCasting = Provider.of<CastingListViewModel>(context);
-        break;
+      // case 1:
+      //   listCasting = Provider.of<CastingListViewModel>(context);
+      //   break;
       case 2:
         listCasting = Provider.of<UpcomingCastingListViewModel>(context);
         break;
@@ -90,8 +90,8 @@ class CastingView extends StatelessWidget {
                             providers: [
                               ChangeNotifierProvider(create: (_) {
                                 switch (typeView) {
-                                  case 1:
-                                    return CastingListViewModel();
+                                  // case 1:
+                                  //   return CastingListViewModel();
                                   case 2:
                                     return UpcomingCastingListViewModel();
                                   case 3:
@@ -112,6 +112,7 @@ class CastingView extends StatelessWidget {
             child: Container(
               width: 170,
               margin: EdgeInsets.only(
+                  top: kDefaultPadding - 10,
                   left: kDefaultPadding / 2,
                   right: kDefaultPadding / 2,
                   bottom: kDefaultPadding),

@@ -1,4 +1,6 @@
 import 'package:fero/components/casting_list_view.dart';
+import 'package:fero/components/incoming_casing_list_component.dart';
+import 'package:fero/screens/imcoming_casting_page.dart';
 import 'package:fero/screens/notification_page.dart';
 import 'package:fero/screens/search_casting_page.dart';
 import 'package:fero/utils/constants.dart';
@@ -14,6 +16,8 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size =
         MediaQuery.of(context).size; //Total height and width of the screen
+    var height = MediaQuery.of(context).size.height;
+
     return SafeArea(
       child: Scaffold(
           body: SingleChildScrollView(
@@ -21,8 +25,45 @@ class Home extends StatelessWidget {
           HeaderWithSearchBox(size: size),
           TitleWithButton(
             text: "Upcoming Booking",
+            isBooking: true,
           ),
-          Casting(typeView: 1),
+          Padding(
+            padding: EdgeInsets.only(bottom: 10),
+            child: SizedBox(
+              height: 170,
+              child: FutureBuilder<CastingListViewModel>(
+                  future:
+                      Provider.of<CastingListViewModel>(context, listen: false)
+                          .imcomingCasting(),
+                  builder: (context, data) {
+                    if (data.connectionState == ConnectionState.waiting) {
+                      return Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 50,
+                          ),
+                          Center(child: CircularProgressIndicator()),
+                        ],
+                      );
+                    } else {
+                      if (data.error == null) {
+                        return Consumer<CastingListViewModel>(
+                            builder: (ctx, data, child) => CastingCard(
+                                  casting: data.castings[0],
+                                ));
+                      } else {
+                        return Center(
+                          child: SizedBox(
+                            child: Center(
+                              child: Text('Not have any booking'),
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                  }),
+            ),
+          ),
           TitleWithButton(
             text: "New Casting",
           ),
@@ -75,9 +116,12 @@ class Home extends StatelessWidget {
 // }
 
 class TitleWithButton extends StatelessWidget {
-  const TitleWithButton({Key key, this.text}) : super(key: key);
+  const TitleWithButton({Key key, this.text, this.isBooking = false})
+      : super(key: key);
 
   final String text;
+  final bool isBooking;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -109,11 +153,13 @@ class TitleWithButton extends StatelessWidget {
                               ],
                               child: FutureBuilder(
                                 builder: (context, snapshot) {
-                                  return SearchCastingPage(
-                                    name: '',
-                                    min: '',
-                                    max: '',
-                                  );
+                                  return !isBooking
+                                      ? SearchCastingPage(
+                                          name: '',
+                                          min: '',
+                                          max: '',
+                                        )
+                                      : IncomingCastingPage();
                                 },
                               ))),
                 );

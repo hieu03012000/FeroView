@@ -20,6 +20,7 @@ class _ModelSchedulePageState extends State<ModelSchedulePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         backgroundColor: kTextColor,
