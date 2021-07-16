@@ -60,10 +60,11 @@ class _ModelApplyCastingPageState extends State<ModelApplyCastingPage> {
                                 ],
                               );
                             } else {
-                              if (data.error == null || false) {
+                              if (data.error == null && false) {
                                 return Consumer<CastingListViewModel>(
                                     builder: (ctx, data, child) =>
                                         CastingListComponent(
+                                          check: true,
                                           list: data,
                                         ));
                               } else {
@@ -106,6 +107,7 @@ class _ModelApplyCastingPageState extends State<ModelApplyCastingPage> {
                                 return Consumer<CastingListViewModel>(
                                     builder: (ctx, data, child) =>
                                         CastingListComponent(
+                                          check: true,
                                           list: data,
                                         ));
                               } else {

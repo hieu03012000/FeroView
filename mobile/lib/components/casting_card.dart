@@ -8,7 +8,8 @@ import 'package:provider/provider.dart';
 
 class CastingListComponent extends StatefulWidget {
   final CastingListViewModel list;
- CastingListComponent({Key key, this.list}) : super(key: key);
+  final bool check;
+ CastingListComponent({Key key, this.list, this.check}) : super(key: key);
 
   @override
    CastingListComponentState createState() =>  CastingListComponentState();
@@ -20,7 +21,7 @@ class  CastingListComponentState extends State<CastingListComponent> {
     return ListView.builder(
       itemCount: widget.list.castings.length,
       itemBuilder: (context, index) {
-        return CastingCard(casting: widget.list.castings[index]);
+        return CastingCard(casting: widget.list.castings[index], check: widget.check);
       },
     );
   }
@@ -28,7 +29,8 @@ class  CastingListComponentState extends State<CastingListComponent> {
 
 class CastingCard extends StatelessWidget {
   final CastingViewModel casting;
-  const CastingCard({Key key, this.casting}) : super(key: key);
+  final bool check;
+  const CastingCard({Key key, this.casting, this.check}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +47,7 @@ class CastingCard extends StatelessWidget {
                       child: FutureBuilder(
                         builder: (context, snapshot) {
                           return CastingDetailPage(
+                            isApplyPage: check,
                             casting: casting,
                           );
                         },

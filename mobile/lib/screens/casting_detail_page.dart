@@ -1,3 +1,4 @@
+import 'package:fero/screens/model_apply_casting_page.dart';
 import 'package:fero/services/apply_casting_service.dart';
 import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
@@ -9,7 +10,9 @@ import 'package:provider/provider.dart';
 
 class CastingDetailPage extends StatefulWidget {
   final CastingViewModel casting;
-  CastingDetailPage({Key key, this.casting}) : super(key: key);
+  final bool isApplyPage;
+  CastingDetailPage({Key key, this.casting, this.isApplyPage})
+      : super(key: key);
 
   @override
   _CastingDetailPageState createState() => _CastingDetailPageState();
@@ -228,6 +231,7 @@ class _CastingDetailPageState extends State<CastingDetailPage> {
                 ),
               ),
               ActionButton(
+                isApplyPage: widget.isApplyPage,
                 open: widget.casting.openTimeDateTime,
                 close: widget.casting.closeTimeDateTime,
                 castingId: widget.casting.id,
@@ -244,9 +248,15 @@ class _CastingDetailPageState extends State<CastingDetailPage> {
 class ActionButton extends StatelessWidget {
   final DateTime open, close;
   final int castingId;
+  final bool isApplyPage;
   final CastingViewModel casting;
   const ActionButton(
-      {Key key, this.open, this.close, this.castingId, this.casting})
+      {Key key,
+      this.open,
+      this.close,
+      this.castingId,
+      this.casting,
+      this.isApplyPage})
       : super(key: key);
 
   @override
@@ -267,12 +277,28 @@ class ActionButton extends StatelessWidget {
                     minimumSize: Size(10, 50),
                   ),
                   onPressed: () async {
-                    // await Provider.of<CastingListViewModel>(context,
-                    //         listen: false)
-                    //     .cancelCasting(this.castingId);
-                    await ApplyCastingService()
-                        .deleteApplyCasting(this.castingId);
-                    _reloadPage(context, this.casting);
+                    await Provider.of<CastingListViewModel>(context,
+                            listen: false)
+                        .cancelCasting(this.castingId);
+                    if (isApplyPage != null && isApplyPage) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MultiProvider(
+                                    providers: [
+                                      ChangeNotifierProvider(
+                                          create: (_) =>
+                                              CastingListViewModel()),
+                                    ],
+                                    child: FutureBuilder(
+                                      builder: (context, snapshot) {
+                                        return ModelApplyCastingPage();
+                                      },
+                                    ))),
+                      );
+                    } else {
+                    await _reloadPage(context, casting);
+                    }
                   },
                   child: Text('Cancel'),
                 )
@@ -289,12 +315,12 @@ class ActionButton extends StatelessWidget {
                     minimumSize: Size(10, 50),
                   ),
                   onPressed: () async {
-                    // await Provider.of<CastingListViewModel>(context,
-                    //         listen: false)
-                    //     .applyCasting(this.castingId);
-                    await ApplyCastingService()
-                        .createApplyCasting(this.castingId);
-                    _reloadPage(context, this.casting);
+                    await Provider.of<CastingListViewModel>(context,
+                            listen: false)
+                        .applyCasting(this.castingId);
+                    // await ApplyCastingService()
+                    //     .createApplyCasting(this.castingId);
+                    await _reloadPage(context, this.casting);
                     PushNotificationService()
                         .showNotification(this.close, casting);
                   },
@@ -315,7 +341,9 @@ class ActionButton extends StatelessWidget {
   }
 }
 
-void _reloadPage(BuildContext context, CastingViewModel casting) {
+Future _reloadPage(BuildContext context, CastingViewModel casting) async {
+  // await Provider.of<CastingListViewModel>(context, listen: false)
+  //     .modelApplyCasting();
   Navigator.pushReplacement(
     context,
     MaterialPageRoute(

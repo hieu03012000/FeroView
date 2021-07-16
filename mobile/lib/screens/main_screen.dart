@@ -1,8 +1,11 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:fero/components/tab_navigator.dart';
+import 'package:fero/screens/model_apply_casting_page.dart';
 import 'package:fero/utils/constants.dart';
+import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -99,6 +102,24 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
             ),
+            // GestureDetector(
+            //   onTap: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) => MultiProvider(
+            //                   providers: [
+            //                     ChangeNotifierProvider(
+            //                         create: (_) => CastingListViewModel()),
+            //                   ],
+            //                   child: FutureBuilder(
+            //                     builder: (context, snapshot) {
+            //                       return ModelApplyCastingPage();
+            //                     },
+            //                   ))),
+            //     );
+            //   },
+            // child:
             SizedBox(
               height: 38,
               child: Column(
@@ -116,6 +137,7 @@ class _MainScreenState extends State<MainScreen> {
                 ],
               ),
             ),
+            // ),
             SizedBox(
               height: 38,
               child: Column(

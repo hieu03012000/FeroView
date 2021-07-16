@@ -107,7 +107,7 @@ class PushNotificationService {
     var parts = castingId.split(",");
     var ids = new List<int>();
 
-    for (int i = 0; i < parts.length - 2; i++) {
+    for (int i = 0; i < parts.length - 1; i++) {
       ids.add(int.parse(parts[i]));
     }
 

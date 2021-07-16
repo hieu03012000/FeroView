@@ -62,6 +62,7 @@ class _SearchCastingPageState extends State<SearchCastingPage> {
                           return Consumer<CastingListViewModel>(
                               builder: (ctx, data, child) =>
                                   CastingListComponent(
+                                    check: false,
                                     list: data,
                                   ));
                         } else {

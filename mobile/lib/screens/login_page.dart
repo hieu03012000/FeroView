@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                                   ]),
                             )),
                         SizedBox(
-                          height: 200,
+                          height: 230,
                         ),
                         FadeAnimation(
                             1,
