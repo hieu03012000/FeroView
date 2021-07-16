@@ -1,12 +1,14 @@
 import 'dart:convert';
 
+import 'package:fero/models/casting.dart';
+import 'package:fero/services/casting_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class ApplyCastingService {
-  Future createApplyCasting(int castingId, DateTime end) async {
+  Future<List<Casting>> createApplyCasting(int castingId) async {
     var modelId = (await FlutterSession().get("modelId")).toString();
 
     var token = (await FlutterSession().get("token")).toString();
@@ -26,12 +28,13 @@ class ApplyCastingService {
         headers: heads);
     if (response.statusCode == 200) {
       Fluttertoast.showToast(msg: 'Apply success');
+      return await CastingService().modelApplyCasting();
     } else {
       throw Exception('Failed to load');
     }
   }
 
-  Future deleteApplyCasting(int castingId) async {
+  Future<List<Casting>> deleteApplyCasting(int castingId) async {
     var modelId = (await FlutterSession().get("modelId")).toString();
     var token = (await FlutterSession().get("token")).toString();
     Map<String, String> heads = Map<String, String>();
@@ -44,6 +47,7 @@ class ApplyCastingService {
         headers: heads);
     if (response.statusCode == 200) {
       Fluttertoast.showToast(msg: 'Cancel success');
+      return await CastingService().modelApplyCasting();
     } else {
       throw Exception('Failed to load');
     }

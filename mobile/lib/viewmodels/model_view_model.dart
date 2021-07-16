@@ -1,4 +1,5 @@
 import 'package:fero/models/model.dart';
+import 'package:fero/services/image_service.dart';
 import 'package:fero/services/model_service.dart';
 import 'package:fero/utils/common.dart';
 import 'package:flutter/cupertino.dart';
@@ -109,6 +110,14 @@ class ModelViewModel with ChangeNotifier {
       Model model = await ModelService().updateModelDetail(params);
       notifyListeners();
       this._model = model;
+    });
+  }
+
+   Future<ModelViewModel> updateAvatar(String path, String modelId) async {
+    return Future.delayed(const Duration(seconds: 1), () async {
+      String avt = await uploadFireBase(path, modelId);
+      notifyListeners();
+      avatar = avt;
     });
   }
 }

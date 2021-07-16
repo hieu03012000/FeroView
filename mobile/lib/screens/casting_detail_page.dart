@@ -19,7 +19,6 @@ class _CastingDetailPageState extends State<CastingDetailPage> {
   @override
   void initState() {
     super.initState();
-    // PushNotificationService().init();
     PushNotificationService().initLocal();
   }
 
@@ -268,6 +267,9 @@ class ActionButton extends StatelessWidget {
                     minimumSize: Size(10, 50),
                   ),
                   onPressed: () async {
+                    // await Provider.of<CastingListViewModel>(context,
+                    //         listen: false)
+                    //     .cancelCasting(this.castingId);
                     await ApplyCastingService()
                         .deleteApplyCasting(this.castingId);
                     _reloadPage(context, this.casting);
@@ -287,8 +289,11 @@ class ActionButton extends StatelessWidget {
                     minimumSize: Size(10, 50),
                   ),
                   onPressed: () async {
+                    // await Provider.of<CastingListViewModel>(context,
+                    //         listen: false)
+                    //     .applyCasting(this.castingId);
                     await ApplyCastingService()
-                        .createApplyCasting(this.castingId, this.close);
+                        .createApplyCasting(this.castingId);
                     _reloadPage(context, this.casting);
                     PushNotificationService()
                         .showNotification(this.close, casting);

@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:fero/models/login.dart';
 import 'package:fero/models/token.dart';
+import 'package:fero/services/push_notification_service.dart';
 import 'package:fero/utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -128,12 +130,15 @@ class GoogleSignInProvider extends ChangeNotifier {
       await googleSignIn.disconnect();
     }
     FirebaseAuth.instance.signOut();
+
   }
 
   Future<LoginModel> loginDB(String mail) async {
+    FirebaseMessaging fm = FirebaseMessaging();
     final response =
         await http.get(Uri.parse(baseUrl + 'api/v1/models/' + mail + '/model'));
     if (response.statusCode == 200) {
+      await PushNotificationService().unSubTopic();
       var responseBody = LoginModel.fromJson(jsonDecode(response.body));
       return responseBody;
     } else {

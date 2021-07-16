@@ -17,8 +17,6 @@ class _SearchCastingPageState extends State<SearchCastingPage> {
   @override
   void initState() {
     super.initState();
-    // PushNotificationService().init(context);
-    // PushNotificationService().initLocal(context);
   }
 
   @override
@@ -92,9 +90,6 @@ void _showDialog(BuildContext context) {
         title: new Text("Search"),
         content: Builder(
           builder: (context) {
-            // Get available height and width of the build area of this widget. Make a choice depending on the size.
-            // var height = MediaQuery.of(context).size.height;
-            // var width = MediaQuery.of(context).size.width;
             return Container(
               padding: EdgeInsets.symmetric(horizontal: 20),
               height: 180,

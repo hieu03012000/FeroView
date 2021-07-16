@@ -10,7 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as Path;
 
-void uploadFireBase(String path, String modelId) async {
+Future<String> uploadFireBase(String path, String modelId) async {
   var token = (await FlutterSession().get("token")).toString();
   Map<String, String> heads = Map<String, String>();
   heads['Content-Type'] = 'application/json';
@@ -36,6 +36,7 @@ void uploadFireBase(String path, String modelId) async {
       body: message,
       headers: heads);
   if (response.statusCode == 200) {
+    return downloadUrl;
   } else {
     throw Exception('Failed to load');
   }

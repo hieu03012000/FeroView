@@ -123,9 +123,9 @@ class CameraWidgetState extends State<CameraWidget> {
                 ),
               ),
               RaisedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (imageFile != null) {
-                    uploadFireBase(imageFile.path, widget.modelId);
+                    await uploadFireBase(imageFile.path, widget.modelId);
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(

@@ -89,6 +89,9 @@ class CastingView extends StatelessWidget {
                     builder: (context) => MultiProvider(
                             providers: [
                               ChangeNotifierProvider(create: (_) {
+                                CastingListViewModel();
+                              }),
+                              ChangeNotifierProvider(create: (_) {
                                 switch (typeView) {
                                   // case 1:
                                   //   return CastingListViewModel();

@@ -1,4 +1,5 @@
 import 'package:fero/models/casting.dart';
+import 'package:fero/services/apply_casting_service.dart';
 import 'package:fero/services/casting_service.dart';
 import 'package:fero/utils/common.dart';
 import 'package:fero/viewmodels/casting_view_model.dart';
@@ -52,6 +53,26 @@ class CastingListViewModel with ChangeNotifier {
   Future<CastingListViewModel> imcomingCasting() async {
     return Future.delayed(const Duration(seconds: 1), () async {
       List<Casting> list = await CastingService().getIncomingCasting();
+      notifyListeners();
+      this.castings =
+          list.map((casting) => CastingViewModel(casting: casting)).toList();
+      this.castings.sort((a, b) => a.openDate.compareTo(b.openDate));
+    });
+  }
+
+  Future<CastingListViewModel> applyCasting(int castingId) async {
+    return Future.delayed(const Duration(seconds: 1), () async {
+      List<Casting> list = await ApplyCastingService().createApplyCasting(castingId);
+      notifyListeners();
+      this.castings =
+          list.map((casting) => CastingViewModel(casting: casting)).toList();
+      this.castings.sort((a, b) => a.openDate.compareTo(b.openDate));
+    });
+  }
+
+  Future<CastingListViewModel> cancelCasting(int castingId) async {
+    return Future.delayed(const Duration(seconds: 1), () async {
+      List<Casting> list = await ApplyCastingService().deleteApplyCasting(castingId);
       notifyListeners();
       this.castings =
           list.map((casting) => CastingViewModel(casting: casting)).toList();

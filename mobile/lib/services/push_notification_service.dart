@@ -91,6 +91,12 @@ class PushNotificationService {
     _fm.getToken().then((token) => {update(token)});
   }
 
+  Future unSubTopic() async {
+    var modelId = (await FlutterSession().get("modelId")).toString();
+    _fm.unsubscribeFromTopic('all');
+    _fm.unsubscribeFromTopic(modelId);
+  }
+
   update(String token) {
     print(token);
   }

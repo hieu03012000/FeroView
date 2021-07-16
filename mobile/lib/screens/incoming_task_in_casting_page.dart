@@ -1,7 +1,5 @@
-import 'package:fero/components/incoming_casing_list_component.dart';
 import 'package:fero/components/incoming_task_list_component.dart';
 import 'package:fero/screens/model_schedule_page.dart';
-import 'package:fero/viewmodels/casting_list_view_model.dart';
 import 'package:fero/viewmodels/task_list_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

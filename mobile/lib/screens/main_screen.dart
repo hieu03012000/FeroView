@@ -24,7 +24,6 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     super.initState();
-    // PushNotificationService().init(context);
   }
 
   void _selectTab(String tabItem, int index) {
@@ -51,7 +50,6 @@ class _MainScreenState extends State<MainScreen> {
             return false;
           }
         }
-        // let system handle back button if we're on the first route
         return isFirstRouteInCurrentTab;
       },
       child: Scaffold(

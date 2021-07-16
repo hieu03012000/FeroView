@@ -5,10 +5,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ModelApplyCastingPage extends StatelessWidget {
-  const ModelApplyCastingPage({Key key}) : super(key: key);
+class ModelApplyCastingPage extends StatefulWidget {
+  ModelApplyCastingPage({Key key}) : super(key: key);
 
   @override
+  _ModelApplyCastingPageState createState() => _ModelApplyCastingPageState();
+}
+
+class _ModelApplyCastingPageState extends State<ModelApplyCastingPage> {
+   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -55,7 +60,7 @@ class ModelApplyCastingPage extends StatelessWidget {
                                 ],
                               );
                             } else {
-                              if (data.error == null) {
+                              if (data.error == null || false) {
                                 return Consumer<CastingListViewModel>(
                                     builder: (ctx, data, child) =>
                                         CastingListComponent(
@@ -64,7 +69,7 @@ class ModelApplyCastingPage extends StatelessWidget {
                               } else {
                                 return Center(
                                   child: SizedBox(
-                                    child: Text('Not found'),
+                                    child: Text('Not have offer'),
                                   ),
                                 );
                               }
@@ -122,3 +127,4 @@ class ModelApplyCastingPage extends StatelessWidget {
     ));
   }
 }
+
