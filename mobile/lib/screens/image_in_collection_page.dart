@@ -160,7 +160,7 @@ class _ImageInCollectionPageState extends State<ImageInCollectionPage> {
                                             }),
                                   );
                                 } else {
-                                  return Text('Error');
+                                  return Center(child: Text('Not have any picture'),);
                                 }
                               }
                             },
